@@ -1,0 +1,168 @@
+.jumbotron {
+    position: absolute;
+    // z-index: 100;
+
+    .breakpoint-large-down({
+        padding-top: 51px;
+    });
+}
+
+.jumbotron p{
+  color: @white-color!important;
+}
+
+.intro-text {
+
+  font-size: 20px;
+  text-align: center;
+  line-height: 1.3em;
+  padding: 0 !important;
+
+  p{
+    margin: 0 !important;
+  }
+}
+
+.first_row, .second_row{
+    margin-bottom: 80px;
+    .home_item_container{
+        padding: 0;
+        .home_item{
+            width: 389px;
+            height: 315px;
+            max-width: 85%;
+            display: flex;
+            align-items: end;
+            color: transparent;
+            padding: 20px;
+            font-size: 23px;
+            font-weight: 500;
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            border-radius: 10px;
+            &:hover{
+                color: white;
+            }
+
+            .breakpoint-huge-down({
+                color: white;
+                margin-bottom: 20px;
+            });
+
+            .arrow_link{
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 58px;
+                height: 56px;
+                background: @link-color;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease-in-out;
+                .breakpoint-huge-down({
+                    width: 18%;
+                    height: 15.7%;
+                });
+                &:after{
+                    content: ' ';
+                    background: url("../../assets/images/subscribe-button-arrow.svg") center no-repeat;
+                    background-size: 60%;
+                    width: 50%;
+                    height: 50%;
+                    transform: rotate(135deg);
+                    transition: all 0.3s ease-in-out;
+                }
+                &:hover{
+                    background: @date-text-color;
+                    &:after{
+                        content: ' ';
+                        background: url("../../assets/images/subscribe-button-arrow.svg") center no-repeat;
+                        background-size: 60%;
+                        width: 50%;
+                        height: 50%;
+                        transform: rotate(-45deg);
+                    }
+                }
+            }
+        }
+        &:nth-of-type(1){
+            .home_item{
+                background: url("../../assets/images/image-1.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+        &:nth-of-type(2){
+            .home_item{
+                background: url("../../assets/images/image-2.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+        &:nth-of-type(3){
+            .home_item{
+                background: url("../../assets/images/image-3.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+    }
+}
+
+.second_row{
+    margin-bottom: 0;
+    .home_item_container{
+        &:nth-of-type(1){
+            .home_item{
+                background: url("../../assets/images/image-4.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+        &:nth-of-type(2){
+            .home_item{
+                background: url("../../assets/images/image-5.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+        &:nth-of-type(3){
+            .home_item{
+                background: url("../../assets/images/image-6.png") top right no-repeat;
+                background-size: cover;
+            }
+        }
+    }
+}
+
+.bg-homepage-newsletter{
+    background: url("../../assets/images/subscribe-section-background.png") center no-repeat;
+    background-size: cover;
+    position: relative;
+    .container{
+        padding: 73px 0!important;
+        z-index: 2;
+        position: relative;
+        .newsteller_intro_text{
+            font-size: 34px;
+            font-weight: 500;
+            line-height: 1em;
+            color: white;
+        }
+    }
+
+    .btn-primary{
+        margin-right: 8px;
+        .breakpoint-large-down({
+            margin: 25px auto;
+        });
+    }
+
+    //&:before{
+    //    position: absolute;
+    //    width: 100%;
+    //    height: 100%;
+    //    content: ' ';
+    //    background: linear-gradient(260deg, rgba(13, 150, 156, 0.38), rgba(8, 65, 82, 0.59) 100%);
+    //    opacity: 0.76;
+    //    top: 0;
+    //    left: 0;
+    //}
+}

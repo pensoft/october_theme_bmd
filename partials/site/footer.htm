@@ -1,0 +1,83 @@
+[menu footer_menu]
+start = "id-2"
+activeNode = 0
+listItemClasses = "footer-menu-item"
+primaryClasses = "footer-menu"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 1
+
+[cookieConsent]
+message = "This website uses cookies to ensure you get the best experience on our website."
+dismiss = "Got it!"
+learnMore = "More info"
+link = "/privacy-policy"
+theme = "dark-bottom"
+
+[jumbotron footer_disclimer]
+jumbotron = "footer"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[menu links]
+start = "id-14"
+activeNode = 0
+listItemClasses = "item"
+primaryClasses = "nav nav-pills"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 1
+
+[menu outputs]
+start = "id-20"
+activeNode = 0
+listItemClasses = "item"
+primaryClasses = "nav nav-pills"
+secondaryClasses = "dropdown-menu"
+numberOfLevels = 1
+
+[jumbotron footer_funds]
+jumbotron = "funding-text"
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+{% component 'cookieConsent' %}
+<div class="container-fluid border-box dark-background">
+    <div class="container">
+        <div class="row top-xs between-xs footer-social-menu-container">
+            <div class="col-md-4 col-xs-12 start-md center-xs">
+                <img class="project_footer_logo" src="{{'BMD-logo-white.svg'|media}}">
+            </div>
+            <div class="col-md-8 col-xs-12 end-md center-xs social-networks">
+                <a href="" class="pr p-linkedin"></a>
+                <a href="" class="pr p-butterfly"></a>
+            </div>
+        </div>
+        <div class="row disclaimer">
+            <div class="col-md-2 col-xs-12 footer-right-border">
+                {% if (footer_funds_flag != null) %}
+                <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
+                    {% if footer_funds_flag %}
+                    <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}"/>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-10 col-xs-12">
+                <div class="funding-text">
+                    {% component 'footer_funds' %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid border-box light-background">
+        <div class="row top-xs between-xs footer-menu-container">
+            <div class="col-xs-12 powered-by center-xs">
+                <span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
+                    <img class="pensoft_logo" src="{{ 'assets/images/pensoft-logo.svg'|theme }}" /></a>
+                </span>
+            </div>
+        </div>
+</div>

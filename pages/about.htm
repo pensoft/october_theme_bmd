@@ -1,0 +1,96 @@
+url = "/about"
+layout = "default"
+title = "About"
+is_hidden = 0
+meta_description = "about page"
+seo_keywords = "keywords"
+robot_index = "index"
+robot_follow = "follow"
+
+[siteSearchInclude]
+
+[jumbotron about]
+jumbotron = "about"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+
+[jumbotron project]
+jumbotron = "project"
+title = 1
+background = "transperant"
+templates = "template3"
+description_limit = 0
+==
+<?php
+function onStart(){
+    use Pensoft\Accordions\Models\Item;
+    use Pensoft\Accordions\Models\Category;
+
+    $this['mission_title'] = Category::where('id', 1)->first();
+    $this['mission_records'] = Item::where('category_id', 1)->get();
+    $this['work_packages_title'] = Category::where('id', 2)->first();
+    $this['work_packages_records'] = Item::where('category_id', 2)->get();
+}
+?>
+==
+{% component 'siteSearchInclude' %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12 start-md center-xs"><img src="{{'image-about-1.png'|media}}"> </div>
+        <div class="col-md-6 col-xs-12">{% component "about" %}</div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-xs-12">{% component "project" %}</div>
+        <div class="col-md-6 col-xs-12 end-md center-xs"><img src="{{'image-about-2.png'|media}}"> </div>
+    </div>
+</div>
+
+<div class="container" id="mission">
+
+    <h2 class="underline">{{mission_title.name}}</h2>
+    <div class="row top-xs mission">
+        {% for key1, item1 in mission_records %}
+        <div class="accordion-border key_{{key1}}"><!-- 1 --><!-- css 1 -->
+            <div class="row middle-xs accordion-toggle">
+                <div class="col-xs start-xs">{{item1.title}}</div>
+
+                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+            </div>
+
+            <div class="accordion-content" style="display: none;">
+                {{item1.body|raw}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container" id="work-packages">
+
+    <h2 class="underline">{{work_packages_title.name}}</h2>
+
+    <div class="row top-xs work_packages">
+        {% for key, item in work_packages_records %}
+        <div class="accordion-border key_{{key}}"><!-- 1 --><!-- css 1 -->
+            <div class="row middle-xs accordion-toggle">
+                <div class="col-xs-2 green_bullet">{{item.prefix}}</div>
+
+                <div class="col-xs start-xs">{{item.title}}</div>
+
+                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+            </div>
+
+            <div class="accordion-content" style="display: none;">
+                {{item.body|raw}}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
