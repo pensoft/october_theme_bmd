@@ -167,7 +167,37 @@ p:has(.edit-link){
         backdrop-filter: none;
     });
 
+}
 
+.social-media-icons-header{
+    position: absolute;
+    bottom: 55px;
+    right: 55px;
+    z-index: 10;
+    a{
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        margin-left: 4px;
+        border-radius: 50%;
+        &.bluesky{
+            background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
+            background-size: contain;
+            &:hover{
+                background: rgba(255, 255, 255, 0.3) url("../../assets/images/bluesky - icon.svg") center no-repeat;
+                background-size: contain;
+            }
+        }
+        &.linkedin{
+            background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
+            background-size: contain;
+            &:hover{
+                background: rgba(255, 255, 255, 0.3) url("../../assets/images/linkedIn - icon.svg") center no-repeat;
+                background-size: contain;
+            }
+        }
+
+    }
 }
 
 
@@ -396,21 +426,28 @@ p:has(.edit-link){
         display: flex;
         align-items: center;
         a{
-            margin: 0 5px;
-        }
-        .p-twitter{
-            position: relative;
-            top: 3px;
-        }
-        .p-mail{
-            margin-left: 3px;
-            position: relative;
-            top: 2px;
-        }
-        .p-youtube{
-            position: relative;
-            top: 2px;
-            margin: 0 10px 0 3px;
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            margin-left: 4px;
+            border-radius: 50%;
+            &.bluesky{
+                background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
+                background-size: contain;
+                &:hover{
+                    background: rgba(255, 255, 255, 0.3) url("../../assets/images/bluesky - icon.svg") center no-repeat;
+                    background-size: contain;
+                }
+            }
+            &.linkedin{
+                background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
+                background-size: contain;
+                &:hover{
+                    background: rgba(255, 255, 255, 0.3) url("../../assets/images/linkedIn - icon.svg") center no-repeat;
+                    background-size: contain;
+                }
+            }
+
         }
     }
 }

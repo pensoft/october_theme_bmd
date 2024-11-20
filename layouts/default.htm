@@ -110,13 +110,27 @@ description_limit = 0
         {% if this.page.id == 'home' %}
         {% component 'carousel' %}
         {% endif %}
+
+        <div class="social-media-icons-header">
+
+            {% if this.theme.linkedin %}
+            <a href="{{this.theme.linkedin_url}}" class="linkedin"></a>
+            {% endif %}
+
+            {% if this.theme.bluesky %}
+            <a href="{{this.theme.bluesky_url}}" class="bluesky"></a>
+            {% endif %}
+
+        </div>
+
     </header>
     {% if this.page.id == 'home' %}
     <div class="container homepage">
-        <div class="intro" data-aos="fade-right">
-            <h1>Biodiversity Meets Data</h1>
-            <div class="intro-text">{{this.theme.tag_line}}</div>
+        <div class="intro">
+            <h1 data-aos="flip-down">Biodiversity Meets Data</h1>
+            <div class="intro-text" data-aos="flip-down">{{this.theme.tag_line}}</div>
         </div>
+
     </div>
     {% endif %}
 

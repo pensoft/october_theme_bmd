@@ -49,8 +49,13 @@ description_limit = 0
                 <img class="project_footer_logo" src="{{'BMD-logo-white.svg'|media}}">
             </div>
             <div class="col-md-8 col-xs-12 end-md center-xs social-networks">
-                <a href="" class="pr p-linkedin"></a>
-                <a href="" class="pr p-butterfly"></a>
+                {% if this.theme.linkedin %}
+                <a href="{{this.theme.linkedin_url}}" class="linkedin"></a>
+                {% endif %}
+
+                {% if this.theme.bluesky %}
+                <a href="{{this.theme.bluesky_url}}" class="bluesky"></a>
+                {% endif %}
             </div>
         </div>
         <div class="row disclaimer">
