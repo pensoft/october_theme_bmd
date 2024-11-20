@@ -171,7 +171,7 @@ p:has(.edit-link){
 
 .social-media-icons-header{
     position: absolute;
-    bottom: 55px;
+    bottom: 35px;
     right: 55px;
     z-index: 10;
     .breakpoint-large-down({
@@ -187,20 +187,31 @@ p:has(.edit-link){
         display: inline-block;
         margin-left: 4px;
         border-radius: 50%;
+        position: relative;
         &.bluesky{
             background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
             background-size: contain;
-            &:hover{
-                background: rgba(255, 255, 255, 0.3) url("../../assets/images/bluesky - icon.svg") center no-repeat;
-                background-size: contain;
-            }
+
         }
         &.linkedin{
             background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
             background-size: contain;
-            &:hover{
-                background: rgba(255, 255, 255, 0.3) url("../../assets/images/linkedIn - icon.svg") center no-repeat;
-                background-size: contain;
+
+        }
+        &:after{
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            border-radius: 50%;
+            position: absolute;
+            background: none;
+            content: ' ';
+            top: 0;
+            left: 0;
+        }
+        &:hover{
+            &:after{
+                background: rgba(255, 255, 255, 0.3);
             }
         }
 
@@ -303,13 +314,9 @@ p:has(.edit-link){
     // position: relative;
     z-index: 2;
 
-    a{
-      color: @dark-color !important;
-    }
-
-    a:hover{
-      opacity: 0.4!important;
-    }
+    //a{
+    //  color: @dark-color !important;
+    //}
 
     .disclaimer{
         align-items: center;
@@ -424,9 +431,9 @@ p:has(.edit-link){
             font-size: 12px!important;
         });
 
-        a{
-           color: @footer-text-color;
-        }
+        //a{
+        //   color: @footer-text-color;
+        //}
     }
 
     .social-networks{
@@ -441,20 +448,30 @@ p:has(.edit-link){
             display: inline-block;
             margin-left: 4px;
             border-radius: 50%;
+            position: relative;
             &.bluesky{
                 background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
                 background-size: contain;
-                &:hover{
-                    background: rgba(255, 255, 255, 0.3) url("../../assets/images/bluesky - icon.svg") center no-repeat;
-                    background-size: contain;
-                }
             }
             &.linkedin{
                 background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
                 background-size: contain;
-                &:hover{
-                    background: rgba(255, 255, 255, 0.3) url("../../assets/images/linkedIn - icon.svg") center no-repeat;
-                    background-size: contain;
+
+            }
+            &:after{
+                width: 40px;
+                height: 40px;
+                display: inline-block;
+                border-radius: 50%;
+                position: absolute;
+                background: none;
+                content: ' ';
+                top: 0;
+                left: 0;
+            }
+            &:hover{
+                &:after{
+                    background: rgba(255, 255, 255, 0.3);
                 }
             }
 
@@ -708,6 +725,8 @@ p:has(.edit-link){
     margin-bottom: 50px!important;
     width: unset!important;
     left: 2%!important;
+
+    bottom: 0!important;
 
     .breakpoint-large-down({
         left: 0;
