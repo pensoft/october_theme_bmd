@@ -45,6 +45,8 @@ description_limit = 0
     {% if this.page.id == 'home' %}
     <script src="{{ 'assets/js/bootstrap.min.js'|theme }}"></script>
     <script src="{{ 'assets/js/anime.js'|theme }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.0.5/gsap.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/GSDevTools.min.js"></script>
     {% endif %}
     <script src="{{ 'assets/js/popper.min.js'|theme }}"></script>
     <script src="{{ 'assets/js/tippy-bundle.umd.min.js'|theme}}"></script>
@@ -127,8 +129,8 @@ description_limit = 0
     {% if this.page.id == 'home' %}
     <div class="container homepage">
         <div class="intro">
-            <h1 data-aos="flip-down">Biodiversity Meets Data</h1>
-            <div class="intro-text" data-aos="flip-down">{{this.theme.tag_line}}</div>
+            <h1 data-aos="flip-down" data-aos-duration="2000">Biodiversity Meets Data</h1>
+            <div class="intro-text" data-aos="flip-down" data-aos-duration="2000">{{this.theme.tag_line}}</div>
         </div>
 
     </div>
@@ -175,6 +177,53 @@ description_limit = 0
     $(function() {
         AOS.init();
     });
+    gsap.registerPlugin(GSDevTools, SplitText)
+
+    let split
+    let tl
+
+    function init() {
+        gsap.set(".fullScreen", {autoAlpha:1})
+
+        if(split) {
+            GSDevTools.getById("tools").kill()
+            split.revert()
+        }
+        split = new SplitText("h1", {charsClass:"chars", linesClass:"lines"})
+        tl = gsap.timeline()
+
+        split.lines.forEach((line, index) => {
+            console.log(line)
+            tl.from(line.querySelectorAll(".chars"), {duration:0.3, yPercent:100, stagger:0.04}, ">-50%")
+        })
+        GSDevTools.create({animation:tl, id:"tools"})
+
+    }
+
+    //learn how this was made
+    //https://www.creativecodingclub.com
+
+    let timeout // holder for timeout id
+    let delay = 250 // delay after event is "complete" to run callback
+
+
+
+    // debounce from https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
+    // window.resize event listener
+    window.addEventListener('resize', function() {
+        gsap.set(".fullScreen", {autoAlpha:0})
+        // clear the timeout
+        clearTimeout(timeout);
+        // start timing for event "completion"
+        timeout = setTimeout(init, delay);
+    });
+
+
+    //learn how this was made
+    //https://www.creativecodingclub.com
+
+    window.addEventListener("load", init)
+
 </script>
 
 </body>
