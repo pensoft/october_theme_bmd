@@ -6,13 +6,6 @@ primaryClasses = "footer-menu"
 secondaryClasses = "dropdown-menu"
 numberOfLevels = 1
 
-[cookieConsent]
-message = "This website uses cookies to ensure you get the best experience on our website."
-dismiss = "Got it!"
-learnMore = "More info"
-link = "/privacy-policy"
-theme = "dark-bottom"
-
 [jumbotron footer_disclimer]
 jumbotron = "footer"
 background = "transperant"
@@ -41,7 +34,6 @@ background = "transperant"
 templates = "template3"
 description_limit = 0
 ==
-{% component 'cookieConsent' %}
 <div class="container-fluid border-box dark-background">
     <div class="container">
         <div class="row top-xs between-xs footer-social-menu-container">
@@ -68,8 +60,13 @@ description_limit = 0
                 </div>
                 {% endif %}
             </div>
-            <div class="col-md-10 col-xs-12">
-                <div class="funding-text">
+            <div class="col-md-3 col-xs-12 footer-right-border">               
+                <div class="flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
+                    <img class="mr-0 mr-lg-1" src="{{'WBF_SBFI_EU_Frameworkprogramme.png'|media}}"/>
+                </div>
+            </div>
+            <div class="col-md-7 col-xs-12">
+                <div class="funding-text" style="padding-left: 20px;">
                     {% component 'footer_funds' %}
                 </div>
             </div>

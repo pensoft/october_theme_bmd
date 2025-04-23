@@ -11,10 +11,6 @@ escape = 1
 
 [googleTracker]
 
-[cookieBanner]
-include_css = 1
-update_selector = "#gdpr-reload"
-
 [carousel]
 id = 1
 
@@ -177,56 +173,11 @@ description_limit = 0
     $(function() {
         AOS.init();
     });
-    gsap.registerPlugin(GSDevTools, SplitText)
-
-    let split
-    let tl
-
-    function init() {
-        gsap.set(".fullScreen", {autoAlpha:1})
-
-        if(split) {
-            GSDevTools.getById("tools").kill()
-            split.revert()
-        }
-        split = new SplitText("h1", {charsClass:"chars", linesClass:"lines"})
-        tl = gsap.timeline()
-
-        split.lines.forEach((line, index) => {
-            console.log(line)
-            tl.from(line.querySelectorAll(".chars"), {duration:0.3, yPercent:100, stagger:0.04}, ">-50%")
-        })
-        GSDevTools.create({animation:tl, id:"tools"})
-
-    }
-
-    //learn how this was made
-    //https://www.creativecodingclub.com
-
-    let timeout // holder for timeout id
-    let delay = 250 // delay after event is "complete" to run callback
-
-
-
-    // debounce from https://bencentra.com/code/2015/02/27/optimizing-window-resize.html
-    // window.resize event listener
-    window.addEventListener('resize', function() {
-        gsap.set(".fullScreen", {autoAlpha:0})
-        // clear the timeout
-        clearTimeout(timeout);
-        // start timing for event "completion"
-        timeout = setTimeout(init, delay);
-    });
-
-
-    //learn how this was made
-    //https://www.creativecodingclub.com
-
-    window.addEventListener("load", init)
+    
 
 </script>
 
 </body>
-{% component 'cookieBanner' %}
+
 
 </html>

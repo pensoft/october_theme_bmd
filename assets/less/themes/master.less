@@ -41,7 +41,7 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
 h1, h2{
     font-size: 36px;
     line-height: 38px;
-
+    font-weight: 500;
     color: @heading-text-color;
   .breakpoint-small-down({
     font-size: 30px;
@@ -126,10 +126,11 @@ p:has(.edit-link){
                 font-size: 37px;
                 line-height: 47px;
             });
-            .breakpoint-small-down({
+            .breakpoint-large-down({
                 font-size: 38px;
                 color: @white-color;
                 line-height: 46px;
+                margin: 0px auto 0px auto;
             });
         }
 
@@ -179,7 +180,7 @@ p:has(.edit-link){
         right: 0;
         left: 0;
         text-align: center;
-        z-index: 1;
+        z-index: 10;
     });
     a{
         width: 40px;
