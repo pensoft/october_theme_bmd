@@ -76,7 +76,7 @@ $(document).ready(function() {
         $(this).addClass('active');
     });
 
-   
+
 
     // bootstrap 3 breakpoints
     const breakpoint = {
@@ -217,6 +217,31 @@ $(document).ready(function() {
 
         $('.projects_h .key_1, .projects_h .key_3, .projects_h .key_5, .projects_h .key_7, .projects_h .key_9, .projects_h .key_11, .projects_h .key_13').wrapAll('<div class="col-md-6 col-xs-12" />');
         $('.projects_h .key_0, .projects_h .key_2, .projects_h .key_4, .projects_h .key_6, .projects_h .key_8, .projects_h .key_10, .projects_h .key_12').wrapAll('<div class="col-md-6 col-xs-12" />');
+    }
+
+    if($('#slick').length){
+        $('#slick').slick({
+            autoplay: true,
+            autoplaySpeed: 1000,
+            centerMode: true,
+            // centerPadding: '50px',
+            slidesToShow: 6,
+            focusOnSelect: false,
+            dots: false,
+            infinite: true,
+            responsive: [
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: false,
+                        dots: true,
+                        centerMode: true,
+                        centerPadding: '2%',
+                        slidesToShow: 1
+                    }
+                }
+            ]
+        });
     }
 
     $('.partners .tabs').each(function(){
