@@ -1,0 +1,31 @@
+[jumbotron hero-text]
+jumbotron = "hero-text"
+templates = "template2" 
+description_limit = 0
+==
+
+<section class="hero-section">
+    <div class="container-fluid text-container">
+        <div class="container">
+            <div class="hero-text">
+                <h1>Biodiversity Meets Data</h1>
+                <p>
+                    A Single Access Point (SAP) to high-throughput biodiversity monitoring tools, biodiversity data, and biodiversity analyses for better conservation across Europe.
+                </p>
+                <a href="#" class="btn btn-intro center-xs">Learn more</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid carousel-container">
+        <div id="hero-carousel">
+            {% for image in carousel_images %}
+            <div class="slide">
+                <div class="hero-carousel-image {{ loop.index0 % 2 == 0 ? 'small-height' : 'large-height' }}">
+                    <img alt="" title="" src="{{image.path}}">
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

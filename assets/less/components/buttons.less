@@ -133,41 +133,89 @@ button:not(:disabled) {
     background-color: @success-color;
     border-color: @success-color;
 }
+
 .btn-danger {
     color: @white-color;
     background-color: @danger-color;
     border-color: @danger-color;
 }
+
 .btn-warning {
     color: @white-color;
     background-color: @warning-color;
     border-color: @warning-color;
 }
+
 .btn-info {
     color: @white-color;
     background-color: @info-color;
     border-color: @info-color;
 }
+
 .btn-light {
     color: @dark-color;
     background-color: @light-color;
     border-color: @light-color;
 }
+
 .btn-dark {
     color: @white-color;
     background-color: @dark-color;
     border-color: @dark-color;
 }
+
 .btn-yellow {
     color: @white-color;
     background-color: @yellow-color;
     border-color: @yellow-color;
 }
+
 .btn-yellow:hover {
     color: @yellow-color;
     background-color: @secondary-color;
     border-color: @secondary-color;
 }
+
 .btn-link {
     color: @link-color;
+}
+
+.btn-intro {
+    border-radius: 10px;
+    background: #20A683;
+    color: #fff;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    display: inline-flex;
+    text-decoration: none;
+    
+    &::after {
+        content: '';
+        background: url("../../assets/images/white-arrow-btn.svg") center no-repeat;
+        background-size: contain;
+        width: 13px;
+        height: 12px;
+        // margin-left: 0px;
+        transition: all 0.3s ease-in-out;
+        transform: translateX(0);
+    }
+    
+    &:hover {
+        background: #1a8f6f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(32, 166, 131, 0.3);
+        
+        &::after {
+            transform: translateX(4px);
+        }
+    }
+    
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(32, 166, 131, 0.2);
+    }
 }

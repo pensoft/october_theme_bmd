@@ -1,0 +1,168 @@
+#layout-footer {
+    // position: relative;
+    z-index: 2;
+
+    //a{
+    //  color: @dark-color !important;
+    //}
+
+    .disclaimer{
+        align-items: center;
+        border-top: 1px solid #FFFFFF29;
+        padding-top: 34px;
+        .breakpoint-large-down({
+            padding: 34px 10px 10px 10px;
+        });
+    }
+
+    .container-fluid:has(.container) .container {
+        padding-top: 50px;
+    }
+    .container-fluid {
+        margin-bottom: 0!important;
+
+        &.dark-background {
+            background: @footer-color;
+
+            .link-container {
+
+              .footer-links{
+                padding: 0px 24px 0 0px;
+              }
+            }
+
+            .footer-head {
+              color: @black-color;
+              font-size: 16px;
+
+            }
+
+            .footer-menu {
+                list-style-type: none;
+                padding: 0;
+                margin: 20px 0;
+              .footer-menu-item {
+                font-size: 15px;
+                color: @light-color!important;
+                  padding: 5px 0;
+              }
+
+
+            }
+
+            .funding-text{
+                .container{
+                    padding: 0!important;
+                    p{
+                        margin: 0!important;
+                        color: #B2B2B2;
+                    }
+                }
+                color: #B2B2B2;
+                font-size: 15px;
+                font-weight: 400;
+
+            }
+        }
+    }
+
+    .footer-social-menu-container{
+        padding: 0 0 50px 0;
+        .project_footer_logo{
+            width: 139px;
+            height: 45px;
+        }
+        .col-xs-12{
+            padding: 0;
+        }
+    }
+
+    .footer-right-border{
+        padding: 0;
+    }
+    .funding {
+        padding: 0;
+        img{
+            width: auto;
+            height: auto;
+            max-height: 38px;
+            float: left;
+            margin-right: 10px;
+          .breakpoint-small-down({
+            margin-bottom: 20px;
+          });
+        }
+    }
+    .col-md-10.col-xs-12{
+        padding: 0;
+    }
+
+    .powered-by {
+        background: #161F22;
+        // align-items: center;
+        display: flex;
+        justify-content: center;
+        color: @navbar-color;
+        font-size: 14px !important;
+        padding: 8px 0;
+
+        .pensoft_logo{
+            float: right;
+            margin-top: 4px;
+            margin-left: 5px;
+            margin-bottom: 0px !important;
+            height: 18px;
+            width: 72px;
+        }
+
+        .breakpoint-small-down ({
+            font-size: 12px!important;
+        });
+
+        //a{
+        //   color: @footer-text-color;
+        //}
+    }
+
+    .social-networks{
+        display: flex;
+        align-items: center;
+        .breakpoint-large-down({
+            margin-top: 20px;
+        });
+        a{
+            width: 40px;
+            height: 40px;
+            display: inline-block;
+            margin-left: 4px;
+            border-radius: 50%;
+            position: relative;
+            &.bluesky{
+                background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
+                background-size: contain;
+            }
+            &.linkedin{
+                background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
+                background-size: contain;
+
+            }
+            &:after{
+                width: 40px;
+                height: 40px;
+                display: inline-block;
+                border-radius: 50%;
+                position: absolute;
+                background: none;
+                content: ' ';
+                top: 0;
+                left: 0;
+            }
+            &:hover{
+                &:after{
+                    background: rgba(255, 255, 255, 0.3);
+                }
+            }
+
+        }
+    }
+}
