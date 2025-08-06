@@ -296,3 +296,47 @@
 .p-add:before {
     content: "\eb03";
 }
+
+.social-networks {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  
+  a {
+      width: 40px;
+      height: 40px;
+      display: inline-block;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.20);
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(2px);
+      transition: all 0.3s ease;
+      
+      &.bluesky {
+          background: rgba(255, 255, 255, 0.15) url("../../assets/images/bluesky-white-icon.svg") center no-repeat;
+          background-size: 20px;
+      }
+      
+      &.linkedin {
+          background: rgba(255, 255, 255, 0.15) url("../../assets/images/linkedin-white-icon.svg") center no-repeat;
+          background-size: 20px;
+      }
+      
+      &.youtube {
+          background: rgba(255, 255, 255, 0.15) url("../../assets/images/youtube-white-icon.svg") center no-repeat;
+          background-size: 20px;
+      }
+      
+      &:hover {
+          background-color: rgba(255, 255, 255, 0.3);
+          transform: scale(1.05);
+      }
+  }
+  .breakpoint-large-down({
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+      margin-top: 30px;
+  });
+}

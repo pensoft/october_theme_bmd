@@ -1,0 +1,208 @@
+// News Highlights Section
+.news-highlights {
+    margin-bottom: 80px;
+    
+    .news-highlight-item {
+        padding: 0;
+        margin-bottom: 20px;
+        
+        .news-item {
+            width: 421px;
+            height: 308px;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease-in-out;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+            
+            .news-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+                display: block;
+                transition: all 0.3s ease-in-out;
+            }
+            
+            .hover-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(135deg, rgba(32, 166, 131, 0.9) 0%, rgba(32, 166, 131, 0.7) 50%, rgba(32, 166, 131, 0.4) 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                transition: all 0.3s ease-in-out;
+                z-index: 2;
+                
+                .read-more-text {
+                    color: white;
+                    font-size: 20px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 2px;
+                    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+                }
+            }
+            
+            &:hover {
+                .hover-overlay {
+                    opacity: 1;
+                }
+                
+                .arrow_link {
+                    &::before {
+                        background: @date-text-color;
+                    }
+                    
+                    &:after {
+                        transform: rotate(135deg);
+                    }
+                }
+            }
+            
+            .breakpoint-large-down({
+                margin-bottom: 20px;
+            });
+            
+            .arrow_link {
+                position: absolute;
+                top: -12px;
+                right: -12px;
+                width: 82px;
+                height: 80px;
+                background: white;
+                border-radius: 0 0 0 22px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease-in-out;
+                z-index: 3;
+                
+                .breakpoint-huge-down({
+                    width: 18%;
+                    height: 15.7%;
+                });
+                
+                &::before {
+                    content: '';
+                    width: 58px;
+                    height: 56px;
+                    background: #20A683;
+                    border-radius: 10px;
+                    position: absolute;
+                    z-index: 1;
+                    
+                    .breakpoint-huge-down({
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 10px;
+                    });
+                }
+                
+                &:after {
+                    content: ' ';
+                    background: url("../../assets/images/subscribe-button-arrow.svg") center no-repeat;
+                    background-size: 60%;
+                    width: 50%;
+                    height: 50%;
+                    transform: rotate(-45deg);
+                    transition: all 0.3s ease-in-out;
+                    position: relative;
+                    z-index: 2;
+                    
+                    .breakpoint-huge-down({
+                        background-size: 50%;
+                        width: 60%;
+                        height: 60%;
+                    });
+                }
+                
+                &:hover {
+                    &::before {
+                        background: @date-text-color;
+                    }
+                    
+                    &:after {
+                        transform: rotate(135deg);
+                    }
+                }
+            }
+            .breakpoint-huge-down({
+                width: 100%;
+                border-radius: 10px;
+                margin-bottom: 0;
+            });
+        }
+        
+        .news-content {
+            padding: 8px 0 0 0;
+            
+            .news-date {
+                color: #9CAFB5;
+                font-family: Author;
+                font-size: 18px;
+                font-weight: 375;
+                margin-bottom: 3px;
+            }
+            
+            .news-title {
+                color: #142F2B;
+                font-family: Author;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 375;
+            }
+        }
+        .breakpoint-huge-down({
+            margin-bottom: 60px;
+        });
+    }
+    
+}
+
+// Consortium Partners Section
+.consortium-partners {
+    margin-bottom: 80px;
+    
+    .partner-logo {
+        margin-bottom: 30px;
+        text-align: center;
+        
+        a {
+            display: block;
+            padding: 20px;
+            background: #F0F2F3;
+            border-radius: 10px;
+            transition: all 0.3s ease-in-out;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &:hover {
+                background: #e9ecef;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+            
+            img {
+                max-width: 100%;
+                max-height: 80px;
+                object-fit: contain;
+                // filter: grayscale(100%);
+                transition: all 0.3s ease-in-out;
+                
+                &:hover {
+                    filter: grayscale(0%);
+                }
+            }
+        }
+    }
+    
+}

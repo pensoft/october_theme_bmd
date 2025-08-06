@@ -1,10 +1,10 @@
-[menu footer_menu]
-start = "id-2"
+[menu]
+start = "id-1"
 activeNode = 0
-listItemClasses = "footer-menu-item"
-primaryClasses = "footer-menu"
+listItemClasses = "nav-item"
+primaryClasses = "navbar-nav"
 secondaryClasses = "dropdown-menu"
-numberOfLevels = 1
+numberOfLevels = 2
 
 [jumbotron footer_disclimer]
 jumbotron = "footer"
@@ -12,74 +12,98 @@ background = "transperant"
 templates = "template3"
 description_limit = 0
 
-[menu links]
-start = "id-14"
-activeNode = 0
-listItemClasses = "item"
-primaryClasses = "nav nav-pills"
-secondaryClasses = "dropdown-menu"
-numberOfLevels = 1
-
-[menu outputs]
-start = "id-20"
-activeNode = 0
-listItemClasses = "item"
-primaryClasses = "nav nav-pills"
-secondaryClasses = "dropdown-menu"
-numberOfLevels = 1
-
 [jumbotron footer_funds]
 jumbotron = "funding-text"
 background = "transperant"
 templates = "template3"
 description_limit = 0
+
 ==
 <div class="container-fluid border-box dark-background">
-    <div class="container">
-        <div class="row top-xs between-xs footer-social-menu-container">
+    <div class="container pb-0">
+        <!-- Top Section: Navigation and Branding -->
+        <div class="row top-xs between-xs footer-top-section">
+            <!-- Left: Branding and Social Media -->
             <div class="col-md-4 col-xs-12 start-md center-xs">
-                <img class="project_footer_logo" src="{{'BMD-logo-white.svg'|media}}">
-            </div>
-            <div class="col-md-8 col-xs-12 end-md center-xs social-networks">
-                {% if this.theme.linkedin %}
-                <a href="{{this.theme.linkedin_url}}" class="linkedin" target="_blank"></a>
-                {% endif %}
+                <div class="footer-branding">
+                    <a href="{{'home'|page}}">
+                        <img class="project_footer_logo" src="{{ this.theme.site_logo.getPath() }}" alt="BMD Logo">
+                    </a>
+                    <div class="social-networks">
+                        {% if this.theme.linkedin %}
+                        <a href="{{this.theme.linkedin_url}}" class="linkedin" target="_blank" aria-label="LinkedIn"></a>
+                        {% endif %}
 
-                {% if this.theme.bluesky %}
-                <a href="{{this.theme.bluesky_url}}" class="bluesky" target="_blank"></a>
-                {% endif %}
+                        {% if this.theme.bluesky %}
+                        <a href="{{this.theme.bluesky_url}}" class="bluesky" target="_blank" aria-label="Bluesky"></a>
+                        {% endif %}
+
+                        {% if this.theme.youtube %}
+                        <a href="{{this.theme.youtube_url}}" class="youtube" target="_blank" aria-label="YouTube"></a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right: Navigation Menu -->
+            <div class="col-md-8 col-xs-12 end-md center-xs">
+                <nav class="footer-navigation">
+                    {% component 'menu' %}
+                </nav>
             </div>
         </div>
-        <div class="row disclaimer">
-            <div class="col-md-2 col-xs-12 footer-right-border">
-                {% if (footer_funds_flag != null) %}
-                <div class="funding flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
-                    {% if footer_funds_flag %}
-                    <img class="mr-0 mr-lg-1" src="{{ footer_funds_flag }}"/>
-                    {% endif %}
+
+        <!-- Middle Section: Newsletter and Funding -->
+        <div class="row footer-middle-section">
+            <!-- Left: Newsletter -->
+            <div class="col-md-4 col-xs-12">
+                <div class="newsletter-section">
+                    <h3 class="newsletter-title">Subscribe to our newsletter</h3>
+                    <div class="newsletter-form">
+                        <div class="email-input-container">
+                            <span class="email-icon">✉️</span>
+                            <input type="email" placeholder="youremail@gmail.com" class="email-input">
+                            <button type="submit" class="subscribe-btn">Subscribe</button>
+                        </div>
+                    </div>
                 </div>
-                {% endif %}
             </div>
-            <div class="col-md-3 col-xs-12 footer-right-border">               
-                <div class="flex-column my-1 my-lg-0 flex-lg-row px-1 align-items-center col-sm col-xs-12">
-                    <img class="mr-0 mr-lg-1" src="{{'WBF_SBFI_EU_Frameworkprogramme.png'|media}}"/>
-                </div>
-            </div>
-            <div class="col-md-7 col-xs-12">
-                <div class="funding-text" style="padding-left: 20px;">
-                    {% component 'footer_funds' %}
+            
+            <!-- Right: Funding Information -->
+            <div class="col-md-8 col-xs-12">
+                <div class="funding-section">
+                    <div class="funding-content">
+                        <div class="funding-logo-text">
+                            {% if (footer_funds_flag != null) %}
+                            {% if footer_funds_flag %}
+                            <img src="{{ footer_funds_flag }}" alt="Funding Partner" class="eu-funding-logo"/>
+                            {% endif %}
+                            {% endif %}
+                            <div class="funding-text">
+                                {% component 'footer_funds' %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Bottom Section: Legal and Credits -->
 <div class="container-fluid border-box light-background">
-        <div class="row top-xs between-xs footer-menu-container">
-            <div class="col-xs-12 powered-by center-xs">
-                <span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
-                    <img class="pensoft_logo" src="{{ 'assets/images/pensoft-logo.svg'|theme }}" /></a>
-                </span>
+    <div class="row footer-bottom-section">
+        <div class="col-xs-12">
+            <div class="container footer-bottom-content pb-0">
+                <div class="privacy-link">
+                    <a href="{{ 'privacy-policy'|page }}">Privacy Policy</a>
+                </div>
+                <div class="powered-by">
+                    <span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
+                        <img class="pensoft_logo" src="{{ 'assets/images/pensoft-logo.svg'|theme }}" alt="Pensoft" /></a>
+                    </span>
+                </div>
             </div>
         </div>
+    </div>
 </div>

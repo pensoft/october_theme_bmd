@@ -91,24 +91,43 @@ button:not(:disabled) {
 }
 
 .btn-primary {
-    color: @white-color;
-    background-color: @button-background-color;
-    border-color: @button-background-color;
+    border-radius: 10px;
+    background: #E3F2F6;
+    color: #0F2F2A;
+    padding: 8px 30px;
+    justify-content: center;
+    align-items: center;
+    gap: 9px;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    display: inline-flex;
+    text-decoration: none;
     cursor: pointer;
-    .rounded(10px);
-    padding-left: 30px;
-    padding-right: 30px;
-    padding-top: 9px;
-    padding-bottom: 9px;
-}
-
-.btn-primary:hover, .btn-primary.active {
-    color: @white-color;
-    background-color: @button-background-color-hover;
-    border-color: @button-background-color-hover;
-    .rounded(10px);
-    padding-left: 30px;
-    padding-right: 30px;
+    
+    &::after {
+        content: '';
+        background: url("../../assets/images/green-arrow-btn.svg") center no-repeat;
+        background-size: contain;
+        width: 10px;
+        height: 11px;
+        transition: all 0.3s ease-in-out;
+        transform: translateX(0);
+    }
+    
+    &:hover {
+        background: #d1e8ed;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(227, 242, 246, 0.3);
+        
+        &::after {
+            transform: translateX(4px);
+        }
+    }
+    
+    &:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(227, 242, 246, 0.2);
+    }
 }
 
 .btn-secondary {
@@ -184,7 +203,7 @@ button:not(:disabled) {
     border-radius: 10px;
     background: #20A683;
     color: #fff;
-    padding: 10px 20px;
+    padding: 8px 30px;
     justify-content: center;
     align-items: center;
     gap: 9px;
@@ -199,7 +218,6 @@ button:not(:disabled) {
         background-size: contain;
         width: 13px;
         height: 12px;
-        // margin-left: 0px;
         transition: all 0.3s ease-in-out;
         transform: translateX(0);
     }

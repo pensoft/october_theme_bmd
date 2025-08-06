@@ -1,10 +1,10 @@
 // Update width on window resize
-var width = window.innerWidth;
+let width = window.innerWidth;
 $(window).resize(function() {
     width = window.innerWidth;
 });
 
-var documentHasScroll = function() {
+const documentHasScroll = function() {
     return window.innerHeight <= document.body.offsetHeight;
 };
 
@@ -24,8 +24,8 @@ function showSearchForm() {
     
     // Add event listener to close search when clicking outside
     $(document).on('click.searchClose', function(event) {
-        var $search = $('#search form');
-        var $searchToggle = $('#searchToggle');
+        const $search = $('#search form');
+        const $searchToggle = $('#searchToggle');
         
         // If click is outside search container and not on search button
         if (!$search.is(event.target) && 
@@ -69,58 +69,20 @@ function hideSearchForm() {
     $('#search input.search_input').off('keydown.searchSubmit');
 }
 
-// Function to rotate hero images with transition
-function rotateHeroImages() {
-    const images = $('.image-placeholder img');
-    if (images.length < 2) return;
-    
-    let currentIndex = 0;
-    
-    // Initially hide all images except the first one
-    images.css({
-        'opacity': 0,
-        'position': 'absolute',
-        'top': '50%',
-        'left': '50%',
-        'transform': 'translate(-50%, -50%)'
-    });
-    
-    $(images[0]).css('opacity', 1);
-
-    setInterval(function() {
-        const nextIndex = (currentIndex + 1) % images.length;
-        
-        // Fade out current image
-        $(images[currentIndex]).animate({
-            opacity: 0
-        }, 500);
-        
-        // Fade in next image
-        $(images[nextIndex]).animate({
-            opacity: 1
-        }, 500);
-        
-        currentIndex = nextIndex;
-    }, 2000);
-}
-
 $(document).ready(function() {
     // $("nav").removeClass("no-transition");
 	/* MENU */
 	$('.navbar-nav').attr('id', 'menu'); // please don't remove this line
 	$( '<div class="calendar-top"></div>' ).insertBefore( "#calendar" );
 	$( '<div class="card-profile-top"></div>' ).insertBefore( ".card.profile.card-profile" );
-	var divs = $(".card-profiles > div");
-	for(var i = 0; i < divs.length; i+=2) {
+	const divs = $(".card-profiles > div");
+	for(let i = 0; i < divs.length; i+=2) {
 		divs.slice(i, i+2).wrapAll( '<div class="col-xs" />');
 	}
 
-    // Initialize hero image rotation
-    rotateHeroImages();
-
     // Make intro-items clickable
     $('.intro-item').on('click', function() {
-        var href = $(this).data('href');
+        const href = $(this).data('href');
         if (href) {
             window.location.href = href;
         }
@@ -161,15 +123,6 @@ $(document).ready(function() {
     
     // Initialize back to top functionality
     initBackToTop();
-    
-    // Initialize project materials name display
-    // initProjectMaterialsNameDisplay();
-    
-    // Initialize project materials dropdown functionality
-    // initProjectMaterialsDropdowns();
-    
-    // Rename library category tabs with proper capitalization
-    // renameLibraryCategoryTabs();
     
     // Search button functionality for both desktop and mobile
     $('#searchToggle, #searchToggleMobile').on('click', function(e) {
@@ -234,9 +187,9 @@ $(document).ready(function() {
 
     // Close menu when clicking outside
     $(document).click(function(event) {
-        var $navbarNav = $('#headerNavbarNav');
-        var $desktopToggle = $('#desktopMenuToggle');
-        var $closeBtn = $('#closeMenuBtn');
+        const $navbarNav = $('#headerNavbarNav');
+        const $desktopToggle = $('#desktopMenuToggle');
+        const $closeBtn = $('#closeMenuBtn');
         
         // If navbar is visible and click is outside navbar and toggle buttons
         if ($navbarNav.hasClass('show') && 
@@ -268,7 +221,7 @@ $(document).ready(function() {
     // Close dropdown menus when parent menu item is clicked again
     $('.nav-item.dropdown > a').on('click', function(e) {
         e.preventDefault();
-        var $dropdownMenu = $(this).siblings('.dropdown-menu');
+        const $dropdownMenu = $(this).siblings('.dropdown-menu');
         
         if ($dropdownMenu.hasClass('show')) {
             $dropdownMenu.removeClass('show');
@@ -292,16 +245,16 @@ $(document).ready(function() {
     $("nav").removeClass("no-transition");
 
     if (window.location.hash) {
-        var link = window.location.hash;
-        var anchorId = link.substr(link.indexOf("#") + 1);
+        const link = window.location.hash;
+        const anchorId = link.substr(link.indexOf("#") + 1);
         if($("#"+anchorId).offset()){
             $('html, body').animate({
                 scrollTop: $("#"+anchorId).offset().top - 150
             }, 500);
         }else{
             $('.accordion-border').each(function(){
-                var title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
-                var toggler = $(this).find(".accordion-toggle");
+                const title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
+                const toggler = $(this).find(".accordion-toggle");
                 if ( title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next(".accordion-content").is(':visible') ){
                     $('html, body').animate({
                         scrollTop: toggler.parent().offset().top - 150
@@ -315,8 +268,8 @@ $(document).ready(function() {
     $('.dropdown a').click(function(event) {
 
         if (location.href.indexOf("#") != -1) {
-            var link = $(this).attr('href');
-            var anchorId = link.substr(link.indexOf("#") + 1);
+            const link = $(this).attr('href');
+            const anchorId = link.substr(link.indexOf("#") + 1);
             if($("#"+anchorId).length>0){
                 $('html, body').animate({
                     scrollTop: $("#"+anchorId).offset().top - 150
@@ -326,8 +279,8 @@ $(document).ready(function() {
                 $("g[title='"+anchorId.toUpperCase()+"']").addClass('active_path');
 
                 $('.accordion-border').each(function(){
-                    var title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
-                    var toggler = $(this).find(".accordion-toggle");
+                    const title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
+                    const toggler = $(this).find(".accordion-toggle");
                     if ( title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next(".accordion-content").is(':visible') ){
                         $('html, body').animate({
                             scrollTop: toggler.parent().offset().top - 150
@@ -345,30 +298,6 @@ $(document).ready(function() {
 		onHashChange();
 	});
 
-	$('.nav.nav-pills').removeAttr('id');
-
-	var count = $("h1").text().length;
-    
-    $('.about .content').attr({
-        'data-aos': 'fade-up',
-        'data-aos-duration': '800',
-        'data-aos-delay': '150',
-        'data-aos-easing': 'ease-out',
-        'data-aos-anchor-placement': 'top-bottom',
-        'data-aos-once': 'false',
-        'data-aos-mirror': 'true'
-    });
-    
-	$('.about .about-circle-container').attr({
-		'data-aos': 'fade-up',
-		'data-aos-duration': '1200',
-		'data-aos-easing': 'ease-out-back',
-		'data-aos-anchor-placement': 'center-bottom',
-		'data-aos-once': 'true',
-		'data-aos-offset': '0'
-	});
-
-
 	$('.see_all_partners_link').hide();
 
     $(".timeline_container.left .blue_line").width(function() {
@@ -377,9 +306,9 @@ $(document).ready(function() {
 
 
     $('.dorsal').click(function () {
-        var link = $(this);
-        var parag = link.parent().parent().find('p').first();
-        var partner_desc = link.parent().parent().find('.partner_description').first();
+        const link = $(this);
+        const parag = link.parent().parent().find('p').first();
+        const partner_desc = link.parent().parent().find('.partner_description').first();
         parag.toggleClass('expand', function() {
             if (parag.hasClass('expand')) {
                 link.text('Read less');
@@ -419,8 +348,9 @@ $(document).ready(function() {
     if($('#hero-carousel').length){
         $('#hero-carousel').slick({
             autoplay: true,
-            autoplaySpeed: 1000,
+            autoplaySpeed: 3000,
             lazyLoad: 'ondemand',
+            pauseOnFocus: false,
             draggable: false,
             infinite: true,
             centerMode: true,
@@ -474,244 +404,21 @@ $(document).ready(function() {
             $(this).find('div').css('background', 'transparent');
         });
     }
-
-    // Carousel slick for consortium partners
-    if($('#consortium-carousel').length){
-        $('#consortium-carousel').slick({
-            autoplay: true,
-            autoplaySpeed: 4000,
-            draggable: true,
-            pauseOnHover: true,
-            infinite: true,
-            dots: false,
-            arrows: true,
-            speed: 1000,
-
-            mobileFirst: true,
     
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            variableWidth: true,
-            
-            responsive: [
-                {
-                    breakpoint: 992,
-                    settings: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        variableWidth: true
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 4,
-                        slidesToScroll: 1,
-                        variableWidth: true
-                    }
-                }
-            ]
-        });
-    }
-        // Add initial state check for carousel buttons
-        // setTimeout(function() {
-        //     // Custom arrow handlers for consortium carousel
-        //     $(".trigger_prev_consortium").off('click').on('click', function(e) {
-        //         e.preventDefault();
-        //         $('#consortium-carousel').slick('slickPrev');
-        //     });
-            
-        //     $(".trigger_next_consortium").off('click').on('click', function(e) {
-        //         e.preventDefault();
-        //         $('#consortium-carousel').slick('slickNext');
-        //     });
-            
-        //     // Handle button state based on slide position
-        //     var slick = $('#consortium-carousel').slick('getSlick');
-            
-        //     $('#slick').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        //         // Toggle button visibility based on slide position
-        //         if (nextSlide === 0) {
-        //             $('.trigger_prev_consortium').css('opacity', '0.5');
-        //         } else {
-        //             $('.trigger_prev_consortium').css('opacity', '1');
-        //         }
-                
-        //         if (nextSlide >= slick.slideCount - slick.options.slidesToShow) {
-        //             $('.trigger_next_consortium').css('opacity', '0.5');
-        //         } else {
-        //             $('.trigger_next_consortium').css('opacity', '1');
-        //         }
-        //     });
-            
-        //     // Initialize button states
-        //     if (slick.currentSlide === 0) {
-        //         $('.trigger_prev_consortium').css('opacity', '0.5');
-        //     }
-            
-        //     if (slick.currentSlide >= slick.slideCount - slick.options.slidesToShow) {
-        //         $('.trigger_next_consortium').css('opacity', '0.5');
-        //     }
-        // }, 100);
-    // }
-
-    // if($('.news-carousel').length) {
-    //     /* News highlights carousel **/
-    //     var $newsCarousel = $('.news-carousel');
-        
-    //     $newsCarousel.slick({
-    //         autoplay: false,
-    //         // autoplaySpeed: 2000,
-    //         draggable: true,
-    //         // pauseOnHover: true,
-    //         centerMode: false,
-    //         variableWidth: true,
-    //         infinite: false,  // Change to false to prevent infinite scrolling
-    //         slidesToShow: 3,  // Show 3 full items
-    //         speed: 1000,
-    //         slidesToScroll: 1,
-    //         arrows: true, // Enable arrows but they will be hidden with CSS
-    //         dots: false,
-    //         responsive: [
-    //             {
-    //                 breakpoint: 768,
-    //                 settings: {
-    //                     arrows: false,
-    //                     dots: true,
-    //                     // centerMode: true,
-    //                     // centerPadding: '2%',
-    //                     slidesToShow: 1
-    //                 }
-    //             }
-    //         ]
-    //     });
-
-    //     // Ensure carousel is fully initialized
-    //     setTimeout(function() {
-    //         // Custom arrow click handlers
-    //         $(".trigger_prev, .trigger_prev_arrow").click(function(e) {
-    //             e.preventDefault();
-    //             $newsCarousel.slick('slickPrev');
-    //             return false;
-    //         });
-            
-    //         $(".trigger_next, .trigger_next_arrow").click(function(e) {
-    //             e.preventDefault();
-    //             $newsCarousel.slick('slickNext');
-    //             return false;
-    //         });
-            
-    //         // Initialize button states
-    //         $('.trigger_prev, .trigger_prev_arrow').css('opacity', '0.5');
-    //     }, 100);
-        
-    //     // Limit the width of the slick track to prevent excessive scrolling
-    //     $newsCarousel.on('init', function(event, slick){
-    //         // Add class to first visible slide
-    //         $(slick.$slides[0]).addClass('first-visible-slide');
-    //     });
-        
-    //     $newsCarousel.on('afterChange', function(event, slick, currentSlide){
-    //         $('.slick-slide').removeClass('first-visible-slide');
-    //         $(slick.$slides[currentSlide]).addClass('first-visible-slide');
-    //     });
-        
-    //     // Ensure navigation works correctly with our constrained carousel
-    //     $newsCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-    //         // If we're at the last possible slide, prevent further navigation
-    //         if (nextSlide >= slick.slideCount - 3) {
-    //             // Disable next button visually
-    //             $('.trigger_next, .trigger_next_arrow').css('opacity', '0.5');
-    //         } else {
-    //             // Enable next button
-    //             $('.trigger_next, .trigger_next_arrow').css('opacity', '1');
-    //         }
-            
-    //         // If we're at the first slide, disable previous button
-    //         if (nextSlide === 0) {
-    //             $('.trigger_prev, .trigger_prev_arrow').css('opacity', '0.5');
-    //         } else {
-    //             $('.trigger_prev, .trigger_prev_arrow').css('opacity', '1');
-    //         }
-    //     });
-    // }
-    
-    // Read more button that follows cursor for news items only (excluding newsletters)
-    if(screen.width > 1024){
-        $('.home-news-cover a, .related-news .home-news-cover a').on('mouseenter', function(e) {
-            // Show the button immediately at the current mouse position
-            var parentOffset = $(this).offset();
-            var relX = e.pageX - parentOffset.left;
-            var relY = e.pageY - parentOffset.top;
-            
-            $(this).find('.read-more-btn').css({
-                display: 'block',
-                opacity: 1,
-                left: relX + 'px',
-                top: relY + 'px'
-            });
-        }).on('mouseleave', function() {
-            // Hide the button immediately
-            $(this).find('.read-more-btn').css({
-                display: 'none'
-            });
-        }).on('mousemove', function(e) {
-            var parentOffset = $(this).offset();
-            var relX = e.pageX - parentOffset.left;
-            var relY = e.pageY - parentOffset.top;
-            var $btn = $(this).find('.read-more-btn');
-            var btnWidth = $btn.outerWidth();
-            var btnHeight = $btn.outerHeight();
-            var containerWidth = $(this).width();
-            var containerHeight = $(this).height();
-            
-            // Remove all edge classes
-            $btn.removeClass('edge-right edge-left edge-top edge-bottom');
-            
-            // Handle edge cases
-            var edgeThreshold = 50; // pixels from edge
-            
-            // Check if near right edge
-            if (relX > containerWidth - edgeThreshold) {
-                $btn.addClass('edge-right');
-                relX = containerWidth - 20;
-            } 
-            // Check if near left edge
-            else if (relX < edgeThreshold) {
-                $btn.addClass('edge-left');
-                relX = 20;
-            }
-            
-            // Check if near bottom edge
-            if (relY > containerHeight - edgeThreshold) {
-                $btn.addClass('edge-bottom');
-                relY = containerHeight - 20;
-            } 
-            // Check if near top edge
-            else if (relY < edgeThreshold) {
-                $btn.addClass('edge-top');
-                relY = 20;
-            }
-            
-            // Position the button immediately for precise cursor replacement
-            $btn.css({
-                left: relX + 'px',
-                top: relY + 'px'
-            });
-        });
-    }
+    // Initialize navbar scroll state on page load
+    initNavbarScrollState();
     
     // Hide header navbar on scroll for desktop only
-    var lastScrollTop = 0;
-    var $headerNavbar = $('#headernavbar');
-    var $backToTop = $('.back-to-top');
-    var hasShownBackToTop = false;
+    let lastScrollTop = 0;
+    const $headerNavbar = $('#headernavbar');
+    const $backToTop = $('.back-to-top');
+    let hasShownBackToTop = false;
     
     $(window).scroll(function() {
-        var currentScrollTop = $(this).scrollTop();
-        var windowHeight = $(window).height();
-        var documentHeight = $(document).height();
-        var scrollPercent = currentScrollTop / (documentHeight - windowHeight);
+        const currentScrollTop = $(this).scrollTop();
+        const windowHeight = $(window).height();
+        const documentHeight = $(document).height();
+        const scrollPercent = currentScrollTop / (documentHeight - windowHeight);
         
         // Apply consistent colored background behavior for all devices
         if (currentScrollTop > 80) {
@@ -753,13 +460,40 @@ function type(i, t, ie, oe) {
     }, t);
 }
 
+// Initialize navbar scroll state on page load
+function initNavbarScrollState() {
+    const $headerNavbar = $('#headernavbar');
+    const $backToTop = $('.back-to-top');
+    const currentScrollTop = $(window).scrollTop();
+    const windowHeight = $(window).height();
+    const documentHeight = $(document).height();
+    const scrollPercent = currentScrollTop / (documentHeight - windowHeight);
+    
+    // Apply navbar styling based on initial scroll position
+    if (currentScrollTop > 80) {
+        $headerNavbar.addClass('navbar-scrolled');
+    } else {
+        $headerNavbar.removeClass('navbar-scrolled');
+    }
+    
+    // Show back-to-top button if already scrolled
+    if (currentScrollTop > 300) {
+        $backToTop.addClass('show');
+    } else {
+        $backToTop.removeClass('show');
+    }
+    
+    // Update progress ring based on initial scroll position
+    updateScrollProgress(scrollPercent);
+}
+
 // Update scroll progress ring
 function updateScrollProgress(scrollPercent) {
-    var $progressCircle = $('.back-to-top .progress-ring .progress');
+    const $progressCircle = $('.back-to-top .progress-ring .progress');
     if ($progressCircle.length) {
         // Use consistent circumference that matches CSS (2 * π * 26 = 163.36)
-        var circumference = 163.36;
-        var offset = circumference - (scrollPercent * circumference);
+        const circumference = 163.36;
+        let offset = circumference - (scrollPercent * circumference);
         
         // Clamp between 0 and circumference
         offset = Math.max(0, Math.min(circumference, offset));
@@ -774,7 +508,7 @@ function updateScrollProgress(scrollPercent) {
 
 // Smooth scroll to top functionality
 function initBackToTop() {
-    var $backToTop = $('.back-to-top');
+    const $backToTop = $('.back-to-top');
     
     if ($backToTop.length) {
         $backToTop.on('click', function(e) {
@@ -805,10 +539,10 @@ $.easing.easeOutCubic = function(x, t, b, c, d) {
 function onHashChange(){
 	$("g").removeClass('active_path');
 	$(".accordion-content").hide();
-	var caseStudiesHashTitle = location.hash;
+	const caseStudiesHashTitle = location.hash;
 
 	if(caseStudiesHashTitle){
-		var caseStudiesTitle = caseStudiesHashTitle.substring(1, caseStudiesHashTitle.length);
+		const caseStudiesTitle = caseStudiesHashTitle.substring(1, caseStudiesHashTitle.length);
 		
 		// Check if the hash corresponds to a tab
 		if(['about', 'work-packages', 'partners'].includes(caseStudiesTitle)) {
@@ -846,20 +580,20 @@ function isBreakpointLarge() {
 
 function requestFormLibrary() {
 	$('#mylibraryForm').on('click', 'a', function () {
-		var $form = $(this).closest('form');
+		const $form = $(this).closest('form');
 		$form.request();
 	})
 }
 
 function requestFormPartners() {
 	$('#myPartnersForm').on('click', 'a', function () {
-		var $form = $(this).closest('form');
+		const $form = $(this).closest('form');
 		$form.request();
 	})
 }
 
 function scrollDown(){
-	var element = $('#layout-content');
+	const element = $('#layout-content');
 	$("html, body").animate({ scrollTop: element.offset().top - 190 }, 500);
 }
 
@@ -870,8 +604,8 @@ function hideMe(elem){
 
 
 function getScreenSize() {
-    var myHeight = 0;
-    var myWidth = 0;
+    let myHeight = 0;
+    let myWidth = 0;
     if (window.innerWidth && window.innerHeight) {
         // Netscape & Mozilla
         myHeight = window.innerHeight;
@@ -917,9 +651,9 @@ function initTabs() {
     // Check if there's already an active tab content
     if ($('.tab-content.active').length === 0) {
         // No active tab found, activate the first tab
-        var $activeTabLink = $('.tab-link.active');
+        const $activeTabLink = $('.tab-link.active');
         if ($activeTabLink.length > 0) {
-            var firstTabId = $activeTabLink.data('tab');
+            const firstTabId = $activeTabLink.data('tab');
             $('#' + firstTabId).addClass('active');
         }
     }
@@ -941,7 +675,7 @@ function initTabs() {
         e.preventDefault();
         
         // Get the tab id from data attribute
-        var tabId = $(this).data('tab');
+        const tabId = $(this).data('tab');
         
         // Remove active class from all tabs and add to clicked tab
         $('.tab-link').removeClass('active');
@@ -995,7 +729,7 @@ function initTabs() {
     });
     
     if (window.location.hash) {
-        var tabId = window.location.hash.substring(1);
+        const tabId = window.location.hash.substring(1);
         $('.tab-link[data-tab="' + tabId + '"]').trigger('click');
     }
 }
@@ -1039,9 +773,9 @@ function initWorkPackagesToggle() {
  * @param {HTMLElement} element - The clicked "Read more" button
  */
 function toggleWorkPackage(element) {
-    var $button = $(element);
-    var $workPackageBox = $button.closest('.work-package-box');
-    var $content = $workPackageBox.find('.wp-content');
+    const $button = $(element);
+    const $workPackageBox = $button.closest('.work-package-box');
+    const $content = $workPackageBox.find('.wp-content');
     
     if ($content.is(':visible')) {
         $button.removeClass('arrow-up');
@@ -1060,18 +794,18 @@ function toggleWorkPackage(element) {
  */
 function initPartnerContentTruncation() {
     $('.partner-content').each(function() {
-        var $partnerContent = $(this);
-        var $fullContent = $partnerContent.find('.partner-description-full');
-        var $truncatedContent = $partnerContent.find('.partner-description-truncated');
-        var $button = $partnerContent.find('.read-more-partner');
+        const $partnerContent = $(this);
+        const $fullContent = $partnerContent.find('.partner-description-full');
+        const $truncatedContent = $partnerContent.find('.partner-description-truncated');
+        const $button = $partnerContent.find('.read-more-partner');
         
-        var fullText = $fullContent.data('full-content');
-        var maxLength = 255;
+        const fullText = $fullContent.data('full-content');
+        const maxLength = 255;
         
         if (fullText && fullText.length > maxLength) {
             // Find the last space before the 255 character limit to avoid breaking words
-            var truncatedText = fullText.substring(0, maxLength);
-            var lastSpaceIndex = truncatedText.lastIndexOf(' ');
+            let truncatedText = fullText.substring(0, maxLength);
+            const lastSpaceIndex = truncatedText.lastIndexOf(' ');
             
             if (lastSpaceIndex > 0) {
                 truncatedText = truncatedText.substring(0, lastSpaceIndex);
@@ -1100,10 +834,10 @@ function initPartnerContentTruncation() {
     $('.read-more-partner').off('click').on('click', function(e) {
         e.preventDefault();
         
-        var $button = $(this);
-        var $partnerContent = $button.closest('.partner-content');
-        var $truncatedContent = $partnerContent.find('.partner-description-truncated');
-        var $fullContent = $partnerContent.find('.partner-description-full');
+        const $button = $(this);
+        const $partnerContent = $button.closest('.partner-content');
+        const $truncatedContent = $partnerContent.find('.partner-description-truncated');
+        const $fullContent = $partnerContent.find('.partner-description-full');
         
         if ($fullContent.is(':visible')) {
             // Currently showing full content, switch to truncated
@@ -1142,10 +876,10 @@ function initNewsCategoryTabs() {
         $(this).addClass('active');
         
         // Get the category ID from data attribute
-        var categoryId = $(this).data('category');
+        const categoryId = $(this).data('category');
         
         // Build the URL
-        var url = '/news';
+        let url = '/news';
         if (categoryId !== 'all') {
             url += '?categoryId=' + categoryId;
         }
@@ -1155,193 +889,13 @@ function initNewsCategoryTabs() {
     });
     
     // Update active state based on current URL parameters
-    var urlParams = new URLSearchParams(window.location.search);
-    var currentCategoryId = urlParams.get('categoryId') || 'all';
+    const urlParams = new URLSearchParams(window.location.search);
+    const currentCategoryId = urlParams.get('categoryId') || 'all';
     
     // Set the correct active tab based on URL
     $('.news-category-tabs .tab-link').removeClass('active');
     $('.news-category-tabs .tab-link[data-category="' + currentCategoryId + '"]').addClass('active');
 }
-
-/**
- * Restructure library cards to match Figma design
- * Reorganizes the card layout and extracts version numbers from titles
- */
-// function restructureLibraryCards() {
-//     $('.library-item').each(function() {
-//         var $card = $(this);
-//         var $row = $card.find('.row');
-//         var $contentCol = $row.find('.col-xs-12.col-md-9');
-//         var $downloadCol = $row.find('.col-xs-12.col-md-3');
-        
-//         // Get elements
-//         var $typeLabel = $contentCol.find('.library-type-label');
-//         var $title = $contentCol.find('h3');
-//         var $body = $contentCol.find('.body');
-//         var $downloadBtn = $downloadCol.find('.btn');
-        
-//         // Extract version number from title (e.g., "D2.2" from "D2.2 Lorem Ipsum...")
-//         var titleText = $title.text();
-//         var versionMatch = titleText.match(/^([A-Z]\d+\.\d+)/);
-//         var versionNumber = '';
-//         var cleanTitle = titleText;
-        
-//         if (versionMatch) {
-//             versionNumber = versionMatch[1].substring(1); // Remove the "D" prefix to get "2.2"
-//             cleanTitle = titleText; // Keep full title for now
-//         }
-        
-//         // Get document type from existing label
-//         var docType = $typeLabel.find('.doc_type').text() || 'Document';
-        
-//         // Clear the row and rebuild structure
-//         $row.empty();
-        
-//         // Create new structure
-//         var newStructure = `
-//             <div class="card-header">
-//                 <div class="card-labels">
-//                     <span class="card-type-label">${docType}</span>
-//                     ${versionNumber ? `<span class="card-version-label">${versionNumber}</span>` : ''}
-//                 </div>
-//             </div>
-//             <div class="card-content">
-//                 <h3 class="card-title">${cleanTitle}</h3>
-//                 <div class="card-details"></div>
-//             </div>
-//             <div class="card-footer">
-//                 <div class="card-download-btn"></div>
-//             </div>
-//         `;
-        
-//         $row.html(newStructure);
-        
-//         // Move body content to card-details
-//         $row.find('.card-details').append($body.html());
-        
-//         // Style status text as green
-//         $row.find('.card-details').find('div').each(function() {
-//             var $div = $(this);
-//             if ($div.find('.text-bold').text().toLowerCase().includes('status')) {
-//                 $div.find('.text-ligth').addClass('status-approved');
-//             }
-//         });
-        
-//         // Move download button to card-footer and make it full width
-//         $downloadBtn.addClass('card-download-full');
-//         $row.find('.card-download-btn').append($downloadBtn);
-//     });
-// }
-
-/**
- * Initialize project materials name display functionality
- * Shows the name of the material in bottom left corner on hover
- */
-// function initProjectMaterialsNameDisplay() {
-//     // Target all project material containers
-//     var materialContainers = $('.logo-container, .flyer-container, .presentation-container, .newsletter-container');
-    
-//     if (!materialContainers.length) {
-//         return; // Exit if no containers found
-//     }
-    
-//     // Enhanced hover functionality for better accessibility and performance
-//     materialContainers.each(function() {
-//         var $container = $(this);
-//         var itemName = $container.data('item-name');
-        
-//         // Only proceed if the container has an item name
-//         if (itemName) {
-//             // Add hover events with improved animation
-//             $container.on('mouseenter.projectMaterials', function() {
-//                 // Ensure the pseudo-element content is ready
-//                 $(this).addClass('name-tooltip-active');
-//             });
-            
-//             $container.on('mouseleave.projectMaterials', function() {
-//                 // Clean up on mouse leave
-//                 $(this).removeClass('name-tooltip-active');
-//             });
-//         }
-//     });
-// }
-
-/**
- * Initialize project materials dropdown functionality
- * Handles dropdown expansion on click instead of hover
- */
-// function initProjectMaterialsDropdowns() {
-//     // Handle dropdown button clicks
-//     $(document).off('click.projectDropdown').on('click.projectDropdown', '.download-dropdown .download-btn-main', function(e) {
-//         e.preventDefault();
-//         e.stopPropagation();
-        
-//         var $dropdown = $(this).closest('.download-dropdown');
-//         var $allDropdowns = $('.download-dropdown');
-//         var $dropdownMenu = $dropdown.find('.dropdown-menu');
-        
-//         // Close all other dropdowns
-//         $allDropdowns.not($dropdown).removeClass('dropdown-open');
-        
-//         // Toggle current dropdown
-//         $dropdown.toggleClass('dropdown-open');
-        
-//         // Ensure dropdown menu has the highest z-index when opened
-//         if ($dropdown.hasClass('dropdown-open')) {
-//             $dropdownMenu.css('z-index', '99999999');
-            
-//             // Position dropdown to avoid overflow
-//             setTimeout(function() {
-//                 var $menu = $dropdown.find('.dropdown-menu');
-//                 var menuOffset = $menu.offset();
-//                 var menuWidth = $menu.outerWidth();
-//                 var menuHeight = $menu.outerHeight();
-//                 var windowWidth = $(window).width();
-//                 var windowHeight = $(window).height();
-                
-//                 // Adjust horizontal position if menu goes off-screen
-//                 if (menuOffset && menuOffset.left + menuWidth > windowWidth) {
-//                     $menu.css({
-//                         'left': 'auto',
-//                         'right': '0',
-//                         'transform': 'none'
-//                     });
-//                 } else if (menuOffset && menuOffset.left < 0) {
-//                     $menu.css({
-//                         'left': '0',
-//                         'right': 'auto',
-//                         'transform': 'none'
-//                     });
-//                 }
-                
-//                 // Adjust vertical position if menu goes off-screen
-//                 if (menuOffset && menuOffset.top + menuHeight > windowHeight) {
-//                     $menu.css('top', 'auto');
-//                     $menu.css('bottom', 'calc(100% + 8px)');
-//                 }
-//             }, 10);
-//         } else {
-//             // Reset z-index when closed
-//             $dropdownMenu.css('z-index', '9999999');
-//         }
-//     });
-    
-//     // Close dropdowns when clicking outside
-//     $(document).off('click.projectDropdownOutside').on('click.projectDropdownOutside', function(e) {
-//         if (!$(e.target).closest('.download-dropdown').length) {
-//             $('.download-dropdown').removeClass('dropdown-open');
-//             $('.download-dropdown .dropdown-menu').css('z-index', '9999999');
-//         }
-//     });
-    
-//     // Handle dropdown item clicks
-//     $(document).off('click.projectDropdownItem').on('click.projectDropdownItem', '.download-dropdown .dropdown-item', function(e) {
-//         // Close dropdown after item is clicked
-//         var $dropdown = $(this).closest('.download-dropdown');
-//         $dropdown.removeClass('dropdown-open');
-//         $dropdown.find('.dropdown-menu').css('z-index', '9999999');
-//     });
-// }
 
 /**
  * Initialize footer dropdown functionality
@@ -1350,8 +904,8 @@ function initNewsCategoryTabs() {
 function initFooterDropdowns() {
     // Mark dropdown items that have submenus
     $('.footer-menu .footer-menu-item').each(function() {
-        var $item = $(this);
-        var $submenu = $item.find('.dropdown-menu');
+        const $item = $(this);
+        const $submenu = $item.find('.dropdown-menu');
         
         if ($submenu.length > 0) {
             $item.addClass('dropdown');
@@ -1363,8 +917,8 @@ function initFooterDropdowns() {
         e.preventDefault();
         e.stopPropagation();
         
-        var $parentItem = $(this).parent();
-        var $dropdownMenu = $parentItem.find('.dropdown-menu');
+        const $parentItem = $(this).parent();
+        const $dropdownMenu = $parentItem.find('.dropdown-menu');
         
         if ($dropdownMenu.length) {
             // Close all other footer dropdowns first
@@ -1408,13 +962,13 @@ function initFooterDropdowns() {
 function initHamburgerMenuDropdowns() {
     // Auto-expand dropdowns that contain the current active page
     function autoExpandActiveDropdowns() {
-        var activeSubItems = $('#headerNavbarNav .dropdown-menu .nav-item.active');
+        const activeSubItems = $('#headerNavbarNav .dropdown-menu .nav-item.active');
         
         activeSubItems.each(function() {
             // Find the parent dropdown
-            var parentDropdown = $(this).closest('.nav-item.dropdown');
+            const parentDropdown = $(this).closest('.nav-item.dropdown');
             if (parentDropdown.length) {
-                var dropdownMenu = parentDropdown.find('.dropdown-menu');
+                const dropdownMenu = parentDropdown.find('.dropdown-menu');
                 
                 // Expand the parent dropdown
                 parentDropdown.addClass('active');
@@ -1429,14 +983,14 @@ function initHamburgerMenuDropdowns() {
     autoExpandActiveDropdowns();
     
     // Handle dropdown menu toggles
-    var dropdownItems = $('#headerNavbarNav .nav-item.dropdown > a');
+    const dropdownItems = $('#headerNavbarNav .nav-item.dropdown > a');
     
     dropdownItems.each(function() {
         $(this).off('click.dropdown').on('click.dropdown', function(e) {
             e.preventDefault();
             
-            var parentItem = $(this).parent();
-            var dropdownMenu = parentItem.find('.dropdown-menu');
+            const parentItem = $(this).parent();
+            const dropdownMenu = parentItem.find('.dropdown-menu');
             
             if (dropdownMenu.length) {
                 // Toggle active state on parent item
@@ -1446,11 +1000,11 @@ function initHamburgerMenuDropdowns() {
                 dropdownMenu.toggleClass('show');
                 
                 // Optional: Close other open dropdowns (accordion behavior)
-                var otherDropdowns = $('#headerNavbarNav .nav-item.dropdown');
+                const otherDropdowns = $('#headerNavbarNav .nav-item.dropdown');
                 otherDropdowns.each(function() {
                     if (this !== parentItem[0]) {
                         $(this).removeClass('active');
-                        var otherMenu = $(this).find('.dropdown-menu');
+                        const otherMenu = $(this).find('.dropdown-menu');
                         if (otherMenu.length) {
                             otherMenu.removeClass('show');
                         }
@@ -1462,10 +1016,10 @@ function initHamburgerMenuDropdowns() {
     
     // Close all dropdowns when menu is closed (but preserve auto-expanded state)
     function closeAllDropdowns() {
-        var activeDropdowns = $('#headerNavbarNav .nav-item.dropdown.active');
+        const activeDropdowns = $('#headerNavbarNav .nav-item.dropdown.active');
         activeDropdowns.each(function() {
             $(this).removeClass('active');
-            var menu = $(this).find('.dropdown-menu');
+            const menu = $(this).find('.dropdown-menu');
             if (menu.length) {
                 menu.removeClass('show');
             }
@@ -1479,21 +1033,21 @@ function initHamburgerMenuDropdowns() {
         }, 100); // Small delay to ensure menu animation completes
     }
     
-    var closeMenuBtn = $('#closeMenuBtn');
+    const closeMenuBtn = $('#closeMenuBtn');
     if (closeMenuBtn.length) {
         closeMenuBtn.off('click.dropdown').on('click.dropdown', closeAllDropdowns);
     }
     
     // Re-expand dropdowns when menu is opened
-    var menuToggleBtn = $('#desktopMenuToggle');
+    const menuToggleBtn = $('#desktopMenuToggle');
     if (menuToggleBtn.length) {
         menuToggleBtn.off('click.dropdown').on('click.dropdown', handleMenuToggle);
     }
     
     // Close dropdowns when clicking outside
     $(document).off('click.dropdownOutside').on('click.dropdownOutside', function(e) {
-        var navbar = $('#headerNavbarNav');
-        var menuToggle = $('#desktopMenuToggle');
+        const navbar = $('#headerNavbarNav');
+        const menuToggle = $('#desktopMenuToggle');
         
         if (navbar.length && !navbar.is(e.target) && navbar.has(e.target).length === 0 && 
             !menuToggle.is(e.target) && menuToggle.has(e.target).length === 0) {

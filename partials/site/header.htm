@@ -28,7 +28,7 @@ function onStart(){
         <div class="desktop-header-elements">
             <div id="google_translate_element"></div>
             <div class="search-container">
-                <a class="btn btn-primary search-btn" id="searchToggle">
+                <a class="btn search-btn" id="searchToggle">
                     <span class="search-icon"></span>
                 </a>
             </div>
@@ -49,15 +49,17 @@ function onStart(){
         
         <div class="navbar-bottom-elements">
             
-            <div class="social-icons">
-                {% if enable_linkedin and linkedin_url %}
-                <a href="{{ linkedin_url }}" class="social-icon linkedin" aria-label="LinkedIn" target="_blank"></a>
+            <div class="social-networks">
+                {% if this.theme.linkedin %}
+                <a href="{{this.theme.linkedin_url}}" class="linkedin" target="_blank" aria-label="LinkedIn"></a>
                 {% endif %}
-                {% if enable_bluesky and bluesky_url %}
-                <a href="{{ bluesky_url }}" class="social-icon bluesky" aria-label="BlueSky" target="_blank"></a>
+
+                {% if this.theme.bluesky %}
+                <a href="{{this.theme.bluesky_url}}" class="bluesky" target="_blank" aria-label="Bluesky"></a>
                 {% endif %}
-                {% if enable_youtube and youtube_url %}
-                <a  href="{{youtube_url}}" target="_blank" class="social-icon pr p-secondary p-youtube normal" target="_blank"></a>
+
+                {% if this.theme.youtube %}
+                <a href="{{this.theme.youtube_url}}" class="youtube" target="_blank" aria-label="YouTube"></a>
                 {% endif %}
             </div>
             

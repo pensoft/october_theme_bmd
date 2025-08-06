@@ -1,168 +1,331 @@
 #layout-footer {
-    // position: relative;
     z-index: 2;
 
-    //a{
-    //  color: @dark-color !important;
-    //}
-
-    .disclaimer{
-        align-items: center;
-        border-top: 1px solid #FFFFFF29;
-        padding-top: 34px;
-        .breakpoint-large-down({
-            padding: 34px 10px 10px 10px;
-        });
-    }
-
-    .container-fluid:has(.container) .container {
-        padding-top: 50px;
-    }
     .container-fluid {
         margin-bottom: 0!important;
 
         &.dark-background {
-            background: @footer-color;
+            background: #091b18; // Exact color from Figma
+            padding: 50px 0 30px 0;
 
-            .link-container {
-
-              .footer-links{
-                padding: 0px 24px 0 0px;
-              }
-            }
-
-            .footer-head {
-              color: @black-color;
-              font-size: 16px;
-
-            }
-
-            .footer-menu {
-                list-style-type: none;
-                padding: 0;
-                margin: 20px 0;
-              .footer-menu-item {
-                font-size: 15px;
-                color: @light-color!important;
-                  padding: 5px 0;
-              }
-
-
-            }
-
-            .funding-text{
-                .container{
-                    padding: 0!important;
-                    p{
-                        margin: 0!important;
-                        color: #B2B2B2;
+            // Top Section: Navigation and Branding
+            .footer-top-section {
+                margin-bottom: 50px;
+                
+                .footer-branding {
+                    .project_footer_logo {
+                        width: 111px;
+                        height: 47px;
+                        margin-bottom: 8px;
                     }
                 }
-                color: #B2B2B2;
-                font-size: 15px;
-                font-weight: 400;
-
-            }
-        }
-    }
-
-    .footer-social-menu-container{
-        padding: 0 0 50px 0;
-        .project_footer_logo{
-            width: 139px;
-            height: 45px;
-        }
-        .col-xs-12{
-            padding: 0;
-        }
-    }
-
-    .footer-right-border{
-        padding: 0;
-    }
-    .funding {
-        padding: 0;
-        img{
-            width: auto;
-            height: auto;
-            max-height: 38px;
-            float: left;
-            margin-right: 10px;
-          .breakpoint-small-down({
-            margin-bottom: 20px;
-          });
-        }
-    }
-    .col-md-10.col-xs-12{
-        padding: 0;
-    }
-
-    .powered-by {
-        background: #161F22;
-        // align-items: center;
-        display: flex;
-        justify-content: center;
-        color: @navbar-color;
-        font-size: 14px !important;
-        padding: 8px 0;
-
-        .pensoft_logo{
-            float: right;
-            margin-top: 4px;
-            margin-left: 5px;
-            margin-bottom: 0px !important;
-            height: 18px;
-            width: 72px;
-        }
-
-        .breakpoint-small-down ({
-            font-size: 12px!important;
-        });
-
-        //a{
-        //   color: @footer-text-color;
-        //}
-    }
-
-    .social-networks{
-        display: flex;
-        align-items: center;
-        .breakpoint-large-down({
-            margin-top: 20px;
-        });
-        a{
-            width: 40px;
-            height: 40px;
-            display: inline-block;
-            margin-left: 4px;
-            border-radius: 50%;
-            position: relative;
-            &.bluesky{
-                background: url("../../assets/images/bluesky - icon.svg") center no-repeat;
-                background-size: contain;
-            }
-            &.linkedin{
-                background: url("../../assets/images/linkedIn - icon.svg") center no-repeat;
-                background-size: contain;
-
-            }
-            &:after{
-                width: 40px;
-                height: 40px;
-                display: inline-block;
-                border-radius: 50%;
-                position: absolute;
-                background: none;
-                content: ' ';
-                top: 0;
-                left: 0;
-            }
-            &:hover{
-                &:after{
-                    background: rgba(255, 255, 255, 0.3);
+                
+                .footer-navigation {
+                    .navbar-nav {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        gap: 20px;
+                        justify-content: space-between;
+                        align-items: center;
+                        margin: 0;
+                        padding: 0;
+                        list-style: none;
+                        width: 100%;
+                        
+                        .nav-item {
+                            white-space: nowrap;
+                            
+                            a {
+                                color: #ffffff !important; // Exact color from Figma
+                                font-size: 22px;
+                                font-weight: 400;
+                                font-family: 'Author', sans-serif;
+                                text-decoration: none;
+                                letter-spacing: -0.44px;
+                                line-height: 30px;
+                                transition: color 0.3s ease;
+                                white-space: nowrap;
+                                display: inline-block;
+                                
+                                &:hover {
+                                    color: rgba(255, 255, 255, 0.8) !important;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 
+            // Middle Section: Newsletter and Funding
+            .footer-middle-section {
+                margin-bottom: 30px;
+                .breakpoint-large-down({
+                    margin-top: 80px;
+                });
+                
+                .newsletter-section {
+                    padding-right: 40px; // Add more spacing between columns
+                    
+                    .newsletter-title {
+                        color: #ffffff; // Exact color from Figma
+                        font-size: 24px;
+                        font-weight: 500;
+                        font-family: 'Author', sans-serif;
+                        margin-bottom: 20px;
+                        letter-spacing: -0.48px;
+                        line-height: 1.2;
+                    }
+                    
+                    .newsletter-form {
+                        .email-input-container {
+                            position: relative;
+                            display: flex;
+                            align-items: center;
+                            background: #0f2f2a; // Exact color from Figma
+                            border-radius: 26px;
+                            padding: 2px 10px;
+                            max-width: 407px;
+                            height: 52px;
+                            
+                            .email-icon {
+                                color: #6c777c;
+                                font-size: 24px;
+                                margin-left: 10px;
+                                margin-right: 10px;
+                                margin-top: 5px;
+                            }
+                            
+                            .email-input {
+                                flex: 1;
+                                background: transparent;
+                                border: none;
+                                color: #74787c; // Exact color from Figma
+                                font-size: 14px;
+                                font-family: 'Author', sans-serif;
+                                padding: 8px 0;
+                                outline: none;
+                                letter-spacing: -0.28px;
+                                line-height: 1.4;
+                                
+                                &::placeholder {
+                                    color: #74787c;
+                                }
+                            }
+                            
+                            .subscribe-btn {
+                                background: #000000; // Exact color from Figma
+                                color: #ffffff;
+                                border: none;
+                                border-radius: 26px;
+                                padding: 8px 20px;
+                                font-size: 15px;
+                                font-weight: 500;
+                                font-family: 'Author', sans-serif;
+                                cursor: pointer;
+                                transition: background-color 0.3s ease;
+                                height: 38px;
+                                width: 113px;
+                                letter-spacing: -0.15px;
+                                
+                                &:hover {
+                                    background: #20A683;
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                .funding-section {
+                    padding-left: 40px; // Add more spacing between columns
+                    
+                    .funding-content {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 20px;
+                        
+                        .funding-logo-text {
+                            display: flex;
+                            align-items: center;
+                            gap: 20px;
+                            
+                            .eu-funding-logo {
+                                height: 120px;
+                                width: auto;
+                                object-fit: contain;
+                                flex-shrink: 0;
+                            }
+                            
+                            .funding-text {
+                                flex: 1;
+                                
+                                .container {
+                                    padding: 0 !important;
+                                    
+                                    p {
+                                        margin: 0 !important;
+                                        color: rgba(185, 185, 185, 0.8); // Exact color from Figma
+                                        font-size: 13px;
+                                        font-weight: 400;
+                                        font-family: Arial, sans-serif;
+                                        line-height: 1.4;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
+
+    // Bottom Section: Legal and Credits
+    .light-background {
+        background: #091B18;
+        
+        .footer-bottom-section {
+            padding: 20px 0;
+            
+            .footer-bottom-content {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                padding-top: 36px;
+                
+                .privacy-link {
+                    a {
+                        color: #ffffff; // Exact color from Figma
+                        font-size: 16px;
+                        font-family: 'Author', sans-serif;
+                        text-decoration: none;
+                        transition: color 0.3s ease;
+                        
+                        &:hover {
+                            color: rgba(255, 255, 255, 0.8);
+                        }
+                    }
+                }
+                
+                .powered-by {
+                    display: flex;
+                    align-items: center;
+                    color: #ffffff; // Exact color from Figma
+                    font-size: 15px !important;
+                    font-family: 'Author', sans-serif;
+                    letter-spacing: -0.3px;
+                    line-height: 1.2;
+                    
+                    .pensoft_logo {
+                        height: 18px;
+                        width: 72px;
+                        margin-left: 5px;
+                        margin-top: 4px;
+                    }
+                    
+                    a {
+                        color: #ffffff;
+                        text-decoration: none;
+                        
+                        &:hover {
+                            opacity: 0.8;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Responsive Design
+    .breakpoint-large-down({
+        .container-fluid.dark-background {
+            .footer-top-section {
+                .footer-navigation {
+                    .navbar-nav {
+                        flex-direction: column;
+                        gap: 15px;
+                        justify-content: center;
+                        text-align: center;
+                        
+                        .nav-item {
+                            white-space: normal;
+                            
+                            a {
+                                white-space: normal;
+                            }
+                        }
+                    }
+                }
+            }
+            
+            .footer-middle-section {
+                .newsletter-section {
+                    margin-bottom: 30px;
+                    padding-right: 0; // Remove padding on mobile
+                    
+                    .newsletter-form {
+                        .email-input-container {
+                            max-width: 100%;
+                        }
+                    }
+                }
+                
+                .funding-section {
+                    padding-left: 0; // Remove padding on mobile
+                    
+                    .funding-content {
+                        flex-direction: column;
+                        gap: 15px;
+                        
+                        .funding-logo-text {
+                            flex-direction: column;
+                            align-items: center;
+                            text-align: center;
+                            gap: 15px;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    .breakpoint-small-down({
+        .container-fluid.dark-background {
+            padding: 30px 0 20px 0;
+            
+            .footer-top-section {
+                margin-bottom: 30px;
+                
+                .footer-branding {
+                    text-align: center;
+                    margin-bottom: 20px;
+                }
+                
+                .footer-navigation {
+                    .navbar-nav {
+                        font-size: 18px;
+                    }
+                }
+            }
+            
+            .footer-middle-section {
+                .newsletter-section {
+                    .newsletter-title {
+                        font-size: 20px;
+                        text-align: center;
+                    }
+                }
+            }
+        }
+        
+        .light-background {
+            .footer-bottom-section {
+                .footer-bottom-content {
+                    flex-direction: column;
+                    gap: 15px;
+                    text-align: center;
+                }
+            }
+        }
+    });
 }
