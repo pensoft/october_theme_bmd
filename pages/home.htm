@@ -10,10 +10,19 @@ robot_follow = "follow"
 <?php
 use Pensoft\Partners\Models\Partners as Partner;
 use Pensoft\Articles\Models\Article as Article;
+use Pensoft\CardProfiles\Models\Profiles as Profile;
 
 function onStart(){
     $this['consortium_partners'] = Partner::where('type', 1)->get();
+    $this['parner_profiles'] = Profile::where('category_id', 1)->get();
     $this['news_highlights'] = Article::where('published', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+    
+    $partnersWithMembers = [];
+    foreach ($this['consortium_partners'] as $partner) {
+        $members = Profile::where('partner_id', $partner->id)->get();
+        $partnersWithMembers[$partner->id] = $members;
+    }
+    $this['partnersWithMembers'] = $partnersWithMembers;
 }
 ?>
 ==
@@ -49,7 +58,7 @@ function onStart(){
         <div class="row">
             {% for c in consortium_partners %}
             <div class="col-md-2 col-sm-3 col-xs-6 partner-logo">
-                <a href="{{c.instituion_url}}" target="_blank">
+                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
                     <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
                 </a>
             </div>
@@ -60,3 +69,6 @@ function onStart(){
         </div>
     </div>
 </section>
+
+<!-- Include Partners Popup -->
+{% partial 'components/partners-popup' partners=consortium_partners partnersWithMembers=partnersWithMembers %}

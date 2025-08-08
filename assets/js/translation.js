@@ -18,6 +18,7 @@ const TRANSLATION_CONFIG = {
 
 const SELECTORS = {
     GOOGLE_TRANSLATE_ELEMENT: '#google_translate_element',
+    GOOGLE_TRANSLATE_ELEMENT_MOBILE: '#google_translate_element_mobile',
     GOOGLE_TRANSLATE_HIDDEN: '#google_translate_element_hidden',
     LANGUAGE_SWITCHER: '#language-switcher',
     GOOGLE_TRANSLATE_COMBO: '.goog-te-combo',
@@ -102,7 +103,7 @@ class TranslationManager {
         style.textContent = `
             ${SELECTORS.GOOGLE_TRANSLATE_BANNER} { display: none !important; }
             body { top: 0 !important; position: static !important; }
-            ${SELECTORS.GOOGLE_TRANSLATE_GADGET} { height: 0 !important; }
+            ${SELECTORS.GOOGLE_TRANSLATE_GADGET} { height: 0 !important; overflow: hidden !important; font-size: 0 !important; }
         `;
         document.head.appendChild(style);
 
@@ -164,7 +165,12 @@ class TranslationManager {
             this.createLanguageSwitcher(SELECTORS.GOOGLE_TRANSLATE_ELEMENT);
         }
         
-
+        // Initialize mobile language switcher
+        if ($(SELECTORS.GOOGLE_TRANSLATE_ELEMENT_MOBILE).length &&
+            $(SELECTORS.GOOGLE_TRANSLATE_ELEMENT_MOBILE + ' ' + SELECTORS.LANGUAGE_SWITCHER).length === 0) {
+            this.createLanguageSwitcher(SELECTORS.GOOGLE_TRANSLATE_ELEMENT_MOBILE);
+        }
+        
         
         this.applyStoredLanguagePreference();
     }
@@ -310,13 +316,14 @@ class TranslationManager {
      * Synchronize language dropdown
      */
     synchronizeLanguageDropdowns(languageInfo) {
-        // Update the language dropdown on the page
-        const allDropdowns = $(SELECTORS.GOOGLE_TRANSLATE_ELEMENT + ' ' + SELECTORS.LANGUAGE_SWITCHER);
-        
+        // Update both desktop and mobile language dropdowns on the page
+        const selector = `${SELECTORS.GOOGLE_TRANSLATE_ELEMENT} ${SELECTORS.LANGUAGE_SWITCHER}, ${SELECTORS.GOOGLE_TRANSLATE_ELEMENT_MOBILE} ${SELECTORS.LANGUAGE_SWITCHER}`;
+        const allDropdowns = $(selector);
+
         allDropdowns.each(function() {
             const $dropdown = $(this);
             $dropdown.find('.language-text').text(languageInfo.code.toUpperCase());
-            
+
             // Update selected option styling
             $dropdown.find('.language-option').removeClass('selected');
             $dropdown.find(`.language-option[data-lang-code="${languageInfo.code}"]`).addClass('selected');

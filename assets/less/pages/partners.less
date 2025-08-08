@@ -374,5 +374,480 @@
 //   }
 // }
 
+// Partners Popup Styles - Based on Figma Design
+.partners-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.38);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto; // allow scroll on mobile when body locked
+    -webkit-overflow-scrolling: touch;
+}
 
+.partners-popup-container {
+    position: relative;
+    width: 1115px;
+    height: 510px;
+    background: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    animation: popupFadeIn 0.3s ease-out;
+    
+    @media (max-width: 1200px) {
+        width: 90vw;
+        height: auto;
+        max-height: 90vh;
+    }
+    
+    @media (max-width: 768px) {
+        width: 95vw;
+        height: auto;
+        flex-direction: column;
+    }
+}
 
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+// Close Button
+.partners-popup-close {
+    position: absolute;
+    top: 11px;
+    right: 11px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+    
+    svg {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+// Loading State
+.partners-popup-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #666;
+    z-index: 5;
+    
+    .loading-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #20A683;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+    }
+    
+    p {
+        margin: 0;
+        font-size: 16px;
+        font-family: 'Author', sans-serif;
+    }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+// Popup Data Container
+.partners-popup-data {
+    width: 100%;
+    height: 100%;
+    
+    .row {
+        height: 100%;
+        margin: 0;
+    }
+}
+
+// Left Side - Background Image
+.partners-popup-left {
+    position: relative;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+    overflow: hidden;
+    
+    @media (max-width: 768px) {
+        height: 200px;
+        border-radius: 10px 10px 0 0;
+    }
+}
+
+.partners-popup-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.partners-popup-overlay-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(20, 47, 43, 0) 0%, rgba(20, 47, 43, 0.81) 100%);
+}
+
+.partners-popup-partner-info {
+    position: absolute;
+    left: 0;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+    padding: 0 20px;
+    color: #ffffff;
+    text-align: center;
+
+    h2 {
+        font-family: 'Author', sans-serif;
+        font-weight: 500;
+        font-size: 22px;
+        line-height: 1.2;
+        margin: 0 0 20px 0;
+        letter-spacing: -0.44px;
+        color: #fff;
+    }
+    
+    @media (max-width: 768px) {
+        bottom: 15px;
+        padding: 0 15px;
+        h2 {
+            font-size: 18px;
+        }
+    }
+}
+
+// Improve readability on small screens by darkening the image and adding a soft panel behind text
+@media (max-width: 768px) {
+    .partners-popup-overlay-gradient {
+        background: linear-gradient(180deg, rgba(20, 47, 43, 0.35) 0%, rgba(20, 47, 43, 0.95) 100%);
+    }
+
+    .partners-popup-partner-info {
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 10px 12px;
+        border-radius: 0;
+        background: rgba(15, 47, 42, 0.6);
+        -webkit-backdrop-filter: blur(2px);
+        backdrop-filter: blur(2px);
+        h2 { text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+    }
+
+    .partners-popup-website-btn {
+        box-shadow: 0 6px 16px rgba(32,166,131,0.5);
+    }
+
+    // Let overlay scroll instead of inner right column
+    .partners-popup-right {
+        overflow: visible;
+        height: auto;
+        padding: 15px !important;
+    }
+    .partners-popup-data .row { height: auto; }
+}
+
+.partners-popup-website-btn {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    background: #20A683;
+    color: #ffffff;
+    padding: 14px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-family: 'Author', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 20px;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 6px 16px rgba(32, 166, 131, 0.35);
+    border: none;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    &:hover {
+        background: #1a8f6f;
+        color: #ffffff;
+        text-decoration: none;
+    }
+    
+    span {
+        white-space: nowrap;
+    }
+    
+    svg {
+        width: 12px;
+        height: 12px;
+        flex-shrink: 0;
+    }
+}
+
+// Right Side - Content
+.partners-popup-right {
+    padding: 30px !important;
+    overflow-y: auto;
+    overflow-x: hidden; // prevent bottom scrollbar
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .breakpoint-large-down({
+        padding: 10px !important;
+    });
+    // neutralize bootstrap row negative margins inside the popup
+    .row { margin-left: 0; margin-right: 0; }
+}
+
+// About Section
+.partners-popup-about {
+    margin-bottom: 40px;
+    
+    h3 {
+        font-family: 'Author', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 19px;
+        color: #0F2F2A;
+        margin: 0 0 20px 0;
+        letter-spacing: -0.4px;
+    }
+}
+
+.partners-popup-description {
+    font-family: 'Author', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #6B7280;
+    margin-bottom: 15px;
+    letter-spacing: -0.32px;
+    
+    p {
+        margin: 0 0 10px 0;
+        
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.partners-popup-read-more {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+    
+    span {
+        font-family: 'Author', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        color: #20A683;
+        letter-spacing: -0.42px;
+    }
+    
+    svg { width: 10px; height: 6px; flex-shrink: 0; transition: transform 0.2s ease; transform: rotate(0deg); }
+}
+
+// Members Section
+.partners-popup-members {
+    h3 {
+        font-family: 'Author', sans-serif;
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 19px;
+        color: #0F2F2A;
+        margin: 0 0 20px 0;
+        letter-spacing: -0.4px;
+    }
+
+    // allow full content; let the right panel handle scrolling
+    .row {
+        max-height: none;
+        overflow: visible;
+        margin-right: 0;
+        padding-right: 0;
+    }
+}
+
+// removed empty .partners-popup-members-list ruleset
+
+.partners-popup-member-item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 12px;
+    background: #F7F9F9;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease;
+    &:hover { background: #F3F6F6; }
+
+    .member-row { display: flex; align-items: center; gap: 15px; }
+
+    .member-avatar {
+        width: 81px;
+        height: 67px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .member-placeholder {
+            width: 100%;
+            height: 100%;
+            background: #E5E7EB;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            svg {
+                width: 24px;
+                height: 24px;
+                color: #9CA3AF;
+            }
+        }
+    }
+    
+    .member-info {
+        flex: 1;
+        
+        .member-name {
+            font-family: 'Author', sans-serif;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 1.2;
+            color: #0F2F2A;
+            margin: 0 0 5px 0;
+            letter-spacing: -0.16px;
+        }
+    }
+    
+    .member-biography {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        cursor: pointer;
+        transition: opacity 0.2s ease;
+        
+        &:hover {
+            opacity: 0.7;
+        }
+        
+        span {
+            font-family: 'Author', sans-serif;
+            font-weight: 600;
+            font-size: 16px;
+            color: #20A683;
+            letter-spacing: -0.42px;
+        }
+        
+        svg { width: 10px; height: 6px; flex-shrink: 0; transition: transform 0.2s ease; transform: rotate(0deg); }
+    }
+    // Default chevron is down (0deg). Rotate on expand for feedback
+    &[aria-expanded="true"] .member-biography .chevron { transform: rotate(180deg); }
+}   
+
+.member-details {
+    width: 100%;
+    color: #4B5563;
+    padding: 0; // equal inner spacing handled by content box
+    font-family: 'Author', sans-serif;
+    line-height: 1.5;
+    
+    .member-details-content {
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 12px 16px; // equal left & right spacing inside the box
+    }
+}
+
+// About read-more arrow rotation when expanded
+.partners-popup-read-more.expanded svg { transform: rotate(180deg); }
+
+// Body class when popup is open
+body.popup-open {
+    overflow: hidden;
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+    .partners-popup-container {
+        margin: 10px;
+        max-height: 95vh;
+    }
+    
+    .partners-popup-left {
+        height: 150px;
+    }
+    
+    .partners-popup-partner-info h2 {
+        font-size: 16px;
+    }
+    
+    .partners-popup-right {
+        padding: 15px;
+    }
+    
+    .partners-popup-about h3,
+    .partners-popup-members h3 {
+        font-size: 18px;
+    }
+}

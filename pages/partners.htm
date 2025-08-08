@@ -8,9 +8,18 @@ robot_follow = "follow"
 ==
 <?php
 use Pensoft\Partners\Models\Partners;
+use Pensoft\CardProfiles\Models\Profiles;
 
 function onStart(){
-	$this['partners'] =  Partners::where('type', 1)->get();
+	$this['partners'] = Partners::where('type', 1)->get();
+	
+	// Get all partners with their members for popup data
+	$partnersWithMembers = [];
+	foreach ($this['partners'] as $partner) {
+		$members = Profiles::where('partner_id', $partner->id)->get();
+		$partnersWithMembers[$partner->id] = $members;
+	}
+	$this['partnersWithMembers'] = $partnersWithMembers;
 }
 ?>
 ==
@@ -48,3 +57,6 @@ function onStart(){
     </div>
     {% endfor %}
 </div>
+
+<!-- Include Partners Popup -->
+{% partial 'components/partners-popup' partners=partners partnersWithMembers=partnersWithMembers %}
