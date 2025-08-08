@@ -1,291 +1,206 @@
-// Update width on window resize
+/* eslint-env browser, jquery */
+'use strict';
+
+// Track viewport width across the app
 let width = window.innerWidth;
-$(window).resize(function() {
+$(window).on('resize.app', function() {
     width = window.innerWidth;
 });
 
-const documentHasScroll = function() {
-    return window.innerHeight <= document.body.offsetHeight;
-};
+$(function() {
+    initPageStructureEnhancements();
+    initIntroItemsClicks();
+    initTabs();
+    initAccordion();
+    initPartnerContentTruncation();
+    initPartnersColumnWrapping();
+    initNewsCategoryTabs();
+    initLanguageButtons();
+    initHamburgerMenuDropdowns();
+    initFooterDropdowns();
+    initBackToTop();
+    initPartnersPopup();
+    initSearchToggles();
+    initDesktopMenuToggle();
+    initDesktopDropdownToggle();
+    applyExternalLinkBehavior();
+    sanitizeNavDropdowns();
+    $('nav').removeClass('no-transition');
+    initSmoothAnchorScroll();
+    $('.see_all_partners_link').hide();
+    initTimelineWidth();
+    initDorsalToggle();
+    initLibraryLayout();
+    initPartnersListColumnWrapping();
+    initHeroCarousel();
+    initNavbarScrollState();
+    initNavbarScrollHandler();
+});
 
-// Function to show the search form
-function showSearchForm() {
-    // Simple fade in with a pop effect
-    $('#search').fadeIn(200);
-    $('#search form').addClass('pop-in');
-    
-    // Clear any previous search text and focus the input
-    $('#search input.search_input').val('').focus();
-    
-    $('body').addClass('search-open');
-    
-    // Prevent scrolling when search is open
-    $('body').css('overflow', 'hidden');
-    
-    // Add event listener to close search when clicking outside
-    $(document).on('click.searchClose', function(event) {
-        const $search = $('#search form');
-        const $searchToggle = $('#searchToggle');
-        
-        // If click is outside search container and not on search button
-        if (!$search.is(event.target) && 
-            $search.has(event.target).length === 0 && 
-            !$searchToggle.is(event.target) && 
-            $searchToggle.has(event.target).length === 0 &&
-            !$(event.target).closest('.close-search').length) {
-            hideSearchForm();
-        }
-    });
-    
-    // Add escape key handler
-    $(document).on('keydown.searchEscape', function(e) {
-        if (e.key === 'Escape') {
-            hideSearchForm();
-        }
-    });
-    
-    // Add enter key handler to submit the form
-    $('#search input.search_input').on('keydown.searchSubmit', function(e) {
-        if (e.key === 'Enter') {
-            $('#search form').submit();
-        }
-    });
+// ---------- Initializers ----------
+function initPageStructureEnhancements() {
+    $('.navbar-nav').attr('id', 'menu');
+    $('<div class="calendar-top"></div>').insertBefore('#calendar');
+    $('<div class="card-profile-top"></div>').insertBefore('.card.profile.card-profile');
+    const $divs = $('.card-profiles > div');
+    for (let i = 0; i < $divs.length; i += 2) {
+        $divs.slice(i, i + 2).wrapAll('<div class="col-xs" />');
+    }
 }
 
-// Function to hide the search form
-function hideSearchForm() {
-    // Simple fade out
-    $('#search form').removeClass('pop-in');
-    $('#search').fadeOut(200);
-    
-    $('body').removeClass('search-open');
-    
-    // Restore scrolling
-    $('body').css('overflow', '');
-    
-    // Remove the document event listeners
-    $(document).off('click.searchClose');
-    $(document).off('keydown.searchEscape');
-    $('#search input.search_input').off('keydown.searchSubmit');
-}
-
-$(document).ready(function() {
-    // $("nav").removeClass("no-transition");
-	/* MENU */
-	$('.navbar-nav').attr('id', 'menu'); // please don't remove this line
-	$( '<div class="calendar-top"></div>' ).insertBefore( "#calendar" );
-	$( '<div class="card-profile-top"></div>' ).insertBefore( ".card.profile.card-profile" );
-	const divs = $(".card-profiles > div");
-	for(let i = 0; i < divs.length; i+=2) {
-		divs.slice(i, i+2).wrapAll( '<div class="col-xs" />');
-	}
-
-    // Make intro-items clickable
+function initIntroItemsClicks() {
     $('.intro-item').on('click', function() {
         const href = $(this).data('href');
         if (href) {
             window.location.href = href;
         }
     });
+}
 
-    // Initialize tab functionality
-    initTabs();
-    
-    // Initialize accordion functionality
-    initAccordion();
-    
-    // Initialize partner content truncation
-    initPartnerContentTruncation();
-    
-    // Initialize partner layout wrapping for larger screens
-    if(width >= 1024 && $('#partners .key_0').length){
-        // First column: items 0, 2, 4, 6, etc. (even numbers)
-        $('#partners .key_0, #partners .key_2, #partners .key_4, #partners .key_6, #partners .key_8, #partners .key_10, #partners .key_12, #partners .key_14, #partners .key_16, #partners .key_18').wrapAll('<div class="col-md-6 col-xs-12" />');
-        
-        // Second column: items 1, 3, 5, 7, etc. (odd numbers)
-        $('#partners .key_1, #partners .key_3, #partners .key_5, #partners .key_7, #partners .key_9, #partners .key_11, #partners .key_13, #partners .key_15, #partners .key_17, #partners .key_19').wrapAll('<div class="col-md-6 col-xs-12" />');
-    }
-    
-    // Initialize news category tabs
-    initNewsCategoryTabs();
-    
-    // Language toggle functionality
+function initLanguageButtons() {
     $('.language-btn').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
     });
+}
 
-    // Initialize hamburger menu dropdown functionality
-    initHamburgerMenuDropdowns();
-    
-    // Initialize footer dropdown functionality
-    initFooterDropdowns();
-    
-    // Initialize back to top functionality
-    initBackToTop();
-    
-    // Search button functionality for both desktop and mobile
+function initSearchToggles() {
     $('#searchToggle, #searchToggleMobile').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         showSearchForm();
     });
+}
 
-    // Prevent clicks on bottom elements from closing the menu
-    $('.navbar-bottom-elements').on('click', function(e) {
-        e.stopPropagation();
-    });
+function initDesktopMenuToggle() {
+    const $navbarNav = $('#headerNavbarNav');
+    const $desktopToggle = $('#desktopMenuToggle');
+    const $closeBtn = $('#closeMenuBtn');
 
-    // Handle dropdown menu items
-    $('.nav-item').children("a").each(function(){
-        if($(this).attr('data-toggle') == 'dropdown'){
-            $(this).removeAttr('data-toggle');
-            $(this).on('click', function(e) {
-                e.preventDefault();
-                $(this).siblings('.dropdown-menu').toggleClass('show');
-            });
-        }
-    });
-
-    $("nav").removeClass("no-transition");
-
-    // Menu toggle functionality
-    $('#desktopMenuToggle').on('click', function(e) {
+    $desktopToggle.on('click.desktopMenu', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
-        // Open the menu
-        $('#headerNavbarNav').addClass('show').css({
-            'right': '0',
-            'opacity': '1',
-            'visibility': 'visible'
+        $navbarNav.addClass('show').css({
+            right: '0',
+            opacity: '1',
+            visibility: 'visible'
         });
-        
-        // Hide the toggle button
-        $(this).hide();
-        
+        $desktopToggle.hide();
         $('body').addClass('menu-open');
     });
-    
-    // Close menu button functionality
-    $('#closeMenuBtn').on('click', function(e) {
+
+    $closeBtn.on('click.desktopMenu', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
-        // Close the menu
-        $('#headerNavbarNav').removeClass('show').css({
-            'right': '-300px',
-            'opacity': '0',
-            'visibility': 'hidden'
+        $navbarNav.removeClass('show').css({
+            right: '-300px',
+            opacity: '0',
+            visibility: 'hidden'
         });
-        
-        // Show the toggle button again
-        $('#desktopMenuToggle').show();
-        
+        $desktopToggle.show();
         $('body').removeClass('menu-open');
     });
 
-    // Close menu when clicking outside
-    $(document).click(function(event) {
-        const $navbarNav = $('#headerNavbarNav');
-        const $desktopToggle = $('#desktopMenuToggle');
-        const $closeBtn = $('#closeMenuBtn');
-        
-        // If navbar is visible and click is outside navbar and toggle buttons
-        if ($navbarNav.hasClass('show') && 
-            !$navbarNav.is(event.target) && 
-            $navbarNav.has(event.target).length === 0 && 
-            !$desktopToggle.is(event.target) && 
+    $(document).on('click.desktopMenuOutside', function(event) {
+        if (
+            $navbarNav.hasClass('show') &&
+            !$navbarNav.is(event.target) &&
+            $navbarNav.has(event.target).length === 0 &&
+            !$desktopToggle.is(event.target) &&
             $desktopToggle.has(event.target).length === 0 &&
             !$closeBtn.is(event.target) &&
-            $closeBtn.has(event.target).length === 0) {
-            
+            $closeBtn.has(event.target).length === 0
+        ) {
             $navbarNav.removeClass('show').css({
-                'right': '-300px',
-                'opacity': '0',
-                'visibility': 'hidden'
+                right: '-300px',
+                opacity: '0',
+                visibility: 'hidden'
             });
-            
-            // Show the toggle button again
-            $('#desktopMenuToggle').show();
-            
+            $desktopToggle.show();
             $('body').removeClass('menu-open');
         }
     });
 
-    // Prevent clicks on the menu from closing it
-    $('#headerNavbarNav').on('click', function(e) {
-        e.stopPropagation();
-    });
+    // Prevent clicks on the menu and bottom elements from closing it
+    $navbarNav.on('click.desktopMenu', function(e) { e.stopPropagation(); });
+    $('.navbar-bottom-elements').on('click.desktopMenu', function(e) { e.stopPropagation(); });
+}
 
-    // Close dropdown menus when parent menu item is clicked again
-    $('.nav-item.dropdown > a').on('click', function(e) {
+function initDesktopDropdownToggle() {
+    $('.nav-item.dropdown > a').on('click.desktopDropdown', function(e) {
         e.preventDefault();
         const $dropdownMenu = $(this).siblings('.dropdown-menu');
-        
         if ($dropdownMenu.hasClass('show')) {
             $dropdownMenu.removeClass('show');
         } else {
-            // Close all other open dropdowns first
             $('.dropdown-menu.show').removeClass('show');
             $dropdownMenu.addClass('show');
         }
     });
+}
 
-    $('.work_packages .accordion-content, .messages .accordion-toggle').each(function( index, value ) {
-        $(value).find('a').attr( "onclick", "window.open(this.href, '_blank');" )
+function applyExternalLinkBehavior() {
+    $('.work_packages .accordion-content, .messages .accordion-toggle').each(function(index, value) {
+        $(value).find('a').attr('onclick', "window.open(this.href, '_blank');");
     });
+}
 
-    $('.nav-item').children("a").each(function(){
-        if($(this).attr('data-toggle') == 'dropdown'){
-            $(this).removeAttr('data-toggle')
+function sanitizeNavDropdowns() {
+    $('.nav-item').children('a').each(function() {
+        const $link = $(this);
+        if ($link.attr('data-toggle') === 'dropdown') {
+            $link
+                .removeAttr('data-toggle')
+                .off('click.navSanitize')
+                .on('click.navSanitize', function(e) {
+                    e.preventDefault();
+                    $(this).siblings('.dropdown-menu').toggleClass('show');
+                });
         }
     });
+}
 
-    $("nav").removeClass("no-transition");
-
+function initSmoothAnchorScroll() {
     if (window.location.hash) {
         const link = window.location.hash;
-        const anchorId = link.substr(link.indexOf("#") + 1);
-        if($("#"+anchorId).offset()){
+        const anchorId = link.substr(link.indexOf('#') + 1);
+        if ($('#' + anchorId).offset()) {
             $('html, body').animate({
-                scrollTop: $("#"+anchorId).offset().top - 150
+                scrollTop: $('#' + anchorId).offset().top - 150
             }, 500);
-        }else{
-            $('.accordion-border').each(function(){
-                const title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
-                const toggler = $(this).find(".accordion-toggle");
-                if ( title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next(".accordion-content").is(':visible') ){
+        } else {
+            $('.accordion-border').each(function() {
+                const title = $(this).find('.accordion-toggle .col-xs.start-xs').text().toUpperCase();
+                const toggler = $(this).find('.accordion-toggle');
+                if (title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next('.accordion-content').is(':visible')) {
                     $('html, body').animate({
                         scrollTop: toggler.parent().offset().top - 150
                     }, 500);
-                    toggler.trigger( "click" );
+                    toggler.trigger('click');
                 }
             });
         }
     }
 
-    $('.dropdown a').click(function(event) {
-
-        if (location.href.indexOf("#") != -1) {
+    $('.dropdown a').on('click.anchor', function(event) {
+        if (location.href.indexOf('#') !== -1) {
             const link = $(this).attr('href');
-            const anchorId = link.substr(link.indexOf("#") + 1);
-            if($("#"+anchorId).length>0){
+            const anchorId = link.substr(link.indexOf('#') + 1);
+            if ($('#' + anchorId).length > 0) {
                 $('html, body').animate({
-                    scrollTop: $("#"+anchorId).offset().top - 150
+                    scrollTop: $('#' + anchorId).offset().top - 150
                 }, 500);
-            }else{
-                // event.preventDefault();
-                $("g[title='"+anchorId.toUpperCase()+"']").addClass('active_path');
+            } else {
+                $("g[title='" + anchorId.toUpperCase() + "']").addClass('active_path');
 
-                $('.accordion-border').each(function(){
-                    const title = $(this).find(".accordion-toggle .col-xs.start-xs").text().toUpperCase();
-                    const toggler = $(this).find(".accordion-toggle");
-                    if ( title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next(".accordion-content").is(':visible') ){
+                $('.accordion-border').each(function() {
+                    const title = $(this).find('.accordion-toggle .col-xs.start-xs').text().toUpperCase();
+                    const toggler = $(this).find('.accordion-toggle');
+                    if (title.indexOf(anchorId.toUpperCase()) >= 0 && !toggler.next('.accordion-content').is(':visible')) {
                         $('html, body').animate({
                             scrollTop: toggler.parent().offset().top - 150
                         }, 500);
-                        toggler.trigger( "click" );
+                        toggler.trigger('click');
                         event.preventDefault();
                     }
                 });
@@ -294,18 +209,19 @@ $(document).ready(function() {
     });
 
     onHashChange();
-	$(window).on("hashchange", function() {
-		onHashChange();
-	});
-
-	$('.see_all_partners_link').hide();
-
-    $(".timeline_container.left .blue_line").width(function() {
-        return (innerWidth - $('.container').width())/2;
+    $(window).on('hashchange', function() {
+        onHashChange();
     });
+}
 
+function initTimelineWidth() {
+    $('.timeline_container.left .blue_line').width(function() {
+        return (innerWidth - $('.container').width()) / 2;
+    });
+}
 
-    $('.dorsal').click(function () {
+function initDorsalToggle() {
+    $('.dorsal').on('click', function() {
         const link = $(this);
         const parag = link.parent().parent().find('p').first();
         const partner_desc = link.parent().parent().find('.partner_description').first();
@@ -315,9 +231,7 @@ $(document).ready(function() {
                 parag.slideDown(300);
             } else {
                 link.text('Read more');
-                // parag.slideUp(300);
             }
-
         });
         partner_desc.toggleClass('expand', function() {
             if (parag.hasClass('expand')) {
@@ -325,27 +239,33 @@ $(document).ready(function() {
                 parag.slideDown(300);
             } else {
                 link.text('Read more');
-                // parag.slideUp(300);
             }
-
         });
-
     });
+}
 
+function initLibraryLayout() {
     $('.library .form-wrapper, .library-items').wrapAll('<div class="container-fluid bg-secondary"><div class="container"></div></div>');
     $('.library .tabs').wrapAll('<div class="container"></div>');
     $('.library_content .row.center-xs.mb-1').wrapAll('<div class="container_relative"></div>');
-    
-    // Restructure library cards to match Figma design
-    // restructureLibraryCards();
+}
 
-    if(width > 1024){
+function initPartnersColumnWrapping() {
+    if (width >= 1024 && $('#partners .key_0').length) {
+        $('#partners .key_0, #partners .key_2, #partners .key_4, #partners .key_6, #partners .key_8, #partners .key_10, #partners .key_12, #partners .key_14, #partners .key_16, #partners .key_18').wrapAll('<div class="col-md-6 col-xs-12" />');
+        $('#partners .key_1, #partners .key_3, #partners .key_5, #partners .key_7, #partners .key_9, #partners .key_11, #partners .key_13, #partners .key_15, #partners .key_17, #partners .key_19').wrapAll('<div class="col-md-6 col-xs-12" />');
+    }
+}
+
+function initPartnersListColumnWrapping() {
+    if (width > 1024) {
         $('.partners_list .key_0, .partners_list .key_2, .partners_list .key_4, .partners_list .key_6, .partners_list .key_8, .partners_list .key_10, .partners_list .key_12, .partners_list .key_14, .partners_list .key_16, .partners_list .key_18').wrapAll('<div class="col-md-6 col-xs-12"></div>');
         $('.partners_list .key_1, .partners_list .key_3, .partners_list .key_5, .partners_list .key_7, .partners_list .key_9, .partners_list .key_11, .partners_list .key_13, .partners_list .key_15, .partners_list .key_17, .partners_list .key_19').wrapAll('<div class="col-md-6 col-xs-12"></div>');
     }
+}
 
-    // Carousel slick for hero carousel
-    if($('#hero-carousel').length){
+function initHeroCarousel() {
+    if ($('#hero-carousel').length) {
         $('#hero-carousel').slick({
             autoplay: true,
             autoplaySpeed: 3000,
@@ -367,69 +287,37 @@ $(document).ready(function() {
             swipeToSlide: true,
             touchThreshold: 10,
             responsive: [
-                {
-                    breakpoint: 1400,
-                    settings: {
-                        slidesToShow: 3,
-                        centerPadding: '12%'
-                    }
-                },
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 3,
-                        centerPadding: '10%'
-                    }
-                },
-                {
-                    breakpoint: 768,
-                    settings: {
-                        slidesToShow: 1,
-                        centerPadding: '25%'
-                    }
-                },
-                {
-                    breakpoint: 480,
-                    settings: {
-                        slidesToShow: 1,
-                        centerPadding: '20%'
-                    }
-                }
+                { breakpoint: 1400, settings: { slidesToShow: 3, centerPadding: '12%' } },
+                { breakpoint: 1200, settings: { slidesToShow: 3, centerPadding: '10%' } },
+                { breakpoint: 768, settings: { slidesToShow: 1, centerPadding: '25%' } },
+                { breakpoint: 480, settings: { slidesToShow: 1, centerPadding: '20%' } }
             ]
         });
-        
-        // Remove any inline styles that might cause white backgrounds
+        // Ensure transparent backgrounds
         $('#hero-carousel .slick-slide').each(function() {
             $(this).css('background', 'transparent');
             $(this).find('div').css('background', 'transparent');
         });
     }
-    
-    // Initialize navbar scroll state on page load
-    initNavbarScrollState();
-    
-    // Hide header navbar on scroll for desktop only
-    let lastScrollTop = 0;
+}
+
+function initNavbarScrollHandler() {
     const $headerNavbar = $('#headernavbar');
     const $backToTop = $('.back-to-top');
     let hasShownBackToTop = false;
-    
-    $(window).scroll(function() {
+
+    $(window).on('scroll.navbar', function() {
         const currentScrollTop = $(this).scrollTop();
         const windowHeight = $(window).height();
         const documentHeight = $(document).height();
         const scrollPercent = currentScrollTop / (documentHeight - windowHeight);
-        
-        // Apply consistent colored background behavior for all devices
+
         if (currentScrollTop > 80) {
-            // Add colored background to navbar when scrolled
             $headerNavbar.addClass('navbar-scrolled');
         } else {
-            // Remove colored background when at top
             $headerNavbar.removeClass('navbar-scrolled');
         }
-        
-        // Show back-to-top button after significant scroll (all devices)
+
         if (currentScrollTop > 300) {
             if (!$backToTop.hasClass('show')) {
                 $backToTop.addClass('show');
@@ -444,13 +332,10 @@ $(document).ready(function() {
         } else {
             $backToTop.removeClass('show');
         }
-        
-        // Update progress ring based on scroll percentage
+
         updateScrollProgress(scrollPercent);
-        
-        lastScrollTop = currentScrollTop;
     });
-});
+}
 
 function type(i, t, ie, oe) {
     input = document.getElementById(ie).innerHTML;
@@ -1054,4 +939,235 @@ function initHamburgerMenuDropdowns() {
             closeAllDropdowns();
         }
     });
+}
+
+/**
+ * Initialize partners popup functionality
+ * Handles opening/closing popup and loading partner data via AJAX
+ */
+function initPartnersPopup() {
+    // Handle partner logo clicks
+    $(document).on('click', '.partner-trigger', function(e) {
+        e.preventDefault();
+        
+        const partnerId = $(this).data('partner-id');
+        
+        if (!partnerId) {
+            console.error('Partner ID not found');
+            return;
+        }
+        
+        openPartnersPopup(partnerId);
+    });
+    
+    // Handle popup close button
+    $('#partnersPopupClose').on('click', function(e) {
+        e.preventDefault();
+        closePartnersPopup();
+    });
+    
+    // Handle clicking outside popup to close
+    $('#partnersPopup').on('click', function(e) {
+        if (e.target === this) {
+            closePartnersPopup();
+        }
+    });
+    
+    // Handle escape key to close popup
+    $(document).on('keydown.partnersPopup', function(e) {
+        if (e.key === 'Escape' && $('#partnersPopup').is(':visible')) {
+            closePartnersPopup();
+        }
+    });
+
+    // Member item accordion behaviour (delegated) - simple, no fancy animation
+    $(document).on('click', '.partners-popup-member-item', function(e) {
+        const $item = $(this);
+        const $container = $item.closest('.partners-popup-members');
+        const $details = $item.find('.member-details');
+
+        // Close others in same popup (no animation for snappier feel)
+        $container.find('.member-details').not($details).hide();
+        $container.find('.partners-popup-member-item').not($item).attr('aria-expanded', 'false');
+
+        // Toggle current
+        const isOpen = $details.is(':visible');
+        $details.toggle();
+        $item.attr('aria-expanded', isOpen ? 'false' : 'true');
+        // Let CSS handle chevron rotation based on aria-expanded; clear any inline override
+        $item.find('.member-biography .chevron').css('transform', '');
+    });
+
+    // Keyboard accessibility for member accordion
+    $(document).on('keydown', '.partners-popup-member-item', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            $(this).click();
+        }
+    });
+
+    // About read more toggle (delegated) - simple show/hide
+    $(document).on('click keydown', '.partners-popup-read-more', function(e) {
+        if (e.type === 'keydown' && !(e.key === 'Enter' || e.key === ' ')) return;
+        e.preventDefault();
+        const $btn = $(this);
+        const $popupData = $btn.closest('.partners-popup-data');
+        const $desc = $popupData.find('.partners-popup-description');
+        const $truncated = $desc.find('.about-text-truncated');
+        const $full = $desc.find('.about-text-full');
+        if ($full.is(':visible')) {
+            $full.hide();
+            $truncated.show();
+            $btn.find('span').text('Read more');
+            $btn.removeClass('expanded');
+        } else {
+            $truncated.hide();
+            $full.show();
+            $btn.find('span').text('Read less');
+            $btn.addClass('expanded');
+        }
+    });
+}
+
+const documentHasScroll = function() {
+    return window.innerHeight <= document.body.offsetHeight;
+};
+
+// Function to show the search form
+function showSearchForm() {
+    // Simple fade in with a pop effect
+    $('#search').fadeIn(200);
+    $('#search form').addClass('pop-in');
+    
+    // Clear any previous search text and focus the input
+    $('#search input.search_input').val('').focus();
+    
+    $('body').addClass('search-open');
+    
+    // Prevent scrolling when search is open
+    $('body').css('overflow', 'hidden');
+    
+    // Add event listener to close search when clicking outside
+    $(document).on('click.searchClose', function(event) {
+        const $search = $('#search form');
+        const $searchToggle = $('#searchToggle');
+        
+        // If click is outside search container and not on search button
+        if (!$search.is(event.target) && 
+            $search.has(event.target).length === 0 && 
+            !$searchToggle.is(event.target) && 
+            $searchToggle.has(event.target).length === 0 &&
+            !$(event.target).closest('.close-search').length) {
+            hideSearchForm();
+        }
+    });
+    
+    // Add escape key handler
+    $(document).on('keydown.searchEscape', function(e) {
+        if (e.key === 'Escape') {
+            hideSearchForm();
+        }
+    });
+    
+    // Add enter key handler to submit the form
+    $('#search input.search_input').on('keydown.searchSubmit', function(e) {
+        if (e.key === 'Enter') {
+            $('#search form').submit();
+        }
+    });
+}
+
+// Function to hide the search form
+function hideSearchForm() {
+    // Simple fade out
+    $('#search form').removeClass('pop-in');
+    $('#search').fadeOut(200);
+    
+    $('body').removeClass('search-open');
+    
+    // Restore scrolling
+    $('body').css('overflow', '');
+    
+    // Remove the document event listeners
+    $(document).off('click.searchClose');
+    $(document).off('keydown.searchEscape');
+    $('#search input.search_input').off('keydown.searchSubmit');
+}
+
+
+/**
+ * Open the partners popup
+ * @param {number} partnerId - The ID of the partner to show
+ */
+function openPartnersPopup(partnerId) {
+    const $popup = $('#partnersPopup');
+    const $popupData = $(`#partnersPopupData_${partnerId}`);
+    
+    // Hide all popup data sections first
+    $('.partners-popup-data').hide();
+    
+    // Show popup and specific partner data
+    $popup.fadeIn(300);
+    $popupData.show();
+    $('body').addClass('popup-open');
+    $('body').css('overflow', 'hidden');
+
+    // Prepare About section truncation (255 chars, no word break)
+    prepareAboutSection($popupData);
+}
+
+/**
+ * Close the partners popup
+ */
+function closePartnersPopup() {
+    const $popup = $('#partnersPopup');
+    
+    $popup.fadeOut(300);
+    $('body').removeClass('popup-open');
+    $('body').css('overflow', '');
+    
+    // Hide all popup data sections after animation
+    setTimeout(function() {
+        $('.partners-popup-data').hide();
+    }, 300);
+}
+
+/**
+ * Prepare About section: compute truncated text once per partner popup
+ * @param {JQuery} $popupData
+ */
+function prepareAboutSection($popupData) {
+    const $desc = $popupData.find('.partners-popup-description');
+    if (!$desc.length || $desc.data('prepared')) return;
+
+    const $full = $desc.find('.about-text-full');
+    const $truncated = $desc.find('.about-text-truncated');
+    const maxLength = 255;
+
+    // Extract plain text for truncation
+    const fullText = $full.text().trim();
+    if (!fullText) {
+        $truncated.hide();
+        $full.show();
+        $desc.data('prepared', true);
+        return;
+    }
+
+    if (fullText.length <= maxLength) {
+        $truncated.text(fullText).show();
+        $full.hide();
+        $popupData.find('.partners-popup-read-more').hide();
+        $desc.data('prepared', true);
+        return;
+    }
+
+    let truncated = fullText.substring(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(' ');
+    if (lastSpace > 0) truncated = truncated.substring(0, lastSpace);
+    truncated += '…';
+
+    $truncated.text(truncated).show();
+    $full.hide();
+    $popupData.find('.partners-popup-read-more').attr('aria-expanded', 'false');
+    $desc.data('prepared', true);
 }
