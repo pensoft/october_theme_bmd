@@ -1,5 +1,5 @@
 html,body {
-    font-family: @font-family, Author, sans-serif;
+    font-family: @font-family, Author, sans-serif !important;
     background-color: @background-color;
     color: @text-color-default;
     font-weight: normal;
@@ -20,6 +20,24 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
   color: @secondary-btn-color;
 }
 
+.header-image-bar{
+    height: 287px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    .page-header{
+        color: #fff;
+        font-size: 45px;
+        font-weight: 375;
+        line-height: 30px;
+        letter-spacing: -0.9px;
+    }
+}
+
 .section-header{
     color: #0F2F2A !important;
     text-align: center !important;
@@ -36,51 +54,18 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     });
 }
 
-
-// .social-networks {
-//     display: flex;
-//     align-items: center;
-//     gap: 8px;
-//     margin-top: 20px;
-    
-//     a {
-//         width: 40px;
-//         height: 40px;
-//         display: inline-block;
-//         border-radius: 11px;
-//         border: 1px solid rgba(255, 255, 255, 0.20);
-//         background: rgba(255, 255, 255, 0.15);
-//         backdrop-filter: blur(2px);
-//         transition: all 0.3s ease;
-        
-//         &.bluesky {
-//             background: rgba(255, 255, 255, 0.15) url("../../assets/images/bluesky-white-icon.svg") center no-repeat;
-//             background-size: 20px;
-//         }
-        
-//         &.linkedin {
-//             background: rgba(255, 255, 255, 0.15) url("../../assets/images/linkedin-white-icon.svg") center no-repeat;
-//             background-size: 20px;
-//         }
-        
-//         &.youtube {
-//             background: rgba(255, 255, 255, 0.15) url("../../assets/images/youtube-white-icon.svg") center no-repeat;
-//             background-size: 20px;
-//         }
-        
-//         &:hover {
-//             background-color: rgba(255, 255, 255, 0.3);
-//             transform: scale(1.05);
-//         }
-//     }
-//     .breakpoint-large-down({
-//         display: flex;
-//         justify-content: center;
-//         margin-bottom: 30px;
-//         margin-top: 30px;
-//     });
-// }
-
+.about-header {
+    color: #0F2F2A;
+    font-family: Author;
+    font-size: 40px;
+    font-style: normal;
+    text-transform: uppercase;
+    line-height: 1; // ensure element height equals text height
+    display: inline-block; // border height matches text only
+    padding-left: 10px;
+    border-left: 4px solid #20A683;
+    margin-bottom: 20px;
+}
 
 /* Back to top button */
 .back-to-top {

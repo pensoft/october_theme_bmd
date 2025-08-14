@@ -1,0 +1,70 @@
+url = "/key-results"
+layout = "default"
+title = "Key Results"
+is_hidden = 0
+meta_description = "key results page"
+seo_keywords = "keywords"
+robot_index = "index"
+robot_follow = "follow"
+
+[siteSearchInclude]
+
+[jumbotron key-results-data-access-mobilisation-capture]
+jumbotron = "key-results-data-access-mobilisation-capture"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+[jumbotron key-results-data-harmonisation]
+jumbotron = "key-results-data-harmonisation"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+
+[jumbotron key-results-data-storage-visualisation-computing]
+jumbotron = "key-results-data-storage-visualisation-computing"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+[jumbotron key-results-virtual-research-environments]
+jumbotron = "key-results-virtual-research-environments"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+
+==
+
+==
+
+{% component 'siteSearchInclude' %}
+
+<section class="container key-results">
+    <div class="row">
+        <div class="col-md-4 tab-navigation">
+            <a href="#data-access" class="tab-link active" data-tab="data-access">Data access, mobilisation & capture</a>
+            <a href="#data-harmonisation" class="tab-link" data-tab="data-harmonisation">Data harmonisation</a>
+            <a href="#data-storage" class="tab-link" data-tab="data-storage">Data storage, visualisation & computing</a>
+            <a href="#virtual-research" class="tab-link" data-tab="virtual-research">Virtual Research Environments</a>
+        </div>
+        <div class="col-md-8 content">
+            <section class="data-access tab-content active" id="data-access">
+                {% component 'key-results-data-access-mobilisation-capture' %}
+            </section>
+            
+            <section class="data-harmonisation tab-content" id="data-harmonisation">
+                {% component 'key-results-data-harmonisation' %}
+            </section>
+            
+            <section class="data-storage tab-content" id="data-storage">
+                {% component 'key-results-data-storage-visualisation-computing' %}
+            </section>
+            
+            <section class="virtual-research tab-content" id="virtual-research">
+                {% component 'key-results-virtual-research-environments' %}
+            </section>
+        </div>
+    </div>
+</section>

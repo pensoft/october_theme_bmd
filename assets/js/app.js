@@ -35,6 +35,9 @@ $(function() {
     initHeroCarousel();
     initNavbarScrollState();
     initNavbarScrollHandler();
+    initObjectivesToggle();
+    initWorkPackagesAccordion();
+    initKeyResultsTabs();
 });
 
 // ---------- Initializers ----------
@@ -337,6 +340,56 @@ function initNavbarScrollHandler() {
     });
 }
 
+/**
+ * Initialize Objectives toggle behaviour on About page
+ * Toggles the visibility of .objective-content when .objective-head is activated
+ */
+function initObjectivesToggle() {
+    const $items = $('.objective-item');
+    if (!$items.length) return;
+
+    $items.each(function(index) {
+        const $item = $(this);
+        const $head = $item.find('.objective-head').first();
+        const $content = $item.find('.objective-content').first();
+
+        if (!$head.length || !$content.length) return;
+
+        // Ensure unique id for content for accessibility
+        const contentId = $content.attr('id') || ('objective-content-' + index);
+        $content.attr('id', contentId);
+
+        // Start collapsed
+        $content.hide();
+        $item.removeClass('expanded');
+
+        // Click handler
+        $head.off('click.objective').on('click.objective', function(e) {
+            e.preventDefault();
+            toggleObjective($item, $head, $content);
+        });
+    });
+}
+
+/**
+ * Toggle a single Objective item
+ * @param {JQuery} $item
+ * @param {JQuery} $head
+ * @param {JQuery} $content
+ */
+function toggleObjective($item, $head, $content) {
+    const isOpen = $content.is(':visible');
+    if (isOpen) {
+        $content.slideUp(200);
+        $head.attr('aria-expanded', 'false');
+        $item.removeClass('expanded');
+    } else {
+        $content.slideDown(200);
+        $head.attr('aria-expanded', 'true');
+        $item.addClass('expanded');
+    }
+}
+
 function type(i, t, ie, oe) {
     input = document.getElementById(ie).innerHTML;
     document.getElementById(oe).innerHTML += input.charAt(i);
@@ -426,7 +479,7 @@ function onHashChange(){
 	$(".accordion-content").hide();
 	const caseStudiesHashTitle = location.hash;
 
-	if(caseStudiesHashTitle){
+        if(caseStudiesHashTitle){
 		const caseStudiesTitle = caseStudiesHashTitle.substring(1, caseStudiesHashTitle.length);
 		
 		// Check if the hash corresponds to a tab
@@ -435,8 +488,8 @@ function onHashChange(){
 		    $('.tab-link[data-tab="' + caseStudiesTitle + '"]').trigger('click');
 		    
 		    // If it's the work-packages tab, initialize the toggle functionality
-		    if(caseStudiesTitle === 'work-packages') {
-		        initWorkPackagesToggle();
+            if(caseStudiesTitle === 'work-packages' || caseStudiesTitle === 'how-we-do') {
+                initWorkPackagesAccordion();
 		    }
 		} else {
 		    // Handle other hash values (like case studies)
@@ -512,27 +565,32 @@ function getScreenSize() {
     return {'width': myWidth, 'height': myHeight};
 }
 
-function initCircleAnimation(circleBorderSelector, containerSelector) {
-    const circleBorder = document.querySelector(circleBorderSelector);
-    if (!circleBorder) return;
+// function initCircleAnimation(circleBorderSelector, containerSelector) {
+//     const circleBorder = document.querySelector(circleBorderSelector);
+//     if (!circleBorder) return;
     
-    const imageContainer = document.querySelector(containerSelector);
-    if (imageContainer) {
-        imageContainer.addEventListener('mouseenter', function() {
-            circleBorder.style.animationDirection = 'reverse';
-        });
+//     const imageContainer = document.querySelector(containerSelector);
+//     if (imageContainer) {
+//         imageContainer.addEventListener('mouseenter', function() {
+//             circleBorder.style.animationDirection = 'reverse';
+//         });
         
-        imageContainer.addEventListener('mouseleave', function() {
-            circleBorder.style.animationDirection = 'normal';
-        });
-    }
-}
+//         imageContainer.addEventListener('mouseleave', function() {
+//             circleBorder.style.animationDirection = 'normal';
+//         });
+//     }
+// }
 
 /**
  * Handles tab switching without page refreshes
  * This function initializes tab functionality for the about page
  */
 function initTabs() {
+    // Skip initialization for key-results page as it has its own tab system
+    if ($('.key-results').length) {
+        return;
+    }
+    
     // Check if there's already an active tab content
     if ($('.tab-content.active').length === 0) {
         // No active tab found, activate the first tab
@@ -575,24 +633,12 @@ function initTabs() {
         // Show the active tab immediately
         $('#' + tabId).css('display', 'block').addClass('active');
         
-        // If switching to work-packages tab, make sure accordion functionality is initialized
-        if (tabId === 'work-packages') {
+        // If switching to how-we-do/work-packages tab, make sure accordion functionality is initialized
+        if (tabId === 'work-packages' || tabId === 'how-we-do') {
             // Reinitialize accordion if needed
             initAccordion();
-            // Reinitialize work packages toggle
-            initWorkPackagesToggle();
-            
-            // Re-wrap work package items if needed
-            if (width >= 1024 && !$('#work-packages .key_0').parent().hasClass('col-md-4')) {
-                // First column: items 0, 3, 6, 9, etc.
-                $('#work-packages .key_0, #work-packages .key_3, #work-packages .key_6, #work-packages .key_9, #work-packages .key_12, #work-packages .key_15').wrapAll('<div class="col-md-4 col-xs-12" />');
-                
-                // Second column: items 1, 4, 7, 10, etc.
-                $('#work-packages .key_1, #work-packages .key_4, #work-packages .key_7, #work-packages .key_10, #work-packages .key_13, #work-packages .key_16').wrapAll('<div class="col-md-4 col-xs-12" />');
-                
-                // Third column: items 2, 5, 8, 11, etc.
-                $('#work-packages .key_2, #work-packages .key_5, #work-packages .key_8, #work-packages .key_11, #work-packages .key_14, #work-packages .key_17').wrapAll('<div class="col-md-4 col-xs-12" />');
-            }
+            // Initialize new work packages accordion
+            initWorkPackagesAccordion();
         }
         
         // If switching to partners tab, initialize content truncation
@@ -615,7 +661,106 @@ function initTabs() {
     
     if (window.location.hash) {
         const tabId = window.location.hash.substring(1);
-        $('.tab-link[data-tab="' + tabId + '"]').trigger('click');
+        // support both plain id (e.g. #what-we-do) and custom anchors that include page slug
+        const $candidate = $('.tab-link[data-tab="' + tabId + '"]');
+        if ($candidate.length) {
+            $candidate.trigger('click');
+        }
+    }
+}
+
+/**
+ * Initialize Work Packages accordion (About > How we do it)
+ * Uses markup .work-packages .work-package with a clickable .work-package-header
+ */
+function initWorkPackagesAccordion() {
+    const $container = $('#work-packages');
+    if (!$container.length) return;
+
+    // Close all by default
+    $container.find('.work-package-content').hide();
+    $container.find('.work-package').removeClass('expanded');
+    $container.find('.work-package-header').attr('aria-expanded', 'false');
+
+    // Click to toggle
+    $container.find('.work-package-header').off('click.wp').on('click.wp', function(e) {
+        e.preventDefault();
+        const $header = $(this);
+        const $item = $header.closest('.work-package');
+        const $content = $item.find('.work-package-content').first();
+        const isOpen = $content.is(':visible');
+
+        // Close others
+        $container.find('.work-package-content').not($content).slideUp(200);
+        $container.find('.work-package').not($item).removeClass('expanded');
+        $container.find('.work-package-header').not($header).attr('aria-expanded', 'false');
+
+        if (isOpen) {
+            $content.slideUp(200);
+            $item.removeClass('expanded');
+            $header.attr('aria-expanded', 'false');
+        } else {
+            $content.slideDown(200);
+            $item.addClass('expanded');
+            $header.attr('aria-expanded', 'true');
+        }
+    });
+}
+
+/**
+ * Initialize Key Results page tabs functionality
+ * Handles left-side navigation tabs for the key-results page
+ */
+function initKeyResultsTabs() {
+    // Only initialize if we're on the key-results page
+    if (!$('.key-results').length) {
+        return;
+    }
+    
+    // Ensure the first tab is active by default
+    const $firstTab = $('.key-results .tab-link').first();
+    const $firstContent = $('.key-results .tab-content').first();
+    
+    if ($firstTab.length && $firstContent.length) {
+        $firstTab.addClass('active');
+        $firstContent.addClass('active').show();
+        
+        // Hide other tab content
+        $('.key-results .tab-content').not($firstContent).hide().removeClass('active');
+    }
+    
+    // Handle tab click events
+    $('.key-results .tab-link').on('click', function(e) {
+        e.preventDefault();
+        
+        // Get the tab id from data attribute
+        const tabId = $(this).data('tab');
+        
+        // Remove active class from all tabs and add to clicked tab
+        $('.key-results .tab-link').removeClass('active');
+        $(this).addClass('active');
+        
+        // Hide all tab content
+        $('.key-results .tab-content').removeClass('active').hide();
+        
+        // Show the active tab content
+        $('#' + tabId).addClass('active').show();
+        
+        // Update URL hash
+        if (history.pushState) {
+            history.pushState(null, null, '#' + tabId);
+        } else {
+            location.hash = '#' + tabId;
+        }
+    });
+    
+    // Handle URL hash on page load
+    if (window.location.hash) {
+        const tabId = window.location.hash.substring(1);
+        const $targetTab = $('.key-results .tab-link[data-tab="' + tabId + '"]');
+        if ($targetTab.length) {
+            $targetTab.trigger('click');
+        }
     }
 }
 
@@ -639,38 +784,6 @@ function initAccordion() {
             $(this).children(".green_bullet").addClass('toggled');
         }
     });
-}
-
-/**
- * Initialize work packages toggle functionality
- * This ensures the read more/less buttons work properly in the work packages section
- */
-function initWorkPackagesToggle() {
-    $('.read-more-wp').off('click');
-    
-    $('.read-more-wp').on('click', function() {
-        toggleWorkPackage(this);
-    });
-}
-
-/**
- * Toggle work package content visibility
- * @param {HTMLElement} element - The clicked "Read more" button
- */
-function toggleWorkPackage(element) {
-    const $button = $(element);
-    const $workPackageBox = $button.closest('.work-package-box');
-    const $content = $workPackageBox.find('.wp-content');
-    
-    if ($content.is(':visible')) {
-        $button.removeClass('arrow-up');
-        $content.hide();
-        $button.text('Read more');
-    } else {
-        $button.addClass('arrow-up');
-        $content.show();
-        $button.text('Read less');
-    }
 }
 
 /**

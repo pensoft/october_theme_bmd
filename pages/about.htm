@@ -9,88 +9,152 @@ robot_follow = "follow"
 
 [siteSearchInclude]
 
-[jumbotron about]
-jumbotron = "about"
-title = 1
-background = "transperant"
+[jumbotron about-what-we-do]
+jumbotron = "about-what-we-do"
 templates = "template3"
+background = transparent
 description_limit = 0
 
-[jumbotron project]
-jumbotron = "project"
-title = 1
-background = "transperant"
+[jumbotron about-why-we-do]
+jumbotron = "about-why-we-do"
 templates = "template3"
+background = transparent
 description_limit = 0
+
+[jumbotron about-achieving-these-targets-requires]
+jumbotron = "about-achieving-these-targets-requires"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+[jumbotron about-how-we-do-intro]
+jumbotron = "about-how-we-do-intro"
+templates = "template3"
+background = transparent
+description_limit = 0
+
 ==
 <?php
 function onStart(){
     use Pensoft\Accordions\Models\Item;
     use Pensoft\Accordions\Models\Category;
+    use Pensoft\Partners\Models\Partners as Partner;
+    use Pensoft\CardProfiles\Models\Profiles as Profile;
 
-    $this['mission_title'] = Category::where('id', 1)->first();
-    $this['mission_records'] = Item::where('category_id', 1)->get();
-    $this['work_packages_title'] = Category::where('id', 2)->first();
-    $this['work_packages_records'] = Item::where('category_id', 2)->get();
+    $this['mission_title'] = Category::where('slug', 'objectives')->first();
+    $this['mission_records'] = Item::whereHas('accordion', function($query) {
+        $query->where('slug', 'objectives');
+    })->get();
+    
+    $this['work_packages_title'] = Category::where('slug', 'wp')->first();
+    $this['work_packages_records'] = Item::whereHas('accordion', function($query) {
+        $query->where('slug', 'wp');
+    })->get();
+
+    $this['partners'] = Partner::where('type', 1)->get();
+    $this['parner_profiles'] = Profile::where('category_id', 1)->get();
+    
+    $partnersWithMembers = [];
+    foreach ($this['partners'] as $partner) {
+        $members = Profile::where('partner_id', $partner->id)->get();
+        $partnersWithMembers[$partner->id] = $members;
+    }
+    $this['partnersWithMembers'] = $partnersWithMembers;
 }
 ?>
 ==
 {% component 'siteSearchInclude' %}
 
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-xs-12 start-md center-xs"><img src="{{'image-about-1.png'|media}}"> </div>
-        <div class="col-md-6 col-xs-12">{% component "about" %}</div>
-    </div>
-</div>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-xs-12">{% component "project" %}</div>
-        <div class="col-md-6 col-xs-12 end-md center-xs"><img src="{{'image-about-2.png'|media}}"> </div>
-    </div>
-</div>
-
-<div class="container" id="mission">
-
-    <h2 class="underline">{{mission_title.name}}</h2>
-    <div class="row top-xs mission">
-        {% for key1, item1 in mission_records %}
-        <div class="accordion-border key_{{key1}}"><!-- 1 --><!-- css 1 -->
-            <div class="row middle-xs accordion-toggle">
-                <div class="col-xs start-xs">{{item1.title}}</div>
-
-                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
-            </div>
-
-            <div class="accordion-content" style="display: none;">
-                {{item1.body|raw}}
+<section class="container-fluid about-tabs">
+    <div class="container">
+        <div class="row tabs-row">
+            <div class="tabs">
+                <a href="#what-we-do" class="tab-link active" data-tab="what-we-do">What we do</a>
+                <a href="#why-we-do" class="tab-link" data-tab="why-we-do">Why we do it</a>
+                <a href="#how-we-do" class="tab-link" data-tab="how-we-do">How we do it</a>
+                <a href="#who-we-are" class="tab-link" data-tab="who-we-are">Who we are</a>
             </div>
         </div>
-        {% endfor %}
     </div>
-</div>
+</section>
 
-<div class="container" id="work-packages">
-
-    <h2 class="underline">{{work_packages_title.name}}</h2>
-
-    <div class="row top-xs work_packages">
-        {% for key, item in work_packages_records %}
-        <div class="accordion-border key_{{key}}"><!-- 1 --><!-- css 1 -->
-            <div class="row middle-xs accordion-toggle">
-                <div class="col-xs-2 green_bullet">{{item.prefix}}</div>
-
-                <div class="col-xs start-xs">{{item.title}}</div>
-
-                <div class="col-xs-2 end-xs plusminus"><span class="plus"></span></div>
+<section class="container-fluid what-we-do tab-content active" id="what-we-do">
+    {% component 'about-what-we-do' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2 class="about-header">Objectives</h2>
             </div>
-
-            <div class="accordion-content" style="display: none;">
-                {{item.body|raw}}
+            <div class="col-xs-12">
+                {% for objective in mission_records %}
+                    <div class="objective-item">
+                        <div class="objective-head row" role="button" aria-expanded="false">
+                            <div class="col-md-11 col-xs-10 objective-text">
+                                {{ objective.title }}
+                            </div>
+                            <div class="col-md-1 col-xs-2">
+                                <div class="objective-arrow" aria-hidden="true">
+                                    <img src="{{'assets/images/chevron-down.svg'|theme}}" alt="" class="chevron-icon">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="objective-content">
+                            {{ objective.body|raw }}
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
+    </div>
+</section>
+
+<section class="container-fluid why-we-do tab-content" id="why-we-do">
+    {% component 'about-why-we-do' %}
+    {% component 'about-achieving-these-targets-requires' %}
+</section>
+
+<section class="container-fluid how-we-do tab-content" id="how-we-do">
+    {% component 'about-how-we-do-intro' %}
+    
+    <div class="container work-packages" id="work-packages">
+        {% for work_package in work_packages_records %}
+            <div class="work-package key_{{ loop.index0 }}">
+                <div class="work-package-header row" role="button" aria-expanded="false">
+                    <div class="col-md-1 prefix col-xs-3">
+                        <div class="prefix-number">{{ work_package.prefix }}</div>
+                    </div>
+                    <div class="col-md-10 title col-xs-8">
+                        <h3>{{ work_package.title }}</h3>
+                    </div>
+                    <div class="col-md-1 col-xs-1 end-xs end-md">
+                        <div class="work-package-arrow" aria-hidden="true">
+                            <img src="{{'assets/images/chevron-down.svg'|theme}}" alt="" class="chevron-icon">
+                        </div>
+                    </div>
+                </div>
+                <div class="work-package-content" style="display:none;">
+                    <div class="work-package-body">
+                        {{ work_package.body|raw }}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
     </div>
-</div>
+</section>
+
+<section class="container-fluid who-we-are tab-content" id="who-we-are">
+    <div class="container">
+        <div class="row">
+            {% for c in partners %}
+            <div class="col-md-2 col-sm-3 col-xs-6 partner-logo">
+                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
+                    <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Include Partners Popup -->
+{% partial 'components/partners-popup' partners=partners partnersWithMembers=partnersWithMembers %}

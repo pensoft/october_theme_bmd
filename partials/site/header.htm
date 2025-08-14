@@ -82,35 +82,10 @@ function onStart(){
 <div class="header-image {{page_id}} hero">
     {% if page_id == 'home' %}
     {% partial 'components/hero' carousel_images=carousel_images %}
-    <!-- <div class="container hero-container">
-        <div class="row">
-            <div class="col-md-7 col-xs-12">
-                <div class="hero-content">
-                    {% component 'hero-text' %}
-                </div>
-            </div>
-            <div class="col-md-5 col-xs-12 outer-circle-container">
-                <div class="outer-cicle">
-                    <div class="outer-circle-border"></div>
-                    <div class="leaf-circle"></div>
-                    <div class="image-placeholder">
-                        <img src="{{ 'assets/images/home-image-1.png'|theme }}" alt="{{ this.theme.site_name }}">
-                        <img src="{{ 'assets/images/home-image-2.png'|theme }}" alt="{{ this.theme.site_name }}">
-                        <img src="{{ 'assets/images/home-image-3.png'|theme }}" alt="{{ this.theme.site_name }}">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
     {% else %}
-        <div class="header-image-bar" {% if user and this.page.id != 'home' %} style="margin-top: 154px!important;" {% endif %}>
-            <h1 class="underline white">{%if page_title%} {{page_title}} {%else%} {{site_name}} {%endif%}</h1>
+            <div class="header-image-bar" style="background-image: url({{this.theme.header_image.getPath()}});">
+            <h1 class="page-header">{%if page_title%} {{page_title}} {%else%} {{site_name}} {%endif%}</h1>
         </div>
     {%endif%}
-    
-    <!-- {% if page_id == 'home' %}
-    <div class="ellipse-top-decoration"></div>
-    <div class="ellipse-bottom-decoration"></div>
-    {% endif %} -->
 </div>
 {% endif %}
