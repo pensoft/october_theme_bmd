@@ -1,0 +1,74 @@
+url = "/get-involved"
+layout = "default"
+title = "Get Involved"
+is_hidden = 0
+meta_description = "Get Involved"
+seo_keywords = "keywords"
+robot_index = "index"
+robot_follow = "follow"
+
+[siteSearchInclude]
+
+[jumbotron get-involved]
+jumbotron = "get-involved"
+templates = "template3"
+background = transparent
+description_limit = 0
+
+==
+<?php
+use Pensoft\Articles\Models\Category;
+use Pensoft\Articles\Models\Article;
+
+
+function onStart()
+{
+    // Fetch latest 3 news articles where category slug is "events"
+    $eventsCategory = Category::where('slug', 'events')->first();
+    
+    if ($eventsCategory) {
+        $this['eventsArticles'] = Article::news()
+            ->byCategory($eventsCategory->id)
+            ->descPublished()
+            ->take(3)
+            ->get();
+    } else {
+        $this['eventsArticles'] = collect();
+    }
+}
+
+?>
+==
+{% component 'siteSearchInclude' %}
+
+<section class="get-involved">
+    <div class="container">
+        <div class="row get-involved-content">
+            <div class="col-md-8 col-xs-12">
+                {% component 'get-involved' %}
+            </div>
+            <div class="col-md-4 col-xs-12 events-section">
+                {% if eventsArticles|length > 0 %}
+                <h2>Events</h2>
+                    {% for article in eventsArticles %}
+                        <a href="/news/{{ article.slug }}" class="event-link">
+                            <div class="event-item row">
+                                <div class="col-xs-12 event-date">{{ article.published_at|date('d.m.Y') }}</div>
+                                <div class="col-xs-11 event-description">{{ article.title }}</div>
+                                <div class="col-xs-1 event-arrow">
+                                    <img src="{{ 'assets/images/go-to-event-arrow.svg'|theme }}" alt="Go to event" class="arrow-icon">
+                                </div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <p>No events found.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="container-fluid more-info-section d-flex justify-content-center align-items-center">
+    <p>More information soon!</p>
+</section>

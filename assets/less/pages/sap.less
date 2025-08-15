@@ -1,0 +1,85 @@
+.sap {
+    .padding-left-0 {
+        padding-left: 0 !important;
+    }
+
+    .padding-right-0 {
+        padding-right: 0 !important;
+    }
+
+    .sap-intro {
+        padding: 0 20px;
+    }
+
+    .deliverable-link {
+        color: #0086AF;
+        text-decoration: none;
+        font-size: 18px;
+        
+        &:hover {
+            text-decoration: underline;
+            color: #0056b3;
+        }
+    }
+
+    .sap-box-base() {
+        border-radius: 15px;
+        background: #F0F2F3;
+        margin-bottom: 20px;
+        padding: 30px 31px;
+    }
+
+    .sap-typography() {
+        h3 {
+            margin-bottom: 10px;
+            color: #737373;
+            font-family: Author;
+            font-size: 24px;
+            font-weight: 494;
+        }
+
+        p {
+            color: #737373;
+            font-size: 18px;
+        }
+    }
+
+    .sap-box {
+        .sap-box-base();
+        .sap-typography();
+
+        img {
+            margin-bottom: 30px;
+        }
+    }
+
+    .sap-box-big {
+        .sap-box-base();
+        .sap-typography();
+        
+        height: 530px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        position: relative;
+
+        img {
+            position: absolute;
+            top: 30px;
+            left: 31px;
+            margin-bottom: 0;
+        }
+
+        .breakpoint-large-down({
+            height: auto;
+            justify-content: flex-start;
+            align-items: flex-start;
+            
+            img {
+                position: static;
+                margin-bottom: 30px;
+            }
+        });
+    }
+}

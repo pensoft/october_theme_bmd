@@ -1,0 +1,85 @@
+.get-involved{
+    h2{
+        color: #0F2F2A;
+        font-family: Author;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 375;
+        line-height: 1.2;
+        text-transform: uppercase;
+    }
+    .get-involved-content{
+        .container{
+            padding: 0 20px;
+        }
+    }
+    .events-section{
+        .event-link{
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            
+            &:hover{
+                text-decoration: none;
+                color: inherit;
+                
+                .event-item{
+                    background: #E8EAEB;
+                    transition: background 0.3s ease;
+                }
+            }
+        }
+        
+        .event-item{
+            border-radius: 10px;
+            background: #F0F2F3;
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+            transition: background 0.3s ease;
+        }
+        
+        .event-date{
+            color: #9CAFB5;
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: normal;
+        }
+        
+        .event-description{
+            color: #142F2B;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 1.4;
+        }
+        
+        .event-arrow{
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            
+            .arrow-icon{
+                width: 21px;
+                height: 21px;
+                // margin-top: 5px;
+                // margin-left: 10px;
+            }
+        }
+        
+        .event-link:hover .event-arrow{
+            transform: translate(8px, -6px) scale(1.1);
+        }
+    }
+}
+
+.more-info-section{
+    background: url("../../assets/images/more-info.png") top center no-repeat;
+    background-size: cover;
+    padding: 80px 0;
+    p{
+        color: #FFF;
+        text-align: center;
+        font-family: Author;
+        font-size: 45px;
+        margin-bottom: 0;
+    }
+}

@@ -124,8 +124,29 @@ $this['related'] = $related;
 }
 ?>
 ==
-<h1 class="underline">News</h1>
-<div class="container">
+{% component 'siteSearchInclude' %}
+
+{% if is_detail_page %}
+<section class="news-detailed">
+
+</section>
+
+{% else %}
+
+<section class="news-list">
+    <div class="row">
+        <div class="col-md-3 tab-navigation">
+
+        </div>
+        <div class="col-md-9 content">
+
+        </div>
+    </div>
+</section>
+
+{% endif %}
+
+<!-- <div class="container">
 
 	{% if is_detail_page %}
 	<div class="single-news-item">
@@ -153,7 +174,6 @@ $this['related'] = $related;
             <span class="share_label">Share</span>
             <a href="http://twitter.com/share?text={{article.title}}&url={{page_url}}" target="_blank" class="pr p-twitter small"></a>
             <a href="https://www.facebook.com/sharer/sharer.php?u={{page_url}}&amp;src=sdkpreparse" target="_blank" class="pr p-facebook small"></a>
-            <!-- <a href="https://www.youtube.com/sharing/share-offsite/?url={{page_url}}" target="_blank" class="pr p-youtube small"></a> -->
         </div>
 
 	</div>
@@ -194,4 +214,4 @@ $this['related'] = $related;
     </div>
 
 	{% endif %}
-</div>
+</div> -->
