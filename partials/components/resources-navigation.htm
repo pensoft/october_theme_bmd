@@ -1,0 +1,10 @@
+{% set currentPage = this.page.url %}
+{% set isActive = currentPage == href %}
+
+<div class="resources-tabs">
+    <a href="/resources/newsletters" class="tab-link {{ currentPage == '/resources/newsletters' ? 'active' : '' }}">Newsletters</a>
+    <a href="/resources/press-releases" class="tab-link {{ currentPage == '/resources/press-releases' ? 'active' : '' }}">Press releases</a>
+    <a href="/resources/videos" class="tab-link {{ currentPage == '/resources/videos' ? 'active' : '' }}">Videos</a>
+    <a href="/resources/relevant-initiatives" class="tab-link {{ currentPage == '/resources/relevant-initiatives' ? 'active' : '' }}">Relevant initiatives</a>
+    <a href="/resources/library" class="tab-link {{ currentPage == '/resources/library' ? 'active' : '' }}">Library</a>
+</div>

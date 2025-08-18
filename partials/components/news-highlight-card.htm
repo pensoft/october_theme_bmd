@@ -1,0 +1,25 @@
+==
+function onStart()
+{
+    // Ensure we have default values
+    $this['title'] = $this['title'] ?: '';
+    $this['slug'] = $this['slug'] ?: '';
+    $this['cover'] = $this['cover'] ?: null;
+    $this['published_at'] = $this['published_at'] ?: '';
+}
+==
+<div class="col-md-4 col-xs-12 news-highlight-item">
+    <a href="/news/{{slug}}" class="news-item">
+        {% if cover %}
+        <img src="{{ cover.path }}" alt="{{ title }}" class="news-image">
+        {% endif %}
+        <div class="hover-overlay">
+            <div class="read-more-text">Read more</div>
+        </div>
+        <div class="arrow_link">&nbsp;</div>
+    </a>
+    <div class="news-content">
+        <div class="news-date">{{ published_at|date('d.m.Y') }}</div>
+        <div class="news-title">{{ title|length > 100 ? title|slice(0, 100)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : title|replace({"&nbsp;": " ", ".": ". "})  }}</div>
+    </div>
+</div>

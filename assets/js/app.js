@@ -23,6 +23,7 @@ $(function() {
     initSearchToggles();
     initDesktopMenuToggle();
     initDesktopDropdownToggle();
+    initCategoriesToggle();
     applyExternalLinkBehavior();
     sanitizeNavDropdowns();
     $('nav').removeClass('no-transition');
@@ -565,22 +566,6 @@ function getScreenSize() {
     return {'width': myWidth, 'height': myHeight};
 }
 
-// function initCircleAnimation(circleBorderSelector, containerSelector) {
-//     const circleBorder = document.querySelector(circleBorderSelector);
-//     if (!circleBorder) return;
-    
-//     const imageContainer = document.querySelector(containerSelector);
-//     if (imageContainer) {
-//         imageContainer.addEventListener('mouseenter', function() {
-//             circleBorder.style.animationDirection = 'reverse';
-//         });
-        
-//         imageContainer.addEventListener('mouseleave', function() {
-//             circleBorder.style.animationDirection = 'normal';
-//         });
-//     }
-// }
-
 /**
  * Handles tab switching without page refreshes
  * This function initializes tab functionality for the about page
@@ -590,11 +575,25 @@ function initTabs() {
     if ($('.key-results').length) {
         return;
     }
+
+    // Skip on news pages (listing/detail) which manage their own tabs/filters
+    if ($('.news-list-section').length || window.location.pathname.indexOf('/news') === 0) {
+        return;
+    }
+
+    // Operate only within a tabs container (About page and similar)
+    const $tabsContainer = $('.tabs');
+    if (!$tabsContainer.length) {
+        return;
+    }
+    
+    // Look for tab content sections globally (not just within tabs container)
+    const $allTabContent = $('.tab-content');
     
     // Check if there's already an active tab content
-    if ($('.tab-content.active').length === 0) {
+    if ($allTabContent.filter('.active').length === 0) {
         // No active tab found, activate the first tab
-        const $activeTabLink = $('.tab-link.active');
+        const $activeTabLink = $tabsContainer.find('.tab-link.active');
         if ($activeTabLink.length > 0) {
             const firstTabId = $activeTabLink.data('tab');
             $('#' + firstTabId).addClass('active');
@@ -602,36 +601,41 @@ function initTabs() {
     }
     
     // Hide all tab content except the active one on page load
-    $('.tab-content').not('.active').css({
+    const $nonActiveTabs = $allTabContent.not('.active');
+    $nonActiveTabs.css({
         'display': 'none',
         'opacity': '0'
     });
     
     // Make sure active tab is visible
-    $('.tab-content.active').css({
+    const $activeTab = $allTabContent.filter('.active');
+    $activeTab.css({
         'display': 'block',
         'opacity': '1'
     });
     
     // Handle tab click events
-    $('.tab-link').on('click', function(e) {
+    $tabsContainer.on('click', '.tab-link', function(e) {
         e.preventDefault();
         
         // Get the tab id from data attribute
         const tabId = $(this).data('tab');
         
         // Remove active class from all tabs and add to clicked tab
-        $('.tab-link').removeClass('active');
+        $tabsContainer.find('.tab-link').removeClass('active');
         $(this).addClass('active');
         
         // Hide all tab content immediately
-        $('.tab-content').removeClass('active').css({
+        $allTabContent.removeClass('active').css({
             'display': 'none',
             'opacity': '1'
         });
         
         // Show the active tab immediately
-        $('#' + tabId).css('display', 'block').addClass('active');
+        const $targetTab = $('#' + tabId);
+        if ($targetTab.length) {
+            $targetTab.css('display', 'block').addClass('active');
+        }
         
         // If switching to how-we-do/work-packages tab, make sure accordion functionality is initialized
         if (tabId === 'work-packages' || tabId === 'how-we-do') {
@@ -645,12 +649,7 @@ function initTabs() {
         if (tabId === 'partners') {
             initPartnerContentTruncation();
         }
-        
-        // Reinitialize project materials functionality for all tabs
-        setTimeout(function() {
-            initProjectMaterialsNameDisplay();
-            initProjectMaterialsDropdowns();
-        }, 100);
+    
         
         if (history.pushState) {
             history.pushState(null, null, '#' + tabId);
@@ -662,7 +661,7 @@ function initTabs() {
     if (window.location.hash) {
         const tabId = window.location.hash.substring(1);
         // support both plain id (e.g. #what-we-do) and custom anchors that include page slug
-        const $candidate = $('.tab-link[data-tab="' + tabId + '"]');
+        const $candidate = $tabsContainer.find('.tab-link[data-tab="' + tabId + '"]');
         if ($candidate.length) {
             $candidate.trigger('click');
         }
@@ -858,17 +857,18 @@ function initPartnerContentTruncation() {
  * Handles smooth navigation between news categories
  */
 function initNewsCategoryTabs() {
-    // Only initialize if we're on the news page and tabs exist
-    if (!$('.news-category-tabs').length) {
+    // Only initialize on the news listing page
+    const $newsSection = $('.news-list-section');
+    if (!$newsSection.length) {
         return;
     }
     
     // Handle tab click events
-    $('.news-category-tabs .tab-link').on('click', function(e) {
+    $newsSection.find('.tab-navigation .tab-link').on('click', function(e) {
         e.preventDefault();
         
         // Remove active class from all tabs
-        $('.news-category-tabs .tab-link').removeClass('active');
+        $newsSection.find('.tab-navigation .tab-link').removeClass('active');
         
         // Add active class to clicked tab
         $(this).addClass('active');
@@ -891,8 +891,8 @@ function initNewsCategoryTabs() {
     const currentCategoryId = urlParams.get('categoryId') || 'all';
     
     // Set the correct active tab based on URL
-    $('.news-category-tabs .tab-link').removeClass('active');
-    $('.news-category-tabs .tab-link[data-category="' + currentCategoryId + '"]').addClass('active');
+    $newsSection.find('.tab-navigation .tab-link').removeClass('active');
+    $newsSection.find('.tab-navigation .tab-link[data-category="' + currentCategoryId + '"]').addClass('active');
 }
 
 /**
@@ -1140,6 +1140,39 @@ function initPartnersPopup() {
             $btn.addClass('expanded');
         }
     });
+}
+
+/**
+ * Initialize categories toggle functionality
+ * Handles expanding/collapsing the categories section on the videos page
+ */
+function initCategoriesToggle() {
+    const $categoriesHeader = $('[data-toggle="categories"]');
+    const $categoriesContent = $('.categories-content');
+
+    if ($categoriesHeader.length && $categoriesContent.length) {
+        $categoriesHeader.on('click', function(e) {
+            e.preventDefault();
+            
+            const $header = $(this);
+            const $content = $categoriesContent;
+            
+            // Toggle collapsed state
+            $header.toggleClass('collapsed');
+            $content.toggleClass('collapsed');
+            
+            // Store state in localStorage for persistence
+            const isCollapsed = $header.hasClass('collapsed');
+            localStorage.setItem('categoriesCollapsed', isCollapsed);
+        });
+        
+        // Restore state from localStorage on page load
+        const wasCollapsed = localStorage.getItem('categoriesCollapsed') === 'true';
+        if (wasCollapsed) {
+            $categoriesHeader.addClass('collapsed');
+            $categoriesContent.addClass('collapsed');
+        }
+    }
 }
 
 const documentHasScroll = function() {

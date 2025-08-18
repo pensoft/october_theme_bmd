@@ -28,6 +28,7 @@
         letter-spacing: -0.32px;
         text-decoration: none;
         transition: background-color .2s ease, color .2s ease;
+        cursor: pointer;
 
     &.active,
     &:hover {
@@ -38,12 +39,35 @@
     }
 }
 
+// Ensure tab content sections are properly hidden by default
+.container-fluid.tab-content {
+    display: none !important;
+    
+    &.active {
+        display: block !important;
+    }
+}
+
+// Additional specificity for tab content sections
+section.tab-content {
+    display: none !important;
+    
+    &.active {
+        display: block !important;
+    }
+}
+
 .tab-content {
     display: none;
     padding: 40px 0;
 
     &.active {
         display: block;
+    }
+
+    // Ensure non-active tabs are hidden
+    &:not(.active) {
+        display: none !important;
     }
 
     h2 {

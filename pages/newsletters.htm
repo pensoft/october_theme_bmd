@@ -1,4 +1,4 @@
-url = "/media-center/newsletters"
+url = "/resources/newsletters"
 layout = "default"
 title = "Newsletters"
 is_hidden = 0
@@ -42,7 +42,7 @@ flush();
 readfile($file_name);
 exit();
 }
-return Redirect::to('/newsletters');
+return Redirect::to('/resources/newsletters');
 }
 }
 
@@ -62,54 +62,61 @@ return Response::download($pathToFile, $fileName, $headers);
 }
 ?>
 ==
-<div class="container">
-    <div class="col-xs-12 go-back">
-        <a href="{{'media-center'|page}}" class="col-xs-12">Back to Media</a>
-    </div>
-
-		{% set records = mediaNewslettersList %}
+<section class="container-fluid resources-page">
+    <div class="container">
+        {% set records = mediaNewslettersList %}
 		{% set displayColumn = mediaNewslettersList.displayColumn %}
 		{% set noRecordsMessage = mediaNewslettersList.noRecordsMessage %}
 		{% set detailsPage = mediaNewslettersList.detailsPage %}
 		{% set detailsKeyColumn = mediaNewslettersList.detailsKeyColumn %}
 		{% set detailsUrlParameter = mediaNewslettersList.detailsUrlParameter %}
 
-        {% if records.count() %}
         <div class="row">
-            {% for record in records %}
-            {% spaceless %}
-
-            <div class="col-md-4 col-xs-12 mb-4">
-                <div class="flyer-container {{record.name}}">
-                    <img src="{{record.newsletter_image.path}}" title="{{record.name}}">
-                </div>
-                <p align="center">{{record.name}}</p>
-
-                <div class="links">
-                    {% if record.url %}
-                    <div class="button_su">
-                        <span class="su_button_circle desplode-circle"></span>
-                        <a class="button_su_inner" href="{{record.url}}" target="_blank"><span class="button_text_container">Read the nesletter</span></a>
-                    </div>
-                    {% endif %}
-
-                    &nbsp;
-
-                    {% if record.file %}
-                    <div class="button_su download">
-                        {{form_open({ request: 'onDownloadFile' }) }}
-                        <input type="hidden" value="{{record.file.id}}" name="id">
-                        <span class="su_button_circle desplode-circle"></span>
-                        <button type="submit" data-attach-loading class="btn button_su_inner"><span class="button_text_container">Download</span></button>
-                        {{ form_close() }}
-                    </div>
-                    {% endif %}
-                </div>
+            <div class="col-md-3 col-xs-12">
+                {% partial 'components/resources-navigation' %}
             </div>
-
-
-            {% endspaceless %}
-            {% endfor %}
+            <div class="col-md-9 col-xs-12 newsletter-section newsletters-section">
+                {% if records.count() %}
+                <div class="row">
+                    {% for record in records %}
+                    {% spaceless %}
+        
+                    <div class="col-md-6 col-xs-12">
+                        {% set hasUrl = record.url ? true : false %}
+                        {% set hasFile = record.file ? true : false %}
+                        {% if hasUrl %}
+                            {% set actionHref = record.url %}
+                            {% set actionTarget = '_blank' %}
+                            {% set overlayLabel = 'Read' %}
+                        {% elseif hasFile %}
+                            {% set actionHref = '/resources/newsletters?download=' ~ record.file.id ~ '&file_name=' ~ (record.name|replace({' ': '_'})) %}
+                            {% set actionTarget = '_self' %}
+                            {% set overlayLabel = 'Download' %}
+                        {% else %}
+                            {% set actionHref = null %}
+                            {% set actionTarget = '_self' %}
+                            {% set overlayLabel = null %}
+                        {% endif %}
+        
+                        {% if actionHref %}
+                        <a class="newsletter-action" href="{{ actionHref }}" target="{{ actionTarget }}" aria-label="{{ overlayLabel }} {{ record.name }}">
+                            <div class="newsletter-container {{record.name}}">
+                                <img src="{{record.newsletter_image.path}}" alt="{{record.name}}" title="{{record.name}}">
+                                <span class="overlay-text">{{ overlayLabel }}</span>
+                            </div>
+                        </a>
+                        {% else %}
+                        <div class="newsletter-container {{record.name}}">
+                            <img src="{{record.newsletter_image.path}}" alt="{{record.name}}" title="{{record.name}}">
+                        </div>
+                        {% endif %}
+                        <div class="newsletter-title">{{record.name}}</div>
+                    </div>
+                    {% endspaceless %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
-</div>
+    </div>
+</section>

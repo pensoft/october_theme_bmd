@@ -31,19 +31,12 @@ function onStart(){
         <h2 class="section-header">Latest news</h2>
         <div class="row">
             {% for n in news_highlights %}
-            <div class="col-md-4 col-xs-12 news-highlight-item">
-                <a href="/news/{{ n.slug }}" class="news-item">
-                    <img src="{{ n.cover.path }}" alt="{{ n.title }}" class="news-image">
-                    <div class="hover-overlay">
-                        <div class="read-more-text">Read more</div>
-                    </div>
-                    <div class="arrow_link">&nbsp;</div>
-                </a>
-                <div class="news-content">
-                    <div class="news-date">{{ n.created_at|date('d.m.Y') }}</div>
-                    <div class="news-title">{{ n.title }}</div>
-                </div>
-            </div>
+            {% partial 'components/news-highlight-card' 
+                title=n.title
+                slug=n.slug
+                cover=n.cover
+                published_at=n.created_at
+            %}
             {% endfor %}
         </div>
         <div class="view-all-btn center-xs">

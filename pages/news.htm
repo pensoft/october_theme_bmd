@@ -6,7 +6,7 @@ robot_index = "index"
 robot_follow = "follow"
 
 [related_articles]
-limit = 9
+limit = 3
 thumb_width = 386
 thumb_height = 203
 ==
@@ -115,7 +115,7 @@ $c++;
 $orWhere .= ')';
 $related = $related
 ->whereRaw($orWhere)
-->limit(2)
+->limit(3)
 ->get();
 
 $this['related'] = $related;
@@ -127,91 +127,80 @@ $this['related'] = $related;
 {% component 'siteSearchInclude' %}
 
 {% if is_detail_page %}
-<section class="news-detailed">
-
+<section class="container-fluid news-detailed">
+    <div class="container">
+        <div class="back-to-news mb-4">
+            <a href="/news" class="back-to-link">
+                <i class="fa fa-arrow-left"></i>
+                Back to news
+            </a>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                <img src="{{ article.cover.path}}" alt="{{ article.title }}" class="news-image">
+            </div>
+            <div class="col-md-7">
+                <div class="news-date">{{article.published_at|date("j M Y")}}</div>
+                <h2 class="news-title">{{article.title}}</h2>
+                <div class="news-content">
+                    {{article.content|raw}}
+                </div>
+            </div>
+        </div>
+        <div class="related-news">
+            <h2 class="about-section">Related news</h2>
+            {% if related %}
+            <div class="news-list">
+                <div class="row">
+                    {% for relatedArticle in related %}
+                    {% spaceless %}
+                        {% partial 'components/news-highlight-card' 
+                            title=relatedArticle.title
+                            slug=relatedArticle.slug
+                            cover=relatedArticle.cover
+                            published_at=relatedArticle.published_at
+                        %}
+                    {% endspaceless %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% else %}
+            <p>No related news found.</p>
+            {% endif %}
+        </div>
+    </div>
 </section>
 
 {% else %}
 
-<section class="news-list">
-    <div class="row">
-        <div class="col-md-3 tab-navigation">
-
-        </div>
-        <div class="col-md-9 content">
-
+<section class="container-fluid news-list-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 tab-navigation">
+                <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all">All news</a>
+                {% for category in categories %}
+                    <a href="/news?categoryId={{category.id}}" class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}">{{category.name}}</a>
+                {% endfor %}
+            </div>
+            <div class="col-md-9 news-list">
+                <div class="row">
+                    {% for record in records %}
+                    {% spaceless %}
+                        {% partial 'components/news-highlight-card' 
+                            title=record.title
+                            slug=record.slug
+                            cover=record.cover
+                            published_at=record.published_at
+                        %}
+                    {% endspaceless %}
+                    {% else %}
+                    <div class="col-xs-12">
+                        <p>No news</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </div>
 </section>
-
 {% endif %}
-
-<!-- <div class="container">
-
-	{% if is_detail_page %}
-	<div class="single-news-item">
-
-
-        <div class="row news-cover">
-            <div class="col-xs-12 center-xs">
-                <div class="news-date">{{article.published_at|date("j M Y")}}</div>
-            </div>
-            <div class="col-xs-12">
-                <h1>{{article.title}}</h1>
-            </div>
-            <div class="col-xs-12 news-img-container">
-                <img src="{{ article.cover.thumb(800, auto, { mode: 'crop' }) }}" />
-            </div>
-            <div class="col-xs-12 news-content">
-                {{article.content|raw}}
-            </div>
-
-        </div>
-
-
-
-        <div class="col-xs col-md start-md start-xs share_container">
-            <span class="share_label">Share</span>
-            <a href="http://twitter.com/share?text={{article.title}}&url={{page_url}}" target="_blank" class="pr p-twitter small"></a>
-            <a href="https://www.facebook.com/sharer/sharer.php?u={{page_url}}&amp;src=sdkpreparse" target="_blank" class="pr p-facebook small"></a>
-        </div>
-
-	</div>
-
-	{% else %}
-
-
-    <div class="news-list">
-
-    {% for record in records %}
-    {% spaceless %}
-        <div class="col-md-4 col-xs-12 center-xs center-md mb-2">
-
-            <div class="row news-item">
-                <div class="col-md-12 col-xs-12 home-news-cover">
-                    <a href="/news/{{record.slug}}">
-                        <img src="{{ record.cover.path}}" alt="{{ record.title }}">
-                    </a>
-                </div>
-                <div class="col-md-12 col-xs-12 news-content">
-                    <a href="/news/{{record.slug}}"><div class="news-title">{{ record.title|length > 100 ? record.title|slice(0, 100)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : record.title|replace({"&nbsp;": " ", ".": ". "})  }}</div></a>
-                    <p class="news-date">{{ record.published_at|date('d M Y') }}</p>
-                    <div class="row read-more-row">
-                        <a href="/news/{{record.slug}}" class="read-more">{{'Read more' |_}}</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    {% endspaceless %}
-    {% else %}
-    No news
-    {% endfor %}
-    </div>
-
-    <div class="row container">
-        {{ records.render|raw }}
-    </div>
-
-	{% endif %}
-</div> -->

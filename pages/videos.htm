@@ -1,4 +1,4 @@
-url = "/media-center/videos"
+url = "/resources/videos"
 layout = "default"
 title = "Videos"
 is_hidden = 0
@@ -24,10 +24,12 @@ description_limit = 0
 ==
 <?php
 use Pensoft\Media\Models\Videos;
+use Pensoft\Media\Models\VideosCategory;
 use System\Models\File;
 
 function onStart(){
 	$this['mediaVideosList'] =  Videos::where('pensoft_media_videos.parent_id', null)->get();
+    $this['videoCategories'] = VideosCategory::orderBy('name', 'asc')->get();
 if(get('download')){
 $file = File::find((int)get('download'));
 $file_name = $file->getLocalPath();
@@ -73,7 +75,60 @@ return Response::download($pathToFile, $fileName, $headers);
 
 {% set records = mediaVideosList %}
 
-<div class="container">
+<section class="container-fluid resources-page videos-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-12">
+                {% partial 'components/resources-navigation' %}
+
+                <div class="categories">
+                    <div class="categories-header" data-toggle="categories">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h4>Categories</h4>
+                            </div>
+                            <div class="col-md-1">
+                                <i class="arrow-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="categories-content">
+                        <label class="category-checkbox">
+                            <input type="checkbox" class="category-input" data-category="all" checked>
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">All videos</span>
+                        </label>
+                        {% for category in videoCategories %}
+                        <label class="category-checkbox">
+                            <input type="checkbox" class="category-input" data-category="{{ category.id }}">
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">{{ category.name }}</span>
+                        </label>
+                        {% endfor %}
+                    </div>                    
+                </div>
+                
+            </div>
+            <div class="col-md-9 col-xs-12">
+                {% if records.count() %}
+                <div class="row">
+                    {% for record in records %}
+                    <div class="col-md-4 col-xs-12">
+                        <div class="video-container">
+                            <iframe width="100%" height="267" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="{{record.youtube_url}}"></iframe>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p align="center">No videos found</p>
+                {% endif %}
+            </div>
+        </div>        
+    </div>
+</section>
+
+<!-- <div class="container">
     <div class="col-xs-12 go-back">
         <a href="{{'media-center'|page}}" class="col-xs-12">Back to Media</a>
     </div>
@@ -98,7 +153,6 @@ return Response::download($pathToFile, $fileName, $headers);
             {% if record.file %}
             <div class="links">
                 <div class="button_su">
-                    <!--<video controls="" width="100%" height="267"><source src="{{record.file.path}}" type="video/mp4"></video>-->
                     <span class="su_button_circle desplode-circle"></span>
                     <a class="button_su_inner" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}"><span class="button_text_container"><i class="pr normal p-download"></i>Download</span></a>
                 </div>
@@ -111,4 +165,4 @@ return Response::download($pathToFile, $fileName, $headers);
         {% endfor %}
     </div>
     {% endif %}
-</div>
+</div> -->
