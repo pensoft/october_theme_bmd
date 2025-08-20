@@ -1,0 +1,81 @@
+<div class="library filters">
+    <div class="form-wrapper">
+        <div class="categories">
+            <div class="categories-header" data-toggle="library-categories">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>Library categories</h4>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="arrow-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="categories-content">
+                <label class="category-checkbox">
+                    <input type="checkbox" name="lib_type" value="0" class="lib-type category-input" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">All documents</span>
+                </label>
+                {% if LibraryHandler.property('milestones_filter') %}
+                <label class="category-checkbox">
+                    <input type="checkbox" name="lib_type" value="4" class="lib-type category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Deliverables &amp; milestones</span>
+                </label>
+                {% else %}
+                <label class="category-checkbox">
+                    <input type="checkbox" name="lib_type" value="1" class="lib-type category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Deliverables</span>
+                </label>
+                {% endif %}
+                <label class="category-checkbox">
+                    <input type="checkbox" name="lib_type" value="3" class="lib-type category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">{{ themeName }} publications</span>
+                </label>
+                <label class="category-checkbox">
+                    <input type="checkbox" name="lib_type" value="2" class="lib-type category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Relevant publications</span>
+                </label>
+            </div>
+        </div>
+
+        <div class="categories mt-2">
+            <div class="categories-header" data-toggle="library-sort">
+                <div class="row">
+                    <div class="col-md-11">
+                        <h4>Sort by</h4>
+                    </div>
+                    <div class="col-md-1">
+                        <i class="arrow-down"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="categories-content">
+                <label class="category-checkbox">
+                    <input type="radio" name="lib_sort" value="title asc" class="lib-sort category-input" checked>
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Title (asc)</span>
+                </label>
+                <label class="category-checkbox">
+                    <input type="radio" name="lib_sort" value="title desc" class="lib-sort category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Title (desc)</span>
+                </label>
+                <label class="category-checkbox">
+                    <input type="radio" name="lib_sort" value="year asc" class="lib-sort category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Year (asc)</span>
+                </label>
+                <label class="category-checkbox">
+                    <input type="radio" name="lib_sort" value="year desc" class="lib-sort category-input">
+                    <span class="checkbox-custom"></span>
+                    <span class="category-label">Year (desc)</span>
+                </label>
+            </div>
+        </div>
+    </div>
+</div>

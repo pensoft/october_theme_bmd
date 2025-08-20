@@ -8,4 +8,36 @@ robot_follow = "follow"
 [siteSearchInclude]
 
 ==
+<?php
+use Pensoft\Partners\Models\Partners as Partner;
+
+function onStart(){
+    $this['relevant_initiatives'] = Partner::where('type', 3)->get();
+}
+?>
+==
 {% component 'siteSearchInclude' %}
+
+<section class="container-fluid resources-page relevant-initiatives-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-12">
+                {% partial 'components/resources-navigation' %}
+            </div>
+            <div class="col-md-9 col-xs-12">
+                <div class="row">
+                    {% for record in relevant_initiatives %}
+                    <div class="col-md-4 col-xs-12">
+                        <a href="{{ record.instituion_url }}" class="relevant-initiative-item" target="_blank">
+                            <div class="relevant-initiative-item-image">
+                                <img src="{{ record.cover.path }}" alt="{{ record.name }}">
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</section>

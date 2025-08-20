@@ -30,45 +30,65 @@ use System\Models\File;
 function onStart(){
 	$this['mediaVideosList'] =  Videos::where('pensoft_media_videos.parent_id', null)->get();
     $this['videoCategories'] = VideosCategory::orderBy('name', 'asc')->get();
-if(get('download')){
-$file = File::find((int)get('download'));
-$file_name = $file->getLocalPath();
-$recordName = get('file_name') ? get('file_name') : 'OBSGESSION_video';
-$ext= $file->getExtension();
 
-if (file_exists($file_name)) {
-header('Content-Description: File Transfer');
-header('Content-Type: application/octet-stream');
-header("Content-Type: application/force-download");
-header('Content-Disposition: attachment; filename='.$recordName .'.'. $ext);
-header('Content-Transfer-Encoding: binary');
-header('Expires: 0');
-header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-header('Pragma: public');
-header('Content-Length: ' . filesize($file_name));
-ob_clean();
-flush();
-readfile($file_name);
-exit();
-}
-return Redirect::to('/videos');
-}
+    if(get('download')) {
+        $file = File::find((int)get('download'));
+        $file_name = $file->getLocalPath();
+        $recordName = get('file_name') ? get('file_name') : 'OBSGESSION_video';
+        $ext= $file->getExtension();
+
+        if (file_exists($file_name)) {
+            header('Content-Description: File Transfer');
+            header('Content-Type: application/octet-stream');
+            header("Content-Type: application/force-download");
+            header('Content-Disposition: attachment; filename='.$recordName .'.'. $ext);
+            header('Content-Transfer-Encoding: binary');
+            header('Expires: 0');
+            header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+            header('Pragma: public');
+            header('Content-Length: ' . filesize($file_name));
+            ob_clean();
+            flush();
+            readfile($file_name);
+            exit();
+        }
+
+        return Redirect::to('/videos');
+    }
 }
 
 
 function onDownloadFile(){
-$file = File::find(post('id'));
-$pathToFile = $file->getLocalPath();
-$fileName = $file->file_name;
-$fileType = $file->content_type;
-$headers = [
-'HTTP/1.1 200 OK',
-'Pragma: public',
-'Content-Type: '.$fileType,
-'Content-Type: application/force-download'
-];
+    $file = File::find(post('id'));
+    $pathToFile = $file->getLocalPath();
+    $fileName = $file->file_name;
+    $fileType = $file->content_type;
+    $headers = [
+        'HTTP/1.1 200 OK',
+        'Pragma: public',
+        'Content-Type: '.$fileType,
+        'Content-Type: application/force-download'
+    ];
 
-return Response::download($pathToFile, $fileName, $headers);
+    return Response::download($pathToFile, $fileName, $headers);
+}
+
+function onFilterVideos(){
+    $categoryIds = post('categories', []);
+    
+    // Base query
+    $query = Videos::where('pensoft_media_videos.parent_id', null);
+    
+    // If categories are selected and not "all", filter by categories
+    if (!empty($categoryIds) && !in_array('all', $categoryIds)) {
+        $query->whereIn('category_id', $categoryIds);
+    }
+    
+    $videos = $query->get();
+    
+    return [
+        'html' => $this->renderPartial('components/video-list', ['records' => $videos])
+    ];
 }
 ?>
 ==
@@ -80,89 +100,17 @@ return Response::download($pathToFile, $fileName, $headers);
         <div class="row">
             <div class="col-md-3 col-xs-12">
                 {% partial 'components/resources-navigation' %}
-
-                <div class="categories">
-                    <div class="categories-header" data-toggle="categories">
-                        <div class="row">
-                            <div class="col-md-11">
-                                <h4>Categories</h4>
-                            </div>
-                            <div class="col-md-1">
-                                <i class="arrow-down"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="categories-content">
-                        <label class="category-checkbox">
-                            <input type="checkbox" class="category-input" data-category="all" checked>
-                            <span class="checkbox-custom"></span>
-                            <span class="category-label">All videos</span>
-                        </label>
-                        {% for category in videoCategories %}
-                        <label class="category-checkbox">
-                            <input type="checkbox" class="category-input" data-category="{{ category.id }}">
-                            <span class="checkbox-custom"></span>
-                            <span class="category-label">{{ category.name }}</span>
-                        </label>
-                        {% endfor %}
-                    </div>                    
-                </div>
-                
+                {% partial 'components/categories' 
+                    defaultOption='All videos'
+                    categoriesTitle='Categories'
+                    categoriesList=videoCategories 
+                %}
             </div>
             <div class="col-md-9 col-xs-12">
-                {% if records.count() %}
-                <div class="row">
-                    {% for record in records %}
-                    <div class="col-md-4 col-xs-12">
-                        <div class="video-container">
-                            <iframe width="100%" height="267" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" src="{{record.youtube_url}}"></iframe>
-                        </div>
-                    </div>
-                    {% endfor %}
+                <div id="video-container">
+                    {% partial 'components/video-list' records=records %}
                 </div>
-                {% else %}
-                <p align="center">No videos found</p>
-                {% endif %}
             </div>
         </div>        
     </div>
 </section>
-
-<!-- <div class="container">
-    <div class="col-xs-12 go-back">
-        <a href="{{'media-center'|page}}" class="col-xs-12">Back to Media</a>
-    </div>
-    {% if records.count() %}
-    <div class="row">
-        {% for record in records %}
-        <div class="col-md-4 col-xs-12">
-
-
-
-            {% if record.youtube_url %}
-            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" width="100%" height="267"></iframe>
-            {% endif %}
-
-            {% if record.vimeo_url %}
-            <iframe width="100%" height="267" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    src="{{record.vimeo_url}}">
-            </iframe>
-
-            {% endif %}
-            <p class="card_title">{{ record.name|length > 65 ? record.name|striptags|slice(0, 65)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : record.name|striptags|replace({"&nbsp;": " ", ".": ". "})  }}</p>
-            {% if record.file %}
-            <div class="links">
-                <div class="button_su">
-                    <span class="su_button_circle desplode-circle"></span>
-                    <a class="button_su_inner" href="{{ ''| page }}?{{queries}}&download={{record.file.id}}&file_name={{record.name|replace({' ': '_'})}}"><span class="button_text_container"><i class="pr normal p-download"></i>Download</span></a>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-
-        {% else %}
-        {{ noRecordsMessage }}
-        {% endfor %}
-    </div>
-    {% endif %}
-</div> -->

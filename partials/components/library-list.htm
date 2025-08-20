@@ -1,0 +1,65 @@
+{% if records|length %}
+<div class="row">
+    {% for record in records %}
+    <div class="col-md-6 col-xs-12">
+        <div class="library-item">
+            <div class="library-type-label">
+                {% if record.type_attr %}
+                <span class="doc_type">{{ record.type_attr|_ }}</span>
+                {% endif %}
+                {% if record.deliverable_number %}
+                <span class="doc_year">{{ record.deliverable_number }}</span>
+                {% endif %}
+            </div>
+            
+            <div class="card-content">
+                <h3 class="card-title">{{ record.title }}</h3>
+                
+                <div class="body">
+                    {% if record.authors %}
+                    <div><span class="text-bold">{{ 'Authors:'|_ }}</span> <span class="text-ligth">{{ record.authors|replace({',': ', '}) }}</span></div>
+                    {% endif %}
+
+                    {% if record.type == 5 %}
+                        {% set status = record.status == 1 ? 'Approved' : 'Subject to change' %}
+                        {% set status_class = record.status == 1 ? 'status-approved' : 'status-pending' %}
+                    {% else %}
+                        {% set status = record.status_attr %}
+                        {% set status_class = record.status == 1 ? 'status-approved' : 'status-other' %}
+                    {% endif %}
+                    {% if status %}
+                    <div><span class="text-bold">{{ 'Status:'|_ }}</span> <span class="status-label text-ligth {{ status_class }}">{{ status }}</span></div>
+                    {% endif %}
+
+                    {% if record.journal_title %}<div><span class="text-bold">{{ 'Journal:'|_ }}</span> <span class="text-ligth">{{ record.journal_title }}</span></div>{% endif %}
+                    {% if record.proceedings_title %}<div><span class="text-bold">{{ 'Proceedings:'|_ }}</span> <span class="text-ligth">{{ record.proceedings_title }}</span></div>{% endif %}
+                    {% if record.monograph_title %}<div><span class="text-bold">{{ 'Monograph:'|_ }}</span> <span class="text-ligth">{{ record.monograph_title }}</span></div>{% endif %}
+                    {% if record.deliverable_title %}<div><span class="text-bold">{{ 'Deliverable number:'|_ }}</span> <span class="text-ligth">{{ record.deliverable_title }}</span></div>{% endif %}
+                    {% if record.project_title %}<div><span class="text-bold">{{ 'Project:'|_ }}</span> <span class="text-ligth">{{ record.project_title }}</span></div>{% endif %}
+                    {% if record.volume_issue %}<div><span class="text-bold">{{ 'Volume/Issue:'|_ }}</span> <span class="text-ligth">{{ record.volume_issue }}</span></div>{% endif %}
+                    {% if record.publisher %}<div><span class="text-bold">{{ 'Publisher:'|_ }}</span> <span class="text-ligth">{{ record.publisher }}</span></div>{% endif %}
+                    {% if record.place %}<div><span class="text-bold">{{ 'Place:'|_ }}</span> <span class="text-ligth">{{ record.place }}</span></div>{% endif %}
+                    {% if record.city %}<div><span class="text-bold">{{ 'City:'|_ }}</span> <span class="text-ligth">{{ record.city }}</span></div>{% endif %}
+                    {% if record.pages %}<div><span class="text-bold">{{ 'Pages:'|_ }}</span> <span class="text-ligth">{{ record.pages }}</span></div>{% endif %}
+                    
+                    {% if record.doi %}
+                    <div><span class="text-bold">{{ 'URL/DOI:'|_ }}</span> <span class="text-ligth"><a class="break-word" target="_blank" href="{{ record.doi }}">{{ record.doi }}</a></span></div>
+                    {% endif %}
+                </div>
+                
+                {% if record.file %}
+                <div class="download-section">
+                    <a target="_blank" href="{{ record.file.path }}#file_name={{ record.file.file_name }}" class="btn btn-download">
+                        <i class="pr normal p-download"></i>{{ 'Download'|_ }} ({{ (record.file.file_size / 1024 / 1024)|round(2) }} MB)
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <div class="no-records">Items will follow soon. Keep posted!</div>
+{% endif %}
+

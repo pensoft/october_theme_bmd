@@ -13,7 +13,7 @@
         <div class="partners-popup-data" id="partnersPopupData_{{ partner.id }}" style="display: none;">
             <div class="row">
                 <div class="col-md-5 col-xs-12 partners-popup-left">
-                    <div class="partners-popup-background" {% if partner.cover %}style="background-image: url('{{ partner.cover.path }}')"{% endif %}>
+                    <div class="partners-popup-background" {% if partner.background %}style="background-image: url('{{ partner.background.path }}')"{% endif %}>
                     </div>
                     <div class="partners-popup-overlay-gradient"></div>
                     <div class="partners-popup-partner-info">

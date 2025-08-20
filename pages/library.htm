@@ -5,15 +5,27 @@ is_hidden = 0
 robot_index = "index"
 robot_follow = "follow"
 
-[LibraryPage]
-templates = "template5"
-has_search = 1
-add_file_name = 1
-no_records_message = "Items will follow soon. Keep posted!"
-redirect_to_download_page = 1
+[LibraryHandler]
 milestones_filter = 1
 ==
-<h1 class="underline">Library</h1>
-<div class="container mb-2">
-    {% component 'LibraryPage' %}
-</div>
+==
+
+<section class="container-fluid resources-page library-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-12">
+                {% partial 'components/resources-navigation' %}
+                {% partial 'components/library-filters' %}
+            </div>
+            <div class="col-md-9 col-xs-12">
+                {% partial 'components/library-search' %}
+                <div id="recordsContainer" class="library-items">
+                    {% partial 'components/library-list' records=records %}
+                </div>
+                <div class="row container">
+                    <div id="libPagination" class="col-xs-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

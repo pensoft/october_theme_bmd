@@ -5,10 +5,9 @@
         margin-bottom: 0!important;
 
         &.dark-background {
-            background: #091b18; // Exact color from Figma
+            background: #091b18;
             padding: 50px 0 30px 0;
 
-            // Top Section: Navigation and Branding
             .footer-top-section {
                 margin-bottom: 50px;
                 
@@ -35,10 +34,10 @@
                         
                         .nav-item {
                             white-space: nowrap;
-                            position: relative; // allow absolute submenu positioning
+                            position: relative;
                             
                             > a {
-                                color: #ffffff !important; // Exact color from Figma
+                                color: #ffffff !important;
                                 font-size: 22px;
                                 font-weight: 400;
                                 font-family: 'Author', sans-serif;
@@ -54,7 +53,6 @@
                                 }
                             }
 
-                            // caret arrow only for dropdown parents
                             &.dropdown > a:after {
                                 content: '';
                                 display: inline-block;
@@ -68,33 +66,33 @@
                                 transition: transform 0.3s ease;
                             }
 
-                            // rotate arrow when dropdown is active/open
                             &.dropdown.active > a:after {
                                 transform: translateY(-2px) rotate(180deg);
                             }
 
                             // Footer dropdown submenu
                             .dropdown-menu {
-                                display: block; // always rendered for smooth animation
+                                display: none;
                                 position: absolute;
                                 top: 100%;
                                 left: 50%;
                                 transform: translateX(-50%) translateY(-20px);
                                 z-index: 10;
                                 min-width: 220px;
-                                background: #0f2f2a; // subtle contrast against footer bg
+                                background: #0f2f2a;
                                 border: 1px solid rgba(255, 255, 255, 0.08);
                                 border-radius: 8px;
                                 padding: 8px;
                                 list-style: none;
                                 margin: 10px 0 0 0;
-                                text-align: center; // center items
+                                text-align: center;
                                 opacity: 0;
                                 visibility: hidden;
                                 pointer-events: none;
-                                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); // smooth easing
+                                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
                                 &.show { 
+                                    display: block;
                                     opacity: 1;
                                     visibility: visible;
                                     pointer-events: auto;
@@ -128,7 +126,6 @@
                 }
             }
 
-            // Middle Section: Newsletter and Funding
             .footer-middle-section {
                 margin-bottom: 30px;
                 .breakpoint-large-down({
@@ -136,10 +133,10 @@
                 });
                 
                 .newsletter-section {
-                    padding-right: 40px; // Add more spacing between columns
+                    padding-right: 40px;
                     
                     .newsletter-title {
-                        color: #ffffff; // Exact color from Figma
+                        color: #ffffff;
                         font-size: 24px;
                         font-weight: 500;
                         font-family: 'Author', sans-serif;
@@ -153,7 +150,7 @@
                             position: relative;
                             display: flex;
                             align-items: center;
-                            background: #0f2f2a; // Exact color from Figma
+                            background: #0f2f2a;
                             border-radius: 26px;
                             padding: 2px 10px;
                             max-width: 407px;
@@ -208,7 +205,7 @@
                 }
                 
                 .funding-section {
-                    padding-left: 40px; // Add more spacing between columns
+                    padding-left: 40px;
                     
                     .funding-content {
                         display: flex;
@@ -235,7 +232,7 @@
                                     
                                     p {
                                         margin: 0 !important;
-                                        color: rgba(185, 185, 185, 0.8); // Exact color from Figma
+                                        color: rgba(185, 185, 185, 0.8);
                                         font-size: 13px;
                                         font-weight: 400;
                                         font-family: Arial, sans-serif;
@@ -250,7 +247,6 @@
         }
     }
 
-    // Bottom Section: Legal and Credits
     .light-background {
         background: #091B18;
         
@@ -266,7 +262,7 @@
                 
                 .privacy-link {
                     a {
-                        color: #ffffff; // Exact color from Figma
+                        color: #ffffff;
                         font-size: 16px;
                         font-family: 'Author', sans-serif;
                         text-decoration: none;
@@ -281,7 +277,7 @@
                 .powered-by {
                     display: flex;
                     align-items: center;
-                    color: #ffffff; // Exact color from Figma
+                    color: #ffffff;
                     font-size: 15px !important;
                     font-family: 'Author', sans-serif;
                     letter-spacing: -0.3px;
@@ -307,7 +303,6 @@
         }
     }
 
-    // Responsive Design
     .breakpoint-large-down({
         .container-fluid.dark-background {
             .footer-top-section {
@@ -332,7 +327,7 @@
             .footer-middle-section {
                 .newsletter-section {
                     margin-bottom: 30px;
-                    padding-right: 0; // Remove padding on mobile
+                    padding-right: 0;
                     
                     .newsletter-form {
                         .email-input-container {
@@ -342,7 +337,7 @@
                 }
                 
                 .funding-section {
-                    padding-left: 0; // Remove padding on mobile
+                    padding-left: 0;
                     
                     .funding-content {
                         flex-direction: column;

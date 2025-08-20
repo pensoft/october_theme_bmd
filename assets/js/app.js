@@ -32,6 +32,8 @@ $(function() {
     initTimelineWidth();
     initDorsalToggle();
     initLibraryLayout();
+    initLibraryFilters();
+    initLibraryFiltersToggle();
     initPartnersListColumnWrapping();
     initHeroCarousel();
     initNavbarScrollState();
@@ -39,6 +41,7 @@ $(function() {
     initObjectivesToggle();
     initWorkPackagesAccordion();
     initKeyResultsTabs();
+    initVideoFiltering();
 });
 
 // ---------- Initializers ----------
@@ -249,9 +252,257 @@ function initDorsalToggle() {
 }
 
 function initLibraryLayout() {
-    $('.library .form-wrapper, .library-items').wrapAll('<div class="container-fluid bg-secondary"><div class="container"></div></div>');
+    // The new library page provides its own markup/layout.
+    // Avoid moving `.library-items` under the filters column which happened due to wrapAll.
+    if ($('.library-page').length) {
+        return;
+    }
     $('.library .tabs').wrapAll('<div class="container"></div>');
     $('.library_content .row.center-xs.mb-1').wrapAll('<div class="container_relative"></div>');
+}
+
+/**
+ * New front-end driven Library filters/search/sort with AJAX
+ * Uses LibraryHandler::onFilter to fetch JSON and renders items client-side
+ */
+function initLibraryFilters() {
+    const $container = $('.library-page');
+    if (!$container.length) return;
+
+    const $items = $('#recordsContainer');
+    const $pagination = $('#libPagination');
+    const $types = $('input.lib-type');
+    const $sorts = $('input.lib-sort');
+    const $search = $('#libSearch');
+    const $clear = $('#libClearSearch');
+    const $size = $('#libTotalSize');
+    const $sortHeading = $container.find('.dropdown-head h4').eq(1); // second heading (sort)
+
+    const state = {
+        page: 1,
+        perPage: 15,
+        type: '0',
+        sort: 'year desc',
+        search: ''
+    };
+
+    // Helper: default sort based on type
+    function computeDefaultSortForType(typeVal) {
+        return (typeVal === '1' || typeVal === '4') ? 'title asc' : 'year desc';
+    }
+
+    function updateSortHeading() {
+        const label = $sorts.filter(':checked').siblings('span').text();
+        if (label && $sortHeading.length) {
+            $sortHeading.text(label);
+        }
+    }
+
+    // Render list from HTML partial
+    function renderItemsHtml(html) {
+        $items.html(html || '<div class="no-records">Items will follow soon. Keep posted!</div>');
+    }
+
+    // Render pagination from HTML and hijack links
+    function renderPaginationHtml(html) {
+        $pagination.html(html || '');
+        $pagination.find('a').off('click').on('click', function(e){
+            const href = $(this).attr('href') || '';
+            const match = href.match(/[?&]page=(\d+)/);
+            if (match) {
+                e.preventDefault();
+                state.page = parseInt(match[1], 10) || 1;
+                fetchAndRender();
+            }
+        });
+    }
+
+    // Fetch data
+    function fetchAndRender() {
+        $.request('LibraryHandler::onFilter', {
+            data: {
+                page: state.page,
+                perPage: state.perPage,
+                type: state.type,
+                sort: state.sort,
+                search: state.search
+            },
+            success: function(resp){
+                if (!resp) return;
+                renderItemsHtml(resp.html);
+                renderPaginationHtml(resp.pagination);
+                if ($size.length) {
+                    const mb = resp.meta && resp.meta.total_file_size_mb ? resp.meta.total_file_size_mb : 0;
+                    $size.text(mb ? `(Total download size: ${mb} MB)` : '');
+                }
+            },
+            error: function(){
+                $items.html('<div class="no-records">Error loading items. Please try again.</div>');
+            }
+        });
+    }
+
+    // Type selection behaves like radio: only one checked at a time
+    $types.on('change', function(){
+        const $this = $(this);
+        // keep only this checked
+        $types.not($this).prop('checked', false);
+        state.type = String($this.val());
+        // Default sort may change with type
+        state.sort = computeDefaultSortForType(state.type);
+        $sorts.prop('checked', false);
+        $sorts.filter(`[value="${state.sort}"]`).prop('checked', true);
+        updateSortHeading();
+        state.page = 1;
+        fetchAndRender();
+    });
+
+    // Sorting - ensure only one radio button is selected
+    $sorts.on('change', function(){
+        const $this = $(this);
+        // Uncheck all other sort options
+        $sorts.not($this).prop('checked', false);
+        state.sort = String($this.val());
+        updateSortHeading();
+        state.page = 1;
+        fetchAndRender();
+    });
+
+    // Search with debounce
+    let searchTimer = null;
+    function triggerSearch(){
+        state.search = $search.val();
+        state.page = 1;
+        fetchAndRender();
+        toggleClearVisibility();
+        toggleSearchIconVisibility();
+    }
+    $search.on('input', function(){
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(triggerSearch, 300);
+        toggleClearVisibility();
+        toggleSearchIconVisibility();
+    });
+    
+    function toggleClearVisibility(){
+        if ($search.val()) {
+            $clear.addClass('visible');
+        } else {
+            $clear.removeClass('visible');
+        }
+    }
+    
+    function toggleSearchIconVisibility(){
+        const $defaultIcon = $search.siblings('.search-icon.default-icon');
+        const $focusedIcon = $search.siblings('.search-icon.focused-icon');
+        
+        if ($search.val()) {
+            // Hide both icons when typing - regardless of focus state
+            $defaultIcon.addClass('hidden');
+            $focusedIcon.addClass('hidden');
+        } else {
+            // Show appropriate icon based on focus state only when empty
+            if ($search.is(':focus')) {
+                // If focused and empty, show green icon, hide default
+                $defaultIcon.addClass('hidden');
+                $focusedIcon.removeClass('hidden');
+            } else {
+                // If not focused and empty, show default icon, hide green
+                $defaultIcon.removeClass('hidden');
+                $focusedIcon.addClass('hidden');
+            }
+        }
+    }
+    
+    // Enhanced search focus effects
+    $search.on('focus', function() {
+        $(this).addClass('focused');
+        toggleSearchIconVisibility();
+    });
+    
+    $search.on('blur', function() {
+        $(this).removeClass('focused');
+        toggleSearchIconVisibility();
+        // Keep clear button visible if there's text
+        if (!$(this).val()) {
+            $clear.removeClass('visible');
+        }
+    });
+    
+    $clear.on('click', function(e){
+        e.preventDefault();
+        $search.val('').focus();
+        triggerSearch();
+    });
+
+    // Initialize defaults from UI
+    const $defaultType = $types.filter(':checked');
+    state.type = $defaultType.length ? String($defaultType.val()) : '0';
+    state.sort = computeDefaultSortForType(state.type);
+    $sorts.prop('checked', false);
+    $sorts.filter(`[value="${state.sort}"]`).prop('checked', true);
+    updateSortHeading();
+    toggleClearVisibility();
+
+    fetchAndRender();
+}
+
+function initLibraryFiltersToggle() {
+    // Handle library categories toggle
+    const $libraryCategoriesHeader = $('[data-toggle="library-categories"]');
+    const $libraryCategoriesContent = $libraryCategoriesHeader.siblings('.categories-content');
+
+    if ($libraryCategoriesHeader.length && $libraryCategoriesContent.length) {
+        $libraryCategoriesHeader.on('click', function(e) {
+            e.preventDefault();
+            
+            const $header = $(this);
+            const $content = $header.siblings('.categories-content');
+            
+            // Toggle collapsed state
+            $header.toggleClass('collapsed');
+            $content.toggleClass('collapsed');
+            
+            // Store state in localStorage for persistence
+            const isCollapsed = $header.hasClass('collapsed');
+            localStorage.setItem('libraryCategoriesCollapsed', isCollapsed);
+        });
+        
+        // Restore state from localStorage on page load
+        const wasCollapsed = localStorage.getItem('libraryCategoriesCollapsed') === 'true';
+        if (wasCollapsed) {
+            $libraryCategoriesHeader.addClass('collapsed');
+            $libraryCategoriesContent.addClass('collapsed');
+        }
+    }
+
+    // Handle library sort toggle
+    const $librarySortHeader = $('[data-toggle="library-sort"]');
+    const $librarySortContent = $librarySortHeader.siblings('.categories-content');
+
+    if ($librarySortHeader.length && $librarySortContent.length) {
+        $librarySortHeader.on('click', function(e) {
+            e.preventDefault();
+            
+            const $header = $(this);
+            const $content = $header.siblings('.categories-content');
+            
+            // Toggle collapsed state
+            $header.toggleClass('collapsed');
+            $content.toggleClass('collapsed');
+            
+            // Store state in localStorage for persistence
+            const isCollapsed = $header.hasClass('collapsed');
+            localStorage.setItem('librarySortCollapsed', isCollapsed);
+        });
+        
+        // Restore state from localStorage on page load
+        const wasCollapsed = localStorage.getItem('librarySortCollapsed') === 'true';
+        if (wasCollapsed) {
+            $librarySortHeader.addClass('collapsed');
+            $librarySortContent.addClass('collapsed');
+        }
+    }
 }
 
 function initPartnersColumnWrapping() {
@@ -901,7 +1152,7 @@ function initNewsCategoryTabs() {
  */
 function initFooterDropdowns() {
     // Mark dropdown items that have submenus
-    $('.footer-menu .footer-menu-item').each(function() {
+    $('.footer-navigation .nav-item').each(function() {
         const $item = $(this);
         const $submenu = $item.find('.dropdown-menu');
         
@@ -911,7 +1162,7 @@ function initFooterDropdowns() {
     });
     
     // Handle dropdown clicks
-    $('.footer-menu .footer-menu-item.dropdown > a').on('click', function(e) {
+    $('.footer-navigation .nav-item.dropdown > a').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
         
@@ -920,8 +1171,8 @@ function initFooterDropdowns() {
         
         if ($dropdownMenu.length) {
             // Close all other footer dropdowns first
-            $('.footer-menu .footer-menu-item.dropdown').not($parentItem).removeClass('active');
-            $('.footer-menu .dropdown-menu').not($dropdownMenu).removeClass('show');
+            $('.footer-navigation .nav-item.dropdown').not($parentItem).removeClass('active');
+            $('.footer-navigation .dropdown-menu').not($dropdownMenu).removeClass('show');
             
             // Toggle current dropdown
             $parentItem.toggleClass('active');
@@ -931,24 +1182,24 @@ function initFooterDropdowns() {
     
     // Close dropdowns when clicking outside
     $(document).on('click.footerDropdown', function(e) {
-        if (!$(e.target).closest('.footer-menu').length) {
-            $('.footer-menu .footer-menu-item.dropdown').removeClass('active');
-            $('.footer-menu .dropdown-menu').removeClass('show');
+        if (!$(e.target).closest('.footer-navigation').length) {
+            $('.footer-navigation .nav-item.dropdown').removeClass('active');
+            $('.footer-navigation .dropdown-menu').removeClass('show');
         }
     });
     
     // Prevent dropdown menu clicks from closing the dropdown
-    $('.footer-menu .dropdown-menu').on('click', function(e) {
+    $('.footer-navigation .dropdown-menu').on('click', function(e) {
         e.stopPropagation();
     });
     
     // Allow dropdown menu links to work normally
-    $('.footer-menu .dropdown-menu a').on('click', function(e) {
+    $('.footer-navigation .dropdown-menu a').on('click', function(e) {
         // Don't prevent default - let the link work normally
         // Just close the dropdown after a short delay
         setTimeout(function() {
-            $('.footer-menu .footer-menu-item.dropdown').removeClass('active');
-            $('.footer-menu .dropdown-menu').removeClass('show');
+            $('.footer-navigation .nav-item.dropdown').removeClass('active');
+            $('.footer-navigation .dropdown-menu').removeClass('show');
         }, 100);
     });
 }
@@ -1316,4 +1567,70 @@ function prepareAboutSection($popupData) {
     $full.hide();
     $popupData.find('.partners-popup-read-more').attr('aria-expanded', 'false');
     $desc.data('prepared', true);
+}
+
+/**
+ * Initialize video filtering functionality
+ * Handles checkbox filtering for video categories
+ */
+function initVideoFiltering() {
+    // Only initialize on videos page
+    if (!$('.videos-page').length) {
+        return;
+    }
+    
+    // Handle category checkbox changes
+    $('.category-input').on('change', function() {
+        const $checkbox = $(this);
+        const categoryId = $checkbox.data('category');
+        
+        // Handle "All" checkbox behavior
+        if (categoryId === 'all') {
+            if ($checkbox.is(':checked')) {
+                // Uncheck all other checkboxes when "All" is selected
+                $('.category-input').not($checkbox).prop('checked', false);
+            }
+        } else {
+            // If any specific category is selected, uncheck "All"
+            if ($checkbox.is(':checked')) {
+                $('.category-input[data-category="all"]').prop('checked', false);
+            }
+        }
+        
+        // If no checkboxes are selected, check "All"
+        const checkedBoxes = $('.category-input:checked').length;
+        if (checkedBoxes === 0) {
+            $('.category-input[data-category="all"]').prop('checked', true);
+        }
+        
+        // Perform Ajax request
+        filterVideos();
+    });
+}
+
+/**
+ * Filter videos based on selected categories
+ */
+function filterVideos() {
+    const selectedCategories = [];
+    
+    $('.category-input:checked').each(function() {
+        selectedCategories.push($(this).data('category'));
+    });
+    
+    // Show loading state
+    $('#video-container').html('<div class="text-center"><p>Loading videos...</p></div>');
+    
+    // Make Ajax request
+    $.request('onFilterVideos', {
+        data: {
+            categories: selectedCategories
+        },
+        success: function(data) {
+            $('#video-container').html(data.html);
+        },
+        error: function() {
+            $('#video-container').html('<div class="text-center"><p>Error loading videos. Please try again.</p></div>');
+        }
+    });
 }

@@ -1,0 +1,30 @@
+{% set defaultOption = defaultOption|default('All') %}
+{% set categoriesTitle = categoriesTitle|default('Categories') %}
+{% set categoriesList = categoriesList|default(videoCategories) %}
+
+<div class="categories">
+    <div class="categories-header" data-toggle="categories">
+        <div class="row">
+            <div class="col-md-11">
+                <h4>{{ categoriesTitle }}</h4>
+            </div>
+            <div class="col-md-1">
+                <i class="arrow-down"></i>
+            </div>
+        </div>
+    </div>
+    <div class="categories-content">
+        <label class="category-checkbox">
+            <input type="checkbox" class="category-input" data-category="all" checked>
+            <span class="checkbox-custom"></span>
+            <span class="category-label">{{ defaultOption }}</span>
+        </label>
+        {% for category in categoriesList %}
+        <label class="category-checkbox">
+            <input type="checkbox" class="category-input" data-category="{{ category.id }}">
+            <span class="checkbox-custom"></span>
+            <span class="category-label">{{ category.name }}</span>
+        </label>
+        {% endfor %}
+    </div>                    
+</div>

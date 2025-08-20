@@ -1,0 +1,25 @@
+<div class="row library-search">
+    <div class="col-md-9 col-xs-12">
+        <div class="search-box">
+            <div class="input-group">
+                <input class="form-control search" id="libSearch" type="text" autocomplete="on" placeholder="Search...">
+                <button id="libClearSearch" class="btn btn-reset btn-link" type="button" title="clear search">&#x2715</button>
+                <div class="search-icon default-icon">
+                    <img src="{{ 'assets/images/library-search.svg'|theme }}" alt="Search" class="search-icon-img">
+                </div>
+                <div class="search-icon focused-icon">
+                    <img src="{{ 'assets/images/library-search-green.svg'|theme }}" alt="Search" class="search-icon-img">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-3 col-xs-12">
+        <div class="download-section">
+            <button data-request="LibraryHandler::onDownloadAll" class="btn btn-download btn-large" id="libDownloadAll">
+                Download all
+            </button>
+            <div class="text-muted small" id="libTotalSize"></div>
+        </div>
+    </div>
+</div>
