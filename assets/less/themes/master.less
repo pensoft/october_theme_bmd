@@ -60,8 +60,8 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     font-size: 40px;
     font-style: normal;
     text-transform: uppercase;
-    line-height: 1; // ensure element height equals text height
-    display: inline-block; // border height matches text only
+    line-height: 1;
+    display: inline-block;
     padding-left: 10px;
     border-left: 4px solid #20A683;
     margin-bottom: 20px;
@@ -82,7 +82,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     transform: translateY(20px) scale(0.8);
     transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     
-    // Solid design with excellent contrast
     background: #FFFFFF;
     border: 2px solid #E1E4ED;
     box-shadow: 
@@ -90,14 +89,12 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
         0 4px 12px rgba(0, 0, 0, 0.04),
         0 2px 6px rgba(0, 0, 0, 0.02);
 
-    // Show state
     &.show {
         opacity: 1;
         visibility: visible;
         transform: translateY(0) scale(1);
     }
 
-    // Hover effects
     &:hover {
         transform: translateY(-3px) scale(1.05);
         background: #20A683;
@@ -125,20 +122,17 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
         }
     }
 
-    // Active state
     &:active {
         transform: translateY(-1px) scale(0.98);
         transition: all 0.1s ease;
     }
 
-    // Click effect
     &.clicked {
         transform: translateY(0) scale(0.95);
         background: #1a8f6f;
         transition: all 0.15s ease;
     }
 
-    // Arrow icon container
     .back-to-top-arrow {
         position: absolute;
         top: 50%;
@@ -148,7 +142,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
         transition: all 0.3s ease;
         animation: float 2.5s ease-in-out infinite;
 
-        // CSS-drawn arrow using borders
         &::before {
             content: '';
             display: block;
@@ -161,7 +154,6 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
         }
     }
 
-    // Progress ring
     .progress-ring {
         position: absolute;
         top: 0;
@@ -264,26 +256,26 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     });
 
     // Extra small screens
-    .breakpoint-small-down({
-        width: 44px;
-        height: 44px;
-        bottom: 20px;
-        right: 20px;
+    // .breakpoint-small-down({
+    //     width: 44px;
+    //     height: 44px;
+    //     bottom: 20px;
+    //     right: 20px;
 
-        .back-to-top-arrow {
-            &::before {
-                border-left-width: 4px;
-                border-right-width: 4px;
-                border-bottom-width: 6px;
-            }
-        }
+    //     .back-to-top-arrow {
+    //         &::before {
+    //             border-left-width: 4px;
+    //             border-right-width: 4px;
+    //             border-bottom-width: 6px;
+    //         }
+    //     }
 
-        .progress-ring circle {
-            &.progress {
-                stroke-width: 2;
-            }
-        }
-    });
+    //     .progress-ring circle {
+    //         &.progress {
+    //             stroke-width: 2;
+    //         }
+    //     }
+    // });
 
     // Dark section adaptation
     .hero-section &,

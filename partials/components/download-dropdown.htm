@@ -1,0 +1,55 @@
+{# 
+  Reusable download dropdown partial
+  
+  Parameters:
+  - item: The media item object
+  - imageField: Name of the image field
+  - itemType: Type of item for download filename
+#}
+
+{% set availableFiles = [] %}
+
+{# Handle logo formats and language versions #}
+{% if itemType == 'logo' %}
+    {# Logo has separate format fields #}
+    {% if item.file_jpg %}{% set availableFiles = availableFiles|merge([{'file': item.file_jpg, 'format': 'JPG'}]) %}{% endif %}
+    {% if item.file_png %}{% set availableFiles = availableFiles|merge([{'file': item.file_png, 'format': 'PNG'}]) %}{% endif %}
+    {% if item.file_svg %}{% set availableFiles = availableFiles|merge([{'file': item.file_svg, 'format': 'SVG'}]) %}{% endif %}
+    {% if item.file_pdf %}{% set availableFiles = availableFiles|merge([{'file': item.file_pdf, 'format': 'PDF'}]) %}{% endif %}
+    {% if item.file_zip %}{% set availableFiles = availableFiles|merge([{'file': item.file_zip, 'format': 'ZIP'}]) %}{% endif %}
+{% else %}
+    {# Use language versions for other item types #}
+    {% if item.file_lang_versions.count() > 0 %}
+        {% for version in item.file_lang_versions %}
+            {% set language = version.title ? version.title : (version.description ? version.description : version.file_name) %}
+            {% set availableFiles = availableFiles|merge([{'file': version, 'format': language|title}]) %}
+        {% endfor %}
+    {% elseif item.file %}
+        {% set availableFiles = availableFiles|merge([{'file': item.file, 'format': 'Download'}]) %}
+    {% endif %}
+{% endif %}
+
+<div class="image-wrapper">
+    <img src="{{ attribute(item, imageField).getPath() }}" alt="{{ item.title ?? item.name }}" class="img-responsive">
+    
+    <!-- Always show dropdown -->
+    <div class="download-dropdown">
+        <div class="download-section">
+            <a href="#" class="btn btn-download" aria-haspopup="true" aria-expanded="false">
+                Download 
+            </a>
+        </div>
+        <div class="dropdown-menu">
+             {% for fileData in availableFiles %}
+                 {% if itemType == 'logo' %}
+                     {% set filename = item.name ~ '.' ~ fileData.format|lower %}
+                 {% else %}
+                     {% set filename = item.title ~ '_' ~ fileData.format %}
+                 {% endif %}
+                 <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item">
+                     {{ fileData.format }}
+                 </a>
+             {% endfor %}
+         </div>
+    </div>
+</div>

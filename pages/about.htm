@@ -40,6 +40,7 @@ function onStart(){
     use Pensoft\Accordions\Models\Category;
     use Pensoft\Partners\Models\Partners as Partner;
     use Pensoft\CardProfiles\Models\Profiles as Profile;
+    use Pensoft\CardProfiles\Models\Category as ProfileCategory;
 
     $this['mission_title'] = Category::where('slug', 'objectives')->first();
     $this['mission_records'] = Item::whereHas('accordion', function($query) {
@@ -51,7 +52,7 @@ function onStart(){
         $query->where('slug', 'wp');
     })->get();
 
-    $this['partners'] = Partner::where('type', 1)->get();
+    $this['partners'] = Partner::where('type', 2)->get();
     $this['parner_profiles'] = Profile::where('category_id', 1)->get();
     
     $partnersWithMembers = [];
@@ -60,6 +61,18 @@ function onStart(){
         $partnersWithMembers[$partner->id] = $members;
     }
     $this['partnersWithMembers'] = $partnersWithMembers;
+
+    // External Expert Advisory Board profiles (isolated from existing logic)
+    $eabCategory = ProfileCategory::where('slug', 'external-expert-advisory-board')
+        ->orWhere('name', 'External Expert Advisory Board')
+        ->first();
+    $this['eab_profiles'] = [];
+    if ($eabCategory) {
+        $this['eab_profiles'] = Profile::with(['partner'])
+            ->where('category_id', $eabCategory->id)
+            ->orderBy('sort_order')
+            ->get();
+    }
 }
 ?>
 ==
@@ -150,6 +163,52 @@ function onStart(){
                 <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
                     <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
                 </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="col-xs-12 text-center">
+            <h2 class="section-header">External Expert Advisory Board</h2>
+        </div>
+        <div class="row eab-profiles">
+            {% for p in eab_profiles %}
+            <div class="col-md-3 col-xs-12 eab-profile">
+                <div class="eab-card">
+                    {% if p.partner and p.partner.cover %}
+                    <div class="eab-partner-logo">
+                        <img alt="{{ p.partner.instituion }}" title="{{ p.partner.instituion }}" src="{{ p.partner.cover.thumb(72,40,{'mode':'crop'}) }}">
+                    </div>
+                    {% endif %}
+
+                    <div class="eab-image">
+                        {% if p.avatar %}
+                        <img alt="{{ p.names }}" title="{{ p.names }}" src="{{ p.avatar.thumb(600,360,{'mode':'crop'}) }}">
+                        {% else %}
+                        <div class="eab-image-placeholder"></div>
+                        {% endif %}
+                    </div>
+
+                    <div class="eab-card-footer row middle-xs between-xs">
+                        <div class="col-xs-7 eab-name">{{ p.names }}</div>
+                        <div class="col-xs-5 end-xs">
+                            <a href="#" class="eab-biography-toggle" aria-expanded="false">
+                                <span>Biography</span>
+                                <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                    <path d="M1 1L5 5L9 1" stroke="#20A683" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- {% if p.position %}
+                    <div class="eab-position">{{ p.position }}</div>
+                    {% endif %} -->
+
+                    <div class="eab-bio" style="display:none;">
+                        {{ p.content|raw ?: p.body|raw }}
+                    </div>
+                </div>
             </div>
             {% endfor %}
         </div>

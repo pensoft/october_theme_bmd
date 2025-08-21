@@ -300,3 +300,100 @@ section.tab-content {
     }
 }
 
+
+// External Expert Advisory Board styles
+.who-we-are {
+    .text-center{
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        .section-header{
+            width: 30%;
+            line-height: 1.4;
+            .breakpoint-large-down({
+                width: 100%;
+            });
+        }
+    }
+
+    .eab-profiles {
+        margin-top: 10px;
+    }
+
+    .eab-profile {
+        margin-bottom: 24px;
+    }
+
+    .eab-card {
+        position: relative;
+        background: transparent;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: none;
+        padding-bottom: 12px;
+    }
+
+    .eab-partner-logo {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 2;
+        background: #ffffff;
+        border-radius: 6px;
+        padding: 6px 8px;
+        box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        img { display: block; max-width: 72px; height: auto; }
+    }
+
+    .eab-image {
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        background: #e6e6e6;
+        display: block;
+        margin-bottom: 10px;
+        img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    }
+
+    .eab-image-placeholder {
+        width: 100%; height: 100%; background: #d9d9d9;
+    }
+
+    .eab-card-footer {
+        padding: 0;
+        .eab-name { 
+            color: #0F2F2A; 
+            font-family: Author; 
+            padding: 0;
+            font-weight: 500; 
+        }
+        .col-xs-5 {
+            padding: 0;
+        }
+        a.eab-biography-toggle {
+            color: #20a683;
+            text-decoration: none;
+            font-family: Author;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            .chevron {
+                transition: transform .2s ease;
+            }
+            &[aria-expanded='true'] .chevron { transform: rotate(180deg); }
+        }
+    }
+
+    .eab-position {
+        color: #737373;
+        font-size: 14px;
+        padding: 0;
+        margin-top: 2px;
+    }
+
+    .eab-bio {
+        padding: 10px 0;
+        color: #737373;
+        font-size: 14px;
+    }
+}

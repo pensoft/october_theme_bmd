@@ -42,6 +42,9 @@ $(function() {
     initWorkPackagesAccordion();
     initKeyResultsTabs();
     initVideoFiltering();
+    initProjectMaterialsFiltering();
+    initDownloadDropdowns();
+    initEabBiographyToggle();
 });
 
 // ---------- Initializers ----------
@@ -53,6 +56,27 @@ function initPageStructureEnhancements() {
     for (let i = 0; i < $divs.length; i += 2) {
         $divs.slice(i, i + 2).wrapAll('<div class="col-xs" />');
     }
+}
+
+/**
+ * Initialize EAB Biography toggle
+ * Delegated click handler that toggles the next .eab-bio within the same card
+ */
+function initEabBiographyToggle() {
+    $(document).off('click.eab').on('click.eab', '.eab-card .eab-biography-toggle', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const $card = $btn.closest('.eab-card');
+        const $bio = $card.find('.eab-bio').first();
+        const isOpen = $bio.is(':visible');
+        if (isOpen) {
+            $bio.slideUp(180);
+            $btn.attr('aria-expanded', 'false');
+        } else {
+            $bio.slideDown(200);
+            $btn.attr('aria-expanded', 'true');
+        }
+    });
 }
 
 function initIntroItemsClicks() {
@@ -1170,17 +1194,14 @@ function initFooterDropdowns() {
         const $dropdownMenu = $parentItem.find('.dropdown-menu');
         
         if ($dropdownMenu.length) {
-            // Close all other footer dropdowns first
             $('.footer-navigation .nav-item.dropdown').not($parentItem).removeClass('active');
             $('.footer-navigation .dropdown-menu').not($dropdownMenu).removeClass('show');
             
-            // Toggle current dropdown
             $parentItem.toggleClass('active');
             $dropdownMenu.toggleClass('show');
         }
     });
     
-    // Close dropdowns when clicking outside
     $(document).on('click.footerDropdown', function(e) {
         if (!$(e.target).closest('.footer-navigation').length) {
             $('.footer-navigation .nav-item.dropdown').removeClass('active');
@@ -1587,11 +1608,9 @@ function initVideoFiltering() {
         // Handle "All" checkbox behavior
         if (categoryId === 'all') {
             if ($checkbox.is(':checked')) {
-                // Uncheck all other checkboxes when "All" is selected
                 $('.category-input').not($checkbox).prop('checked', false);
             }
         } else {
-            // If any specific category is selected, uncheck "All"
             if ($checkbox.is(':checked')) {
                 $('.category-input[data-category="all"]').prop('checked', false);
             }
@@ -1606,6 +1625,104 @@ function initVideoFiltering() {
         // Perform Ajax request
         filterVideos();
     });
+}
+
+/**
+ * Initialize project materials filtering functionality
+ * Handles radio button filtering for project materials categories
+ */
+function initProjectMaterialsFiltering() {
+    // Only initialize on project materials page
+    if (!$('.project-materials-page').length || window.location.pathname.indexOf('/project-materials') === -1) {
+        return;
+    }
+    
+    // Initialize categories toggle functionality
+    initProjectMaterialsCategoriesToggle();
+    
+    // Handle category radio button changes
+    $('.project-category-input').on('change', function() {
+        const $radio = $(this);
+        const categoryId = $radio.data('category');
+        
+        // Ensure only one category is selected at a time
+        $('.project-category-input').not($radio).prop('checked', false);
+        
+        // Filter project materials
+        filterProjectMaterials();
+    });
+    
+    // Set default selection to first category (Brand kit)
+    $('.project-category-input[data-category="brand-kit"]').prop('checked', true);
+    filterProjectMaterials();
+}
+
+/**
+ * Initialize project materials categories toggle functionality
+ */
+function initProjectMaterialsCategoriesToggle() {
+    const $categoriesHeader = $('.project-materials-page .categories .categories-header');
+    const $categoriesContent = $categoriesHeader.siblings('.categories-content');
+    
+    if ($categoriesHeader.length && $categoriesContent.length) {
+        $categoriesHeader.off('click.projectMaterials');
+        
+        $categoriesHeader.on('click.projectMaterials', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            const $header = $(this);
+            const $content = $categoriesContent;
+            
+            // Toggle collapsed state
+            $header.toggleClass('collapsed');
+            $content.toggleClass('collapsed');
+            
+            // Store state in localStorage for persistence
+            const isCollapsed = $header.hasClass('collapsed');
+            localStorage.setItem('projectMaterialsCategoriesCollapsed', isCollapsed);
+        });
+        
+        // Restore state from localStorage on page load
+        const wasCollapsed = localStorage.getItem('projectMaterialsCategoriesCollapsed') === 'true';
+        if (wasCollapsed) {
+            $categoriesHeader.addClass('collapsed');
+            $categoriesContent.addClass('collapsed');
+        }
+    }
+}
+
+/**
+ * Filter project materials based on selected category
+ */
+function filterProjectMaterials() {
+    const selectedCategory = $('.project-category-input:checked').data('category');
+    
+    if (!selectedCategory) return;
+    
+    // Show/hide tab content based on selection
+    $('.tab-content').each(function() {
+        const $tab = $(this);
+        const tabId = $tab.attr('id');
+        
+        if (tabId === selectedCategory) {
+            $tab.show().addClass('active');
+            // Force visibility and ensure content is displayed
+            $tab.css({
+                'display': 'block',
+                'opacity': '1',
+                'visibility': 'visible'
+            });
+        } else {
+            $tab.hide().removeClass('active');
+            $tab.css({
+                'display': 'none',
+                'opacity': '0',
+                'visibility': 'hidden'
+            });
+        }
+    });
+    
 }
 
 /**
@@ -1631,6 +1748,51 @@ function filterVideos() {
         },
         error: function() {
             $('#video-container').html('<div class="text-center"><p>Error loading videos. Please try again.</p></div>');
+        }
+    });
+}
+
+/**
+ * Initialize download dropdown functionality
+ * Handles toggling download dropdowns for brand kit items
+ */
+function initDownloadDropdowns() {
+    // Prevent multiple initializations
+    if (window.__downloadDropdownInit) return;
+    window.__downloadDropdownInit = true;
+
+    function closeAll(except) {
+        $('.download-dropdown.open').not(except).each(function() {
+            const $dd = $(this);
+            $dd.removeClass('open');
+            const $btn = $dd.find('.btn-download');
+            if ($btn.length) $btn.attr('aria-expanded', 'false');
+        });
+    }
+
+    // Handle download button clicks
+    $(document).on('click', '.download-dropdown .btn-download', function(e) {
+        e.preventDefault();
+        const $btn = $(this);
+        const $wrapper = $btn.closest('.download-dropdown');
+        const isOpen = $wrapper.hasClass('open');
+        
+        closeAll($wrapper);
+        $wrapper.toggleClass('open', !isOpen);
+        $btn.attr('aria-expanded', String(!isOpen));
+    });
+
+    // Close dropdowns when clicking outside
+    $(document).on('click', function(e) {
+        if (!$(e.target).closest('.download-dropdown').length) {
+            closeAll();
+        }
+    });
+
+    // Close dropdowns with Escape key
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeAll();
         }
     });
 }

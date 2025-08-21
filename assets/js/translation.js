@@ -30,11 +30,8 @@ const SELECTORS = {
 const SUPPORTED_LANGUAGES = [
     { code: 'en', name: 'English', flag: 'gb' },
     { code: 'fr', name: 'French', flag: 'fr' },
-    { code: 'de', name: 'German', flag: 'de' },
-    { code: 'ro', name: 'Romanian', flag: 'ro' },
-    { code: 'fi', name: 'Finnish', flag: 'fi' },
-    { code: 'nl', name: 'Dutch', flag: 'nl' },
-    { code: 'zh-CN', name: 'Chinese', flag: 'cn' }
+    { code: 'es', name: 'Spanish', flag: 'es' },
+    { code: 'de', name: 'German', flag: 'de' }
 ];
 
 /**

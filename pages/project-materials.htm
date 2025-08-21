@@ -1,0 +1,130 @@
+url = "/resources/project-materials"
+layout = "default"
+title = "Project materials"
+is_hidden = 0
+robot_index = "index"
+robot_follow = "follow"
+
+[siteSearchInclude]
+
+==
+<?php
+use Pensoft\Media\Models\MediaLogos;
+use Pensoft\Media\Models\Flyers;
+use Pensoft\Media\Models\Presentations;
+
+function onStart(){
+	$this['brand_kit'] = MediaLogos::get();
+	$this['promotional_materials'] = Flyers::get();
+	$this['technical_materials'] = Presentations::get();
+}
+?>
+==
+
+{% component 'siteSearchInclude' %}
+
+<section class="container-fluid resources-page project-materials-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-12">
+                {% partial 'components/resources-navigation' %}
+
+                <div class="categories">
+                    <div class="categories-header">
+                        <div class="row">
+                            <div class="col-md-11">
+                                <h4>Categories</h4>
+                            </div>
+                            <div class="col-md-1">
+                                <i class="arrow-down"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="categories-content">
+                        <label class="category-checkbox">
+                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="brand-kit" checked>
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">Brand kit</span>
+                        </label>
+                        <label class="category-checkbox">
+                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="promotional-materials">
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">Promotional materials</span>
+                        </label>
+                        <label class="category-checkbox">
+                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="technical-materials">
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">Technical materials</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-xs-12">
+                <div id="brand-kit" class="tab-content active">
+                    {% if brand_kit.count() %}
+                    <div class="row">
+                        {% for logo in brand_kit %}
+                        <div class="col-md-6 col-xs-12 mb-4">
+                            <div class="logo-container" data-item-name="{{ logo.name | default('Logo') }}">
+                                {% partial 'components/download-dropdown' item=logo imageField='logo_image' itemType='logo' %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>No brand kit materials available at the moment.</p>
+                    {% endif %}
+                </div>
+
+                <div id="promotional-materials" class="tab-content">
+                    <h3>Promotional Materials</h3>
+                    {% if promotional_materials.count() %}
+                    <div class="row">
+                        {% for flyer in promotional_materials %}
+                        <div class="col-md-6 col-xs-12 mb-4">
+                            <div class="image-wrapper">
+                                <img src="{{ flyer.flyer_image|media }}" alt="{{ flyer.name }}" class="img-responsive">
+                                <div class="download-dropdown">
+                                    <div class="download-section">
+                                        <a href="{{ flyer.file.getPath() }}" download="{{ flyer.name|default('Promo Material') }}" class="btn btn-download">
+                                            Download 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>No promotional materials available at the moment.</p>
+                    {% endif %}
+                </div>
+
+                <!-- Technical Materials Tab Content -->
+                <div id="technical-materials" class="tab-content">
+                    <h3>Technical Materials</h3>
+                    {% if technical_materials.count() %}
+                    <div class="row">
+                        {% for presentation in technical_materials %}
+                        <div class="col-md-6 col-xs-12 mb-4">
+                            <div class="image-wrapper">
+                                <img src="{{ presentation.presentation_image|media }}" alt="{{ presentation.name }}" class="img-responsive">
+                                <div class="download-dropdown">
+                                    <div class="download-section">
+                                        <a href="{{ presentation.file.getPath() }}" download="{{ presentation.name|default('Presentation') }}" class="btn btn-download">
+                                            Download 
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>No technical materials available at the moment.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
