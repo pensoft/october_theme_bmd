@@ -13,12 +13,72 @@
         bottom: 0;
         left: 0;
         width: 100%;
-        height: 12%;
+        height: 70%;
         background: linear-gradient(180deg, rgba(20, 47, 43, 0.00) 0%, #142F2B 100%);
         pointer-events: none;
         z-index: 2;
     }
     
+    // Floating radial glow shadows (left/right) - smooth circular orbits
+    .shadows {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;   
+
+        // orbit centers
+        .left-shadow,
+        .right-shadow {
+            position: absolute;
+            width: 0;
+            height: 0;
+            will-change: transform;
+        }
+
+        // Left glow anchor: start bottom-left
+        .left-shadow {
+            left: 0%;
+            top: 30%;
+        }
+
+        // Right glow anchor: start top-right
+        .right-shadow {
+            right: 0%;
+            top: 30%;
+        }
+
+        // The actual glow bodies
+        .left-shadow::before,
+        .right-shadow::before {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            border-radius: 1000px;
+            background: radial-gradient(50% 50% at 50% 50%, rgba(41, 180, 115, 0.28) 0%, rgba(255, 255, 255, 0.00) 100%);
+            left: 0;
+            top: 0;
+            filter: blur(0.5px);
+
+            .breakpoint-large-down({
+                width: 480px;
+                height: 480px;
+            });
+        }
+
+        .left-shadow::before {
+            animation: leftUpDown 6s ease-in-out 0s infinite alternate;
+        }
+
+        .right-shadow::before {
+            animation: rightUpDown 6s ease-in-out 0s infinite alternate;
+        }
+    }
+
     .text-container {
         height: 35vh;
         min-height: 300px;
@@ -27,12 +87,12 @@
         justify-content: center;
         position: relative;
         z-index: 3;
-        padding-top: 120px;
+        padding-top: 80px;
         
         .breakpoint-large-down({
             height: 40vh;
             min-height: 250px;
-            padding-top: 160px;
+            padding-top: 120px;
         });
     }
     
@@ -49,10 +109,10 @@
         }
 
         h1{
-            font-size: 87px;
-            font-weight: 700;
+            font-size: 80px;
+            font-weight: 494;
             line-height: 1.2;   
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
             
             .breakpoint-large-down({
@@ -64,7 +124,7 @@
             font-size: 18px;
             font-weight: 400;
             line-height: 1.4;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             width: 75%;
             max-width: 800px;
             
@@ -73,12 +133,36 @@
                 width: 90%;
             });
         }
+
+        // Initial hidden states for staged reveal
+        p,
+        a.btn,
+        .btn-intro {
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        // When typing completes, reveal paragraph
+        &.is-paragraph-visible {
+            p {
+                animation: heroFadeInUp 800ms ease-out forwards;
+                animation-delay: 150ms;
+            }
+        }
+
+        // After paragraph reveal, bounce the button and make it visible
+        &.is-button-bounce {
+            a.btn,
+            .btn-intro {
+                animation: heroBounceIntro 900ms ease-out forwards;
+            }
+        }
     }
 
     // Carousel container takes remaining space
     .carousel-container {
         flex: 1;
-        height: 65vh;
+        height: 70vh;
         position: relative;
         z-index: 1;
         
@@ -87,54 +171,43 @@
         });
     }
 
-    // Hero carousel styles
+    // Hero carousel styles (custom continuous track)
     #hero-carousel {
         width: 100%;
         height: 100%;
-        
-        // Remove default slick styling
-        .slick-list {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .slick-track {
+        overflow: hidden;
+
+        .carousel-track {
             display: flex;
             align-items: flex-end;
+            height: 100%;
+            will-change: transform;
             margin: 0;
             padding: 0;
-            height: 100%;
         }
-        
-        .slick-slide {
-            height: auto;
-            display: flex !important;
+
+        .slide {
+            outline: none;
+            padding: 0 8px;
+            height: 100%;
+            max-height: 568px;
+            display: flex;
             align-items: flex-end;
-            
+            box-sizing: border-box;
+
             > div {
                 height: 100%;
                 display: flex;
                 align-items: flex-end;
             }
-        }
-        
-        .slide {
-            outline: none;
-            padding: 0 8px;
-            height: 100%;
-            display: flex;
-            align-items: flex-end;
-            box-sizing: border-box;
-            
+
             .hero-carousel-image {
                 border-radius: 50px 50px 0 0;
                 overflow: hidden;
-                transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
                 background: transparent;
                 position: relative;
                 width: 100%;
-                
+
                 img {
                     width: 100%;
                     object-fit: cover;
@@ -144,25 +217,24 @@
                     margin: 0;
                     padding: 0;
                     background: transparent;
-                    vertical-align: bottom;
                 }
-                
+
                 // Small height images (first, third, fifth...)
                 &.small-height img {
                     height: 45vh;
                     min-height: 400px;
-                    
+
                     .breakpoint-large-down({
                         height: 35vh;
                         min-height: 250px;
                     });
                 }
-                
+
                 // Large height images (second, fourth, sixth...)
                 &.large-height img {
                     height: 55vh;
                     min-height: 500px;
-                    
+
                     .breakpoint-large-down({
                         height: 45vh;
                         min-height: 350px;
@@ -170,63 +242,37 @@
                 }
             }
         }
-        
-        // Remove all slide highlighting - uniform appearance
-        .slick-slide .hero-carousel-image {
-            opacity: 1;
-            transform: none;
-        }
-        
-        // Remove any default slick styling that might cause white gaps
-        .slick-slide img {
-            border: none !important;
-            outline: none !important;
-            box-shadow: none;
-        }
-        
-        // Ensure no white background or borders
+
+        // Ensure seamless image rendering and transparent backgrounds
         * {
             background: transparent !important;
             border: none !important;
             box-shadow: none !important;
         }
-        
-        .slick-slide,
-        .slick-slide div,
-        .slick-slide > div {
-            background: transparent !important;
-            border: none !important;
-            margin: 0 !important;
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-        }
-        
-        // Ensure seamless image rendering
-        .slide {
-            background: transparent !important;
-            
-            .hero-carousel-image {
-                background: transparent !important;
-                border: none !important;
-                box-shadow: none;
-                
-                &::before,
-                &::after {
-                    display: none !important;
-                }
-                
-                img {
-                    background: transparent !important;
-                    border: none !important;
-                    box-shadow: none !important;
-                    outline: none !important;
-                    -webkit-appearance: none;
-                    -moz-appearance: none;
-                    appearance: none;
-                }
-            }
-        }
     }
+}
+
+@keyframes leftUpDown {
+    0%   { transform: translate(-50%, -50%) translateX(260px) translateY(200px); }
+    100% { transform: translate(-50%, -50%) translateX(260px) translateY(-200px); }
+}
+
+@keyframes rightUpDown {
+    0%   { transform: translate(-50%, -50%) translateX(-260px) translateY(-200px); }
+    100% { transform: translate(-50%, -50%) translateX(-260px) translateY(200px); }
+}
+
+// Fade in and slide up for paragraph
+@keyframes heroFadeInUp {
+    0% { opacity: 0; transform: translateY(10px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+// Subtle bounce for the button
+@keyframes heroBounceIntro {
+    0% { opacity: 0; transform: translateY(16px) scale(0.98); }
+    50% { opacity: 1; transform: translateY(-6px) scale(1.02); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 

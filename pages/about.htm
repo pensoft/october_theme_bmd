@@ -52,7 +52,7 @@ function onStart(){
         $query->where('slug', 'wp');
     })->get();
 
-    $this['partners'] = Partner::where('type', 2)->get();
+    $this['partners'] = Partner::where('type', 1)->get();
     $this['parner_profiles'] = Profile::where('category_id', 1)->get();
     
     $partnersWithMembers = [];
@@ -79,7 +79,7 @@ function onStart(){
 {% component 'siteSearchInclude' %}
 
 <section class="container-fluid about-tabs">
-    <div class="container">
+    <div class="container pb-0">
         <div class="row tabs-row">
             <div class="tabs">
                 <a href="#what-we-do" class="tab-link active" data-tab="what-we-do">What we do</a>
@@ -122,14 +122,20 @@ function onStart(){
 </section>
 
 <section class="container-fluid why-we-do tab-content" id="why-we-do">
-    {% component 'about-why-we-do' %}
-    {% component 'about-achieving-these-targets-requires' %}
+    <div class="about-why-we-do">
+        {% component 'about-why-we-do' %}
+    </div>
+    <div class="about-achieving-these-targets-requires">
+        {% component 'about-achieving-these-targets-requires' %}
+    </div>
 </section>
 
 <section class="container-fluid how-we-do tab-content" id="how-we-do">
-    {% component 'about-how-we-do-intro' %}
+    <div class="about-how-we-do-intro">
+        {% component 'about-how-we-do-intro' %}
+    </div>
     
-    <div class="container work-packages" id="work-packages">
+    <div class="container work-packages pt-0" id="work-packages">
         {% for work_package in work_packages_records %}
             <div class="work-package key_{{ loop.index0 }}">
                 <div class="work-package-header row" role="button" aria-expanded="false">
@@ -139,7 +145,7 @@ function onStart(){
                     <div class="col-md-10 title col-xs-8">
                         <h3>{{ work_package.title }}</h3>
                     </div>
-                    <div class="col-md-1 col-xs-1 end-xs end-md">
+                    <div class="col-md-1 col-xs-1 end-xs end-md wp-arrow">
                         <div class="work-package-arrow" aria-hidden="true">
                             <img src="{{'assets/images/chevron-down.svg'|theme}}" alt="" class="chevron-icon">
                         </div>

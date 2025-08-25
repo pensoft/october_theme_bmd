@@ -287,8 +287,8 @@
     }
     
     svg {
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
         flex-shrink: 0;
     }
 }
@@ -385,8 +385,6 @@
     }
 }
 
-// removed empty .partners-popup-members-list ruleset
-
 .partners-popup-member-item {
     display: flex;
     flex-direction: column;
@@ -395,11 +393,12 @@
     cursor: pointer;
     padding: 10px;
     border-radius: 12px;
-    background: #F7F9F9;
-    transition: background-color 0.15s ease, box-shadow 0.15s ease;
-    &:hover { background: #F3F6F6; }
 
-    .member-row { display: flex; align-items: center; gap: 15px; }
+    .member-row { 
+        display: flex; 
+        align-items: center; 
+        gap: 15px; 
+    }
 
     .member-avatar {
         width: 81px;
@@ -409,8 +408,8 @@
         flex-shrink: 0;
         
         img {
-            width: 100%;
-            height: 100%;
+            width: 81px;
+            height: 67px;
             object-fit: cover;
         }
         
@@ -457,13 +456,19 @@
         
         span {
             font-family: 'Author', sans-serif;
-            font-weight: 600;
+            font-weight: 494;
             font-size: 16px;
             color: #20A683;
             letter-spacing: -0.42px;
         }
         
-        svg { width: 10px; height: 6px; flex-shrink: 0; transition: transform 0.2s ease; transform: rotate(0deg); }
+        svg { 
+            width: 11px;
+            height: 5px;
+            flex-shrink: 0; 
+            transition: transform 0.2s ease; 
+            transform: rotate(0deg); 
+        }
     }
     // Default chevron is down (0deg). Rotate on expand for feedback
     &[aria-expanded="true"] .member-biography .chevron { transform: rotate(180deg); }

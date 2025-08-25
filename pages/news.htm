@@ -176,7 +176,7 @@ $this['related'] = $related;
 <section class="container-fluid news-list-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 tab-navigation">
+            <div class="col-md-3 tab-navigation static-sidebar">
                 <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all">All news</a>
                 {% for category in categories %}
                     <a href="/news?categoryId={{category.id}}" class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}">{{category.name}}</a>

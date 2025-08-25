@@ -1,0 +1,36 @@
+// Reusable Tabs styles
+
+.apply-tab-link-styles() {
+    width: 80%;
+    display: inline-flex;
+    padding: 12px 20px;
+    margin-bottom: 0.5rem;
+    color: #0F2F2A;
+    align-items: center;
+    gap: 24px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    position: relative;
+    font-size: 18px;
+    text-decoration: none;
+
+    &:hover {
+        background: #20A683;
+        color: white;
+        text-decoration: none;
+    }
+
+    &.active {
+        background: #20A683;
+        color: white;
+    }
+}
+
+.apply-tabs-container-spacing() {
+    .breakpoint-large-down({
+        margin-bottom: 50px;
+    });
+}
+
+

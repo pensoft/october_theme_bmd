@@ -24,6 +24,7 @@ $(function() {
     initDesktopMenuToggle();
     initDesktopDropdownToggle();
     initCategoriesToggle();
+    initCategoriesScrollToTop();
     applyExternalLinkBehavior();
     sanitizeNavDropdowns();
     $('nav').removeClass('no-transition');
@@ -35,7 +36,7 @@ $(function() {
     initLibraryFilters();
     initLibraryFiltersToggle();
     initPartnersListColumnWrapping();
-    initHeroCarousel();
+    initTypedHeaders();
     initNavbarScrollState();
     initNavbarScrollHandler();
     initObjectivesToggle();
@@ -45,6 +46,7 @@ $(function() {
     initProjectMaterialsFiltering();
     initDownloadDropdowns();
     initEabBiographyToggle();
+    initWhatWeDoImagesEntrance();
 });
 
 // ---------- Initializers ----------
@@ -75,6 +77,50 @@ function initEabBiographyToggle() {
         } else {
             $bio.slideDown(200);
             $btn.attr('aria-expanded', 'true');
+        }
+    });
+}
+
+/**
+ * Entrance animation for the three circular images on the About page
+ * Adds `is-visible` with a stagger when the block enters the viewport
+ */
+function initWhatWeDoImagesEntrance(forceReveal, $scope) {
+    const $blocks = ($scope && $scope.length) ? $scope.find('.what-we-do-images') : $('.what-we-do-images');
+    if (!$blocks.length) return;
+
+    $blocks.each(function() {
+        const $block = $(this);
+        const $imgs = $block.find('.what-we-do-image-1, .what-we-do-image-2, .what-we-do-image-3');
+        if (!$imgs.length) return;
+
+        // Ensure start state is hidden before any reveal to avoid flicker
+        $imgs.removeClass('is-visible');
+
+        function reveal() {
+            // Stagger 300ms between items for an even calmer feel
+            $imgs.each(function(index) {
+                const el = this;
+                setTimeout(function(){
+                    $(el).addClass('is-visible');
+                }, index * 300);
+            });
+        }
+
+        if (!forceReveal && 'IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        reveal();
+                        observer.unobserve($block[0]);
+                    }
+                });
+            }, { rootMargin: '0px 0px -10% 0px', threshold: 0.2 });
+            observer.observe($block[0]);
+        } else {
+            // If we are forcing reveal (e.g., after tab switch) and the tab has just been shown,
+            // run immediately so the user doesn't see the pre-animated state.
+            setTimeout(reveal, 40);
         }
     });
 }
@@ -543,42 +589,78 @@ function initPartnersListColumnWrapping() {
     }
 }
 
-function initHeroCarousel() {
-    if ($('#hero-carousel').length) {
-        $('#hero-carousel').slick({
-            autoplay: true,
-            autoplaySpeed: 3000,
-            lazyLoad: 'ondemand',
-            pauseOnFocus: false,
-            draggable: false,
-            infinite: true,
-            centerMode: true,
-            centerPadding: '15%',
-            slidesToShow: 3,
-            slidesToScroll: 1,
-            variableWidth: false,
-            adaptiveHeight: false,
-            arrows: false,
-            dots: false,
-            speed: 800,
-            cssEase: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)',
-            pauseOnHover: true,
-            swipeToSlide: true,
-            touchThreshold: 10,
-            responsive: [
-                { breakpoint: 1400, settings: { slidesToShow: 3, centerPadding: '12%' } },
-                { breakpoint: 1200, settings: { slidesToShow: 3, centerPadding: '10%' } },
-                { breakpoint: 768, settings: { slidesToShow: 1, centerPadding: '25%' } },
-                { breakpoint: 480, settings: { slidesToShow: 1, centerPadding: '20%' } }
-            ]
-        });
-        // Ensure transparent backgrounds
-        $('#hero-carousel .slick-slide').each(function() {
-            $(this).css('background', 'transparent');
-            $(this).find('div').css('background', 'transparent');
-        });
+/**
+ * Generic typing helper
+ * @param {HTMLElement|JQuery} el - element to type into
+ * @param {string} text - full text to type
+ * @param {number} speedMs - delay per character
+ * @param {function=} onComplete - callback after typing completes
+ */
+function typeText(el, text, speedMs, onComplete) {
+    const $el = (el.jquery) ? el : $(el);
+    const full = String(text == null ? '' : text);
+    $el.empty();
+    let i = 0;
+    function tick() {
+        if (i < full.length) {
+            $el.text($el.text() + full.charAt(i));
+            i += 1;
+            setTimeout(tick, speedMs);
+        } else if (typeof onComplete === 'function') {
+            onComplete();
+        }
+    }
+    tick();
+}
+
+/**
+ * Typed animation for headers across the site
+ * Faster than hero; triggers when the header enters the viewport once
+ */
+function initTypedHeaders() {
+    const selectors = ['.about-header', '.section-header', '.page-header'];
+    const $targets = $(selectors.join(','));
+    if (!$targets.length) return;
+
+    const speedMs = 35; // faster than hero
+
+    function prepare($el) {
+        if ($el.data('typedReady')) return;
+        const text = $el.text();
+        $el.attr('aria-label', text);
+        $el.text('');
+        $el.data('typedReady', true);
+    }
+
+    function runTyping(el) {
+        const $el = $(el);
+        if ($el.data('typedDone')) return;
+        $el.data('typedDone', true);
+        const text = $el.attr('aria-label') || '';
+        typeText($el, text, speedMs);
+    }
+
+    // Prepare all targets initially
+    $targets.each(function() { prepare($(this)); });
+
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    runTyping(entry.target);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0.2 });
+
+        $targets.each(function() { observer.observe(this); });
+    } else {
+        // Fallback: type immediately
+        $targets.each(function() { runTyping(this); });
     }
 }
+
+// (Hero carousel logic is now in assets/js/hero.js to load only on hero pages)
 
 function initNavbarScrollHandler() {
     const $headerNavbar = $('#headernavbar');
@@ -912,12 +994,31 @@ function initTabs() {
             $targetTab.css('display', 'block').addClass('active');
         }
         
+        // Scroll to top after switching tabs
+        $('html, body').animate({
+            scrollTop: 0
+        }, 300);
+
         // If switching to how-we-do/work-packages tab, make sure accordion functionality is initialized
         if (tabId === 'work-packages' || tabId === 'how-we-do') {
             // Reinitialize accordion if needed
             initAccordion();
             // Initialize new work packages accordion
             initWorkPackagesAccordion();
+        }
+
+        // Re-trigger entrance animation when returning to what-we-do
+        if (tabId === 'what-we-do') {
+            // Reset visibility state so animation can replay
+            const $sections = $('#what-we-do');
+            $sections.find('.what-we-do-image-1, .what-we-do-image-2, .what-we-do-image-3').removeClass('is-visible');
+            setTimeout(function(){ initWhatWeDoImagesEntrance(true, $sections); }, 60);
+        }
+
+        if (tabId === 'why-we-do') {
+            const $sections = $('#why-we-do');
+            $sections.find('.what-we-do-image-1, .what-we-do-image-2, .what-we-do-image-3').removeClass('is-visible');
+            setTimeout(function(){ initWhatWeDoImagesEntrance(true, $sections); }, 60);
         }
         
         // If switching to partners tab, initialize content truncation
@@ -1020,6 +1121,11 @@ function initKeyResultsTabs() {
         // Show the active tab content
         $('#' + tabId).addClass('active').show();
         
+        // Scroll to top after switching sections
+        $('html, body').animate({
+            scrollTop: 0
+        }, 300);
+
         // Update URL hash
         if (history.pushState) {
             history.pushState(null, null, '#' + tabId);
@@ -1445,6 +1551,21 @@ function initCategoriesToggle() {
             $categoriesContent.addClass('collapsed');
         }
     }
+}
+
+/**
+ * Scroll to top when changing any filter option inside .categories blocks
+ */
+function initCategoriesScrollToTop() {
+    const $containers = $('.categories');
+    if (!$containers.length) return;
+
+    $containers.each(function() {
+        const $c = $(this);
+        $c.off('change.scrollTop').on('change.scrollTop', 'input, select', function() {
+            $('html, body').animate({ scrollTop: 0 }, 300);
+        });
+    });
 }
 
 const documentHasScroll = function() {

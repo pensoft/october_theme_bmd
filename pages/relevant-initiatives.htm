@@ -12,7 +12,7 @@ robot_follow = "follow"
 use Pensoft\Partners\Models\Partners as Partner;
 
 function onStart(){
-    $this['relevant_initiatives'] = Partner::where('type', 3)->get();
+    $this['relevant_initiatives'] = Partner::where('type', 4)->get();
 }
 ?>
 ==
@@ -21,7 +21,7 @@ function onStart(){
 <section class="container-fluid resources-page relevant-initiatives-page">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 col-xs-12">
+            <div class="col-md-3 col-xs-12 static-sidebar">
                 {% partial 'components/resources-navigation' %}
             </div>
             <div class="col-md-9 col-xs-12">

@@ -31,10 +31,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     
     .page-header{
         color: #fff;
-        font-size: 45px;
+        font-size: 70px;
         font-weight: 375;
         line-height: 30px;
         letter-spacing: -0.9px;
+        text-transform: uppercase;
+        .breakpoint-large-down({
+            font-size: 45px;
+        });
     }
 }
 
@@ -293,3 +297,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     }
 }
 
+.static-sidebar{
+    position: sticky;
+    top: 120px; // keep below fixed header
+    align-self: flex-start;
+
+    // Disable sticky behaviour on large-down (tablets/phones)
+    .breakpoint-large-down({
+        position: static;
+        top: auto;
+    });
+}
