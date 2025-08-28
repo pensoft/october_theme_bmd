@@ -15,7 +15,7 @@ use Pensoft\CardProfiles\Models\Profiles as Profile;
 function onStart(){
     $this['consortium_partners'] = Partner::where('type', 1)->get();
     $this['parner_profiles'] = Profile::where('category_id', 1)->get();
-    $this['news_highlights'] = Article::where('published', 1)->orderBy('created_at', 'desc')->limit(3)->get();
+    $this['news_highlights'] = Article::where('published', 1)->orderBy('published_at', 'desc')->limit(3)->get();
     
     $partnersWithMembers = [];
     foreach ($this['consortium_partners'] as $partner) {
@@ -36,7 +36,7 @@ function onStart(){
                 title=n.title
                 slug=n.slug
                 cover=n.cover
-                published_at=n.created_at
+                published_at=n.published_at
             %}
             {% endfor %}
         </div>

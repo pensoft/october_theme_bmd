@@ -183,6 +183,7 @@ $this['related'] = $related;
                 {% endfor %}
             </div>
             <div class="col-md-9 news-list">
+                {% if records|length > 0 %}
                 <div class="row">
                     {% for record in records %}
                     {% spaceless %}
@@ -193,12 +194,13 @@ $this['related'] = $related;
                             published_at=record.published_at
                         %}
                     {% endspaceless %}
-                    {% else %}
-                    <div class="col-xs-12">
-                        <p>No news</p>
-                    </div>
                     {% endfor %}
                 </div>
+                {% else %}
+                <div class="no-news-message">
+                    <p>No news in this category yet but stay tuned!</p>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

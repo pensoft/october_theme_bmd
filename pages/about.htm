@@ -177,7 +177,7 @@ function onStart(){
             {% for c in partners %}
             <div class="col-md-2 col-sm-3 col-xs-6 partner-logo">
                 <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
-                    <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
+                    <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.path}}">
                 </a>
             </div>
             {% endfor %}
@@ -193,13 +193,13 @@ function onStart(){
                 <div class="eab-card">
                     {% if p.partner and p.partner.cover %}
                     <a href="#" class="eab-partner-logo partner-trigger" data-partner-id="{{ p.partner.id }}" data-partner-name="{{ p.partner.instituion }}">
-                        <img alt="{{ p.partner.instituion }}" title="{{ p.partner.instituion }}" src="{{ p.partner.cover.thumb(72,40,{'mode':'crop'}) }}">
+                        <img alt="{{ p.partner.instituion }}" title="{{ p.partner.instituion }}" src="{{ p.partner.cover.path }}">
                     </a>
                     {% endif %}
 
                     <div class="eab-image">
                         {% if p.avatar %}
-                        <img alt="{{ p.names }}" title="{{ p.names }}" src="{{ p.avatar.thumb(600,360,{'mode':'crop'}) }}">
+                        <img alt="{{ p.names }}" title="{{ p.names }}" src="{{ p.avatar.path }}">
                         {% else %}
                         <div class="eab-image-placeholder"></div>
                         {% endif %}
