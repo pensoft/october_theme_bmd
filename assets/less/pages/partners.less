@@ -100,7 +100,7 @@
 .partners-popup-container {
     position: relative;
     width: 75%;
-    height: 70vh;
+    height: 600px;
     background: #ffffff;
     border-radius: 10px;
     overflow: hidden; // default for desktop; overridden on smaller screens to allow inner scroll
@@ -108,7 +108,7 @@
     
     .breakpoint-large-down({
         width: 90vw;
-        height: auto;
+        height: 800px;
         max-height: 90vh;
         max-height: 90dvh; // better handling of mobile browser chrome
         overflow-x: hidden;
@@ -123,10 +123,10 @@
         height: 100dvh;
         flex-direction: column;
         overflow-x: hidden;
-        overflow-y: auto; // ensure scrolling remains available on small phones
+        overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        border-radius: 0; // remove rounded corners on mobile for full-screen feel
-        margin: 0; // remove any margins
+        border-radius: 0;
+        margin: 0;
     });
 }
 

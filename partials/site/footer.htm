@@ -56,7 +56,7 @@ description_limit = 0
         <!-- Middle Section: Newsletter and Funding -->
         <div class="row footer-middle-section">
             <!-- Left: Newsletter -->
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <div class="newsletter-section">
                     <h3 class="newsletter-title">Subscribe to our newsletter</h3>
                     <div class="subscribe-button">
@@ -69,7 +69,7 @@ description_limit = 0
             </div>
             
             <!-- Right: Funding Information -->
-            <div class="col-md-8 col-xs-12">
+            <div class="col-md-9 col-xs-12">
                 <div class="funding-section">
                     <div class="funding-content">
                         <div class="funding-logo-text">
@@ -78,6 +78,7 @@ description_limit = 0
                             <img src="{{ footer_funds_flag }}" alt="Funding Partner" class="eu-funding-logo"/>
                             {% endif %}
                             {% endif %}
+                            <img src="{{ 'assets/images/schweizerische-logo.svg'|theme }}" alt="Co-funded by the Swiss State Secretariat for Education, Research and Innovation (SERI)" class="seri-funding-logo"/>
                             <div class="funding-text">
                                 {% component 'footer_funds' %}
                             </div>

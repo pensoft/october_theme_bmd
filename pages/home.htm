@@ -26,6 +26,7 @@ function onStart(){
 }
 ?>
 ==
+{% if news_highlights|length > 2 %}
 <section class="news-highlights container-fluid mt-2">
     <div class="container">
         <h2 class="section-header">Latest news</h2>
@@ -44,6 +45,7 @@ function onStart(){
         </div>
     </div>
 </section>
+{% endif %}
 
 <section class="consortium-partners container-fluid">
     <div class="container">
@@ -52,7 +54,7 @@ function onStart(){
             {% for c in consortium_partners %}
             <div class="partner-logo">
                 <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
-                    <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
+                    <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.path}}">
                 </a>
             </div>
             {% endfor %}
