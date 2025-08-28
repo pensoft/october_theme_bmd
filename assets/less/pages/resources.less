@@ -173,6 +173,19 @@
 }
 
 .newsletters-section {
+    // Use grid layout similar to news for consistent spacing
+    > .row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 80px;
+        justify-content: center;
+    }
+    @media (max-width: 1200px) {
+        > .row { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+        > .row { grid-template-columns: 1fr; }
+    }
     .newsletter-title {
         color: #0F2F2A;
         font-family: Author;
@@ -182,6 +195,7 @@
         margin-top: 25px !important;
         margin-bottom: 0;
     }
+
     .newsletter-container {
         position: relative;
         cursor: pointer;
@@ -191,6 +205,7 @@
         box-shadow: 0px 0px 10px rgba(0, 89, 87, 0.16);
         width: 100%;
         height: auto;
+        aspect-ratio: 16 / 9; // make cards much taller and larger
         margin: 0 auto;
         
         &:hover {
@@ -227,14 +242,14 @@
         }
 
         img {
-            width: 470px;
-            height: 280px;
+            width: 100%;
+            height: 100%;
             object-fit: cover;
             display: block;
             .breakpoint-large-down({
                 width: 100%;
                 height: 100%;
-                max-height: 280px;
+                max-height: none;
             });
         }
     }
@@ -254,7 +269,7 @@
 
 .videos-page, .library-page, .project-materials-page {
     .resources-tabs{
-        margin-bottom: 60px;
+        margin-bottom: 40px;
     }
 }
 
@@ -505,6 +520,29 @@
 }
 
 .project-materials-page {
+    // Grid layout for tab content lists similar to news
+    #brand-kit > .row,
+    #promotional-materials > .row,
+    #technical-materials > .row {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 80px;
+        justify-content: center;
+    }
+    @media (max-width: 1200px) {
+        #brand-kit > .row,
+        #promotional-materials > .row,
+        #technical-materials > .row {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 768px) {
+        #brand-kit > .row,
+        #promotional-materials > .row,
+        #technical-materials > .row {
+            grid-template-columns: 1fr;
+        }
+    }
     .tab-content {
         padding-top: 0;
         display: none !important;
@@ -556,7 +594,8 @@
             
             img {
                 width: 100%;
-                height: 200px;
+                height: 100%;
+                aspect-ratio: 16 / 9;
                 object-fit: cover;
                 border-radius: 8px;
                 margin-bottom: 15px;
@@ -621,10 +660,11 @@
 .project-materials-page {
     .image-wrapper {
         position: relative;
+        aspect-ratio: 16 / 9;
         
         img {
             width: 100%;
-            height: 247px;
+            height: 100%;
             object-fit: contain;
             border-radius: 8px;
             margin-bottom: 20px;

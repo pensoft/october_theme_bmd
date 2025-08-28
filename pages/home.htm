@@ -40,7 +40,7 @@ function onStart(){
             {% endfor %}
         </div>
         <div class="view-all-btn center-xs">
-            <a href="/news" class="btn btn-primary">View all</a>
+            <a href="/news" class="btn btn-primary mt-2">View all</a>
         </div>
     </div>
 </section>
@@ -50,7 +50,7 @@ function onStart(){
         <h2 class="section-header">Consortium</h2>
         <div class="row">
             {% for c in consortium_partners %}
-            <div class="col-md-2 col-sm-3 col-xs-6 partner-logo">
+            <div class="partner-logo">
                 <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
                     <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.thumb(auto,80,{'mode':'crop'})}}">
                 </a>
@@ -58,7 +58,7 @@ function onStart(){
             {% endfor %}
         </div>
         <div class="view-all-btn center-xs">
-            <a href="/news" class="btn btn-primary">More about our partners</a>
+            <a href="/about#who-we-are" class="btn btn-primary">More about our partners</a>
         </div>
     </div>
 </section>

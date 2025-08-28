@@ -199,7 +199,8 @@ class HeroCarousel {
             tablet: { width: 768, slides: 1, padding: 0.25 },
             small: { width: 1200, slides: 3, padding: 0.10 },
             medium: { width: 1400, slides: 3, padding: 0.12 },
-            large: { width: Infinity, slides: 3, padding: 0.15 }
+            large: { width: 1920, slides: 3, padding: 0.15 },
+            xlarge: { width: Infinity, slides: 3, padding: 0.18 }
         };
     }
 

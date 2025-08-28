@@ -84,6 +84,11 @@ section.tab-content {
 // What we do – images layout (2 on left, 1 on right centered)
 .what-we-do, .why-we-do  {
     .what-we-do-text, .why-we-do-text{
+        a{
+            color: #737373;
+            text-decoration: underline;
+            cursor: pointer;
+        }
         p {
             padding-right: 80px;
             .breakpoint-large-down({
@@ -135,7 +140,7 @@ section.tab-content {
         .what-we-do-image-3 {
         // place visually on the right and vertically centered
         position: absolute;
-        right: 80px; // push further to the right to increase gap from left images
+        left: 300px; // push further to the right to increase gap from left images
         top: 50%;
         // initial offset: slide from right while keeping vertical center
         transform: translate(40px, -50%) scale(.98);
@@ -165,7 +170,7 @@ section.tab-content {
 //     .what-we-do-images .what-we-do-image-3 { right: 80px; }
 //   }
   @media (max-width: 1399px) and (min-width: 1200px) {
-    .what-we-do-images .what-we-do-image-3 { right: 30px; }
+    .what-we-do-images .what-we-do-image-3 { left: 100px; }
   }
 }
 
@@ -250,6 +255,7 @@ section.tab-content {
         border-radius: 10px;
         background: #F0F2F3;
         padding: 20px;
+        min-height: 222px;
         h3, p{
             color: #737373;
             font-family: Author;

@@ -54,13 +54,6 @@ function onStart(){
 
     $this['partners'] = Partner::where('type', 1)->get();
     $this['parner_profiles'] = Profile::where('category_id', 1)->get();
-    
-    $partnersWithMembers = [];
-    foreach ($this['partners'] as $partner) {
-        $members = Profile::where('partner_id', $partner->id)->get();
-        $partnersWithMembers[$partner->id] = $members;
-    }
-    $this['partnersWithMembers'] = $partnersWithMembers;
 
     // External Expert Advisory Board profiles (isolated from existing logic)
     $eabCategory = ProfileCategory::where('slug', 'external-expert-advisory-board')
@@ -73,6 +66,23 @@ function onStart(){
             ->orderBy('sort_order')
             ->get();
     }
+
+    // Build popup partners as union of consortium partners and EAB partners
+    $popupPartners = $this['partners']->keyBy('id');
+    foreach ($this['eab_profiles'] as $profile) {
+        if ($profile->partner) {
+            $popupPartners[$profile->partner->id] = $profile->partner;
+        }
+    }
+    $this['popup_partners'] = $popupPartners->values();
+
+    // Build members map for all partners shown in the popup
+    $partnersWithMembers = [];
+    foreach ($this['popup_partners'] as $partner) {
+        $members = Profile::where('partner_id', $partner->id)->get();
+        $partnersWithMembers[$partner->id] = $members;
+    }
+    $this['partnersWithMembers'] = $partnersWithMembers;
 }
 ?>
 ==
@@ -182,9 +192,9 @@ function onStart(){
             <div class="col-md-3 col-xs-12 eab-profile">
                 <div class="eab-card">
                     {% if p.partner and p.partner.cover %}
-                    <div class="eab-partner-logo">
+                    <a href="#" class="eab-partner-logo partner-trigger" data-partner-id="{{ p.partner.id }}" data-partner-name="{{ p.partner.instituion }}">
                         <img alt="{{ p.partner.instituion }}" title="{{ p.partner.instituion }}" src="{{ p.partner.cover.thumb(72,40,{'mode':'crop'}) }}">
-                    </div>
+                    </a>
                     {% endif %}
 
                     <div class="eab-image">
@@ -222,4 +232,4 @@ function onStart(){
 </section>
 
 <!-- Include Partners Popup -->
-{% partial 'components/partners-popup' partners=partners partnersWithMembers=partnersWithMembers %}
+{% partial 'components/partners-popup' partners=popup_partners partnersWithMembers=partnersWithMembers %}

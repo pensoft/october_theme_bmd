@@ -24,7 +24,7 @@ function onStart(){
 	if(get('download')){
 		$file = File::find((int)get('download'));
 		$file_name = $file->getLocalPath();
-$recordName = get('file_name') ? get('file_name') : 'OBSGESSION_newsletter';
+$recordName = get('file_name') ? get('file_name') : 'BMD_newsletter';
 $ext= $file->getExtension();
 
 if (file_exists($file_name)) {
@@ -81,7 +81,7 @@ return Response::download($pathToFile, $fileName, $headers);
                     {% for record in records %}
                     {% spaceless %}
         
-                    <div class="col-md-6 col-xs-12">
+                    <div class="newsletter-item">
                         {% set hasUrl = record.url ? true : false %}
                         {% set hasFile = record.file ? true : false %}
                         {% if hasUrl %}

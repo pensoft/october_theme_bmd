@@ -225,6 +225,10 @@ function applyExternalLinkBehavior() {
 function sanitizeNavDropdowns() {
     $('.nav-item').children('a').each(function() {
         const $link = $(this);
+        // Skip footer navigation; it has its own dropdown handling
+        if ($link.closest('.footer-navigation').length) {
+            return;
+        }
         if ($link.attr('data-toggle') === 'dropdown') {
             $link
                 .removeAttr('data-toggle')
@@ -346,6 +350,7 @@ function initLibraryFilters() {
     const $search = $('#libSearch');
     const $clear = $('#libClearSearch');
     const $size = $('#libTotalSize');
+    const $downloadAll = $('#libDownloadAll');
     const $sortHeading = $container.find('.dropdown-head h4').eq(1); // second heading (sort)
 
     const state = {
@@ -366,6 +371,14 @@ function initLibraryFilters() {
         if (label && $sortHeading.length) {
             $sortHeading.text(label);
         }
+    }
+
+    function updateDownloadLink() {
+        if (!$downloadAll.length) return;
+        const params = { type: state.type, sort: state.sort };
+        if (state.search) params.search = state.search;
+        const qs = encodeURIObject(params);
+        $downloadAll.attr('href', '/resources/library/download' + (qs ? ('?' + qs) : ''));
     }
 
     // Render list from HTML partial
@@ -405,6 +418,7 @@ function initLibraryFilters() {
                     const mb = resp.meta && resp.meta.total_file_size_mb ? resp.meta.total_file_size_mb : 0;
                     $size.text(mb ? `(Total download size: ${mb} MB)` : '');
                 }
+                updateDownloadLink();
             },
             error: function(){
                 $items.html('<div class="no-records">Error loading items. Please try again.</div>');
@@ -425,6 +439,7 @@ function initLibraryFilters() {
         updateSortHeading();
         state.page = 1;
         fetchAndRender();
+        updateDownloadLink();
     });
 
     // Sorting - ensure only one radio button is selected
@@ -436,6 +451,7 @@ function initLibraryFilters() {
         updateSortHeading();
         state.page = 1;
         fetchAndRender();
+        updateDownloadLink();
     });
 
     // Search with debounce
@@ -446,6 +462,7 @@ function initLibraryFilters() {
         fetchAndRender();
         toggleClearVisibility();
         toggleSearchIconVisibility();
+        updateDownloadLink();
     }
     $search.on('input', function(){
         clearTimeout(searchTimer);
@@ -513,6 +530,7 @@ function initLibraryFilters() {
     $sorts.filter(`[value="${state.sort}"]`).prop('checked', true);
     updateSortHeading();
     toggleClearVisibility();
+    updateDownloadLink();
 
     fetchAndRender();
 }
@@ -1290,6 +1308,31 @@ function initFooterDropdowns() {
             $item.addClass('dropdown');
         }
     });
+    
+    // Convert footer "Resources" to a direct link (no dropdown) to /resources/library
+    (function() {
+        const $resourceLinks = $('.footer-navigation .nav-item > a').filter(function() {
+            const $link = $(this);
+            const text = ($link.text() || '').trim().toLowerCase();
+            const href = String($link.attr('href') || '').replace(/\/$/, '');
+            return text === 'resources' || href.endsWith('/resources');
+        });
+
+        $resourceLinks.each(function() {
+            const $link = $(this);
+            const $parentItem = $link.parent();
+            // Update to desired target
+            $link.attr('href', '/resources/library');
+            // Remove dropdown-related attributes/classes that might hijack clicks
+            $link.removeAttr('data-toggle aria-expanded');
+            $link.off('click.dropdown click.navSanitize');
+            // Remove dropdown behavior/styles in footer only
+            $parentItem.removeClass('dropdown');
+            $parentItem.find('.dropdown-menu').remove();
+            // Ensure no toggle handler is attached to this link
+            $link.off('click');
+        });
+    })();
     
     // Handle dropdown clicks
     $('.footer-navigation .nav-item.dropdown > a').on('click', function(e) {

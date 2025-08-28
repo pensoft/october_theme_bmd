@@ -59,12 +59,11 @@ description_limit = 0
             <div class="col-md-4 col-xs-12">
                 <div class="newsletter-section">
                     <h3 class="newsletter-title">Subscribe to our newsletter</h3>
-                    <div class="newsletter-form">
-                        <div class="email-input-container">
-                            <span class="email-icon">✉️</span>
-                            <input type="email" placeholder="youremail@gmail.com" class="email-input">
-                            <button type="submit" class="subscribe-btn">Subscribe</button>
-                        </div>
+                    <div class="subscribe-button">
+                        <a href="{{this.theme.subscribe}}" class="btn btn-subscribe" target="_blank">
+                            <span class="bell-icon"></span>
+                            Subscribe
+                        </a>
                     </div>
                 </div>
             </div>
@@ -81,6 +80,15 @@ description_limit = 0
                             {% endif %}
                             <div class="funding-text">
                                 {% component 'footer_funds' %}
+                            </div>
+                        </div>
+                        <div class="row coordinator-row">
+                            <div class="col-xs-12">
+                                <div class="project-coordinator">
+                                    <span class="label">Project coordinator:</span>
+                                    <span class="text">Niels Raes, Naturalis Biodiversity Center, Project Coordinator,</span>
+                                    <a href="mailto:niels.raes@naturalis.nl">niels.raes@naturalis.nl</a>
+                                </div>
                             </div>
                         </div>
                     </div>

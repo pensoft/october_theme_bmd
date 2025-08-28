@@ -28,7 +28,9 @@
                 color: #0F2F2A;
                 font-weight: 375;
             }
-            
+            img{
+                width: 100%;
+            }
             h3 {
                 color: #0F2F2A;
                 font-family: Author;
@@ -64,148 +66,148 @@
                 text-decoration: none;
                 font-size: 18px;
                 
-                &:hover {
-                    text-decoration: underline;
-                    color: #0056b3;
-                }
+                // &:hover {
+                //     text-decoration: underline;
+                //     color: #0056b3;
+                // }
             }
         }
     }
-}
-
-
-.key-results-boxes{
-    margin-bottom: 80px;
-    
-    // Mixin for background image styles
-    .background-image-mixin(@image, @hover-image) {
-        background: url(@image) top right no-repeat;
-        background-size: cover;
-        &:hover {
-            background: url(@hover-image) top right no-repeat;
-            background-size: cover;
-        }
-    }
-    
-    // Mixin for arrow link hover effect
-    .arrow-hover-effect() {
-        background: @date-text-color;
-        &:after {
-            transform: rotate(135deg);
-        }
-    }
-    
-    .key-results-box{
-        a{
-            text-decoration: none !important;
-        }
-        padding: 0;
+    .key-results-boxes{
+        margin-bottom: 80px;
         
-        .key-results-box-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
-            
+        // Mixin for background image styles
+        .background-image-mixin(@image, @hover-image) {
+            background: url(@image) top right no-repeat;
+            background-size: cover;
             &:hover {
+                background: url(@hover-image) top right no-repeat;
+                background-size: cover;
+            }
+        }
+        
+        // Mixin for arrow link hover effect
+        .arrow-hover-effect() {
+            background: @date-text-color;
+            &:after {
+                transform: rotate(135deg);
+            }
+        }
+        
+        .key-results-box{
+            a{
+                text-decoration: none !important;
+            }
+            padding: 0;
+            
+            .key-results-box-link {
+                display: block;
                 text-decoration: none;
                 color: inherit;
-            }
-            
-            // Ensure all text elements within the link have no underlines
-            * {
-                text-decoration: none;
-            }
-            
-            &:hover * {
-                text-decoration: none;
-            }
-        }
-        
-        .key-results-box-item{
-            width: 304px;
-            height: 222px;
-            max-width: 85%;
-            display: flex;
-            align-items: end;
-            color: transparent;
-            padding: 20px;
-            font-size: 23px;
-            font-weight: 500;
-            transition: all 0.3s ease-in-out;
-            position: relative;
-            border-radius: 10px;
-
-            // Remove any potential grey lines or placeholder elements
-            &::before,
-            &::after {
-                display: none !important;
-            }
-            
-            // Ensure no background lines or patterns
-            background-image: none;
-            
-            // Remove any text decoration or lines
-            text-decoration: none;
-            text-decoration-line: none;
-            text-decoration-style: none;
-            text-decoration-color: transparent;
-            
-            // Remove any borders or outlines that might appear as lines
-            border: none;
-            outline: none;
-            box-shadow: none;
-            
-            &:hover{
-                color: white;
-                .arrow_link {
-                    .arrow-hover-effect();
-                }
-            }
-
-            .breakpoint-huge-down({
-                color: white;
-                margin-bottom: 20px;
-            });
-
-            .arrow_link{
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 46px;
-                height: 46px;
-                background: @link-color;
-                border-radius: 10px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s ease-in-out;
                 
-                &:after{
-                    content: ' ';
-                    background: url("../../assets/images/subscribe-button-arrow.svg") center no-repeat;
-                    background-size: 60%;
-                    width: 50%;
-                    height: 50%;
-                    transform: rotate(-45deg);
-                    transition: all 0.3s ease-in-out;
+                &:hover {
+                    text-decoration: none;
+                    color: inherit;
                 }
+                
+                // Ensure all text elements within the link have no underlines
+                * {
+                    text-decoration: none;
+                }
+                
+                &:hover * {
+                    text-decoration: none;
+                }
+            }
+            
+            .key-results-box-item{
+                width: 304px;
+                height: 222px;
+                max-width: 85%;
+                display: flex;
+                align-items: end;
+                color: transparent;
+                padding: 20px;
+                font-size: 23px;
+                font-weight: 500;
+                transition: all 0.3s ease-in-out;
+                position: relative;
+                border-radius: 10px;
+
+                // Remove any potential grey lines or placeholder elements
+                &::before,
+                &::after {
+                    display: none !important;
+                }
+                
+                // Ensure no background lines or patterns
+                background-image: none;
+                
+                // Remove any text decoration or lines
+                text-decoration: none;
+                text-decoration-line: none;
+                text-decoration-style: none;
+                text-decoration-color: transparent;
+                
+                // Remove any borders or outlines that might appear as lines
+                border: none;
+                outline: none;
+                box-shadow: none;
                 
                 &:hover{
-                    .arrow-hover-effect();
+                    color: white;
+                    .arrow_link {
+                        .arrow-hover-effect();
+                    }
+                }
+
+                .breakpoint-huge-down({
+                    color: white;
+                    margin-bottom: 20px;
+                });
+
+                .arrow_link{
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    width: 46px;
+                    height: 46px;
+                    background: @link-color;
+                    border-radius: 10px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.3s ease-in-out;
+                    
+                    &:after{
+                        content: ' ';
+                        background: url("../../assets/images/subscribe-button-arrow.svg") center no-repeat;
+                        background-size: 60%;
+                        width: 50%;
+                        height: 50%;
+                        transform: rotate(-45deg);
+                        transition: all 0.3s ease-in-out;
+                    }
+                    
+                    &:hover{
+                        .arrow-hover-effect();
+                    }
                 }
             }
-        }
-        
-        &:nth-of-type(1) .key-results-box-item {
-            .background-image-mixin("../../assets/images/image-1.png", "../../assets/images/image-1-hover.png");
-        }
-        
-        &:nth-of-type(2) .key-results-box-item {
-            .background-image-mixin("../../assets/images/image-2.png", "../../assets/images/image-5-hover.png");
-        }
-        
-        &:nth-of-type(3) .key-results-box-item {
-            .background-image-mixin("../../assets/images/image-3.png", "../../assets/images/image-3-hover.png");
+            
+            &:nth-of-type(1) .key-results-box-item {
+                .background-image-mixin("../../assets/images/image-1.png", "../../assets/images/image-1-hover.png");
+            }
+            
+            &:nth-of-type(2) .key-results-box-item {
+                .background-image-mixin("../../assets/images/image-2.png", "../../assets/images/image-5-hover.png");
+            }
+            
+            &:nth-of-type(3) .key-results-box-item {
+                .background-image-mixin("../../assets/images/image-3.png", "../../assets/images/image-3-hover.png");
+            }
         }
     }
 }
+
+

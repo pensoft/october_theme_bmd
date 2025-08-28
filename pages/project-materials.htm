@@ -64,7 +64,7 @@ function onStart(){
                     {% if brand_kit.count() %}
                     <div class="row">
                         {% for logo in brand_kit %}
-                        <div class="col-md-6 col-xs-12 mb-4">
+                        <div class="material-item-wrapper mb-4">
                             <div class="logo-container" data-item-name="{{ logo.name | default('Logo') }}">
                                 {% partial 'components/download-dropdown' item=logo imageField='logo_image' itemType='logo' %}
                             </div>
@@ -80,15 +80,13 @@ function onStart(){
                     {% if promotional_materials.count() %}
                     <div class="row">
                         {% for flyer in promotional_materials %}
-                        <div class="col-md-6 col-xs-12 mb-4">
+                        <div class="material-item-wrapper mb-4">
                             <div class="image-wrapper">
                                 <img src="{{ flyer.flyer_image|media }}" alt="{{ flyer.name }}" class="img-responsive">
-                                <div class="download-dropdown">
-                                    <div class="download-section">
-                                        <a href="{{ flyer.file.getPath() }}" download="{{ flyer.name|default('Promo Material') }}" class="btn btn-download">
-                                            Download 
-                                        </a>
-                                    </div>
+                                <div class="download-section">
+                                    <a href="{{ flyer.file.getPath() }}" download="{{ flyer.name|default('Promo Material') }}" target="_blank" class="btn btn-download">
+                                        Download 
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -105,15 +103,13 @@ function onStart(){
                     {% if technical_materials.count() %}
                     <div class="row">
                         {% for presentation in technical_materials %}
-                        <div class="col-md-6 col-xs-12 mb-4">
+                        <div class="material-item-wrapper mb-4">
                             <div class="image-wrapper">
                                 <img src="{{ presentation.presentation_image|media }}" alt="{{ presentation.name }}" class="img-responsive">
-                                <div class="download-dropdown">
-                                    <div class="download-section">
-                                        <a href="{{ presentation.file.getPath() }}" download="{{ presentation.name|default('Presentation') }}" class="btn btn-download">
-                                            Download 
-                                        </a>
-                                    </div>
+                                <div class="download-section">
+                                    <a href="{{ presentation.file.getPath() }}" target="_blank" class="btn btn-download">
+                                        Download 
+                                    </a>
                                 </div>
                             </div>
                         </div>
