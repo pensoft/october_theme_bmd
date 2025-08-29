@@ -115,6 +115,10 @@ return Response::download($pathToFile, $fileName, $headers);
                     {% endspaceless %}
                     {% endfor %}
                 </div>
+                {% else %}
+                <div class="no-newsletters-message">
+                    <p>Items will follow soon. Keep posted!</p>
+                </div>
                 {% endif %}
             </div>
         </div>
