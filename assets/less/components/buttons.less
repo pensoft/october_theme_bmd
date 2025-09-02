@@ -58,9 +58,7 @@ button:not(:disabled) {
         padding: 0!important;
     }
 
-    &.small, &.large, &.huge {
-
-    }
+    // Size variants handled below
     &.small {
       .line-height(0.8);
     }
@@ -206,35 +204,68 @@ button:not(:disabled) {
     padding: 8px 30px;
     justify-content: center;
     align-items: center;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    display: inline-flex;
+    text-decoration: none;
+
+    &:hover {
+        background: #1a8f6f;
+        transform: translateY(-2px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(32, 166, 131, 0.3);
+    }
+}
+
+.btn-involved,
+a.btn-involved {
+    border-radius: 10px;
+    background: #fff !important;
+    color: #0F2F2A !important;
+    border: 1px solid #0F2F2A;
+    padding: 8px 30px;
+    justify-content: center;
+    align-items: center;
     gap: 9px;
     position: relative;
     transition: all 0.3s ease-in-out;
     display: inline-flex;
     text-decoration: none;
-    
+    font-weight: 500;
+
     &::after {
         content: '';
-        background: url("../../assets/images/white-arrow-btn.svg") center no-repeat;
+        background: url("../../assets/images/green-arrow-btn.svg") center no-repeat;
         background-size: contain;
-        width: 13px;
-        height: 12px;
+        width: 10px;
+        height: 11px;
         transition: all 0.3s ease-in-out;
         transform: translateX(0);
     }
-    
+
     &:hover {
-        background: #1a8f6f;
+        background: #f8f8f8;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(32, 166, 131, 0.3);
-        
+
         &::after {
             transform: translateX(4px);
         }
     }
-    
+
     &:active {
         transform: translateY(0);
-        box-shadow: 0 2px 6px rgba(32, 166, 131, 0.2);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(15, 47, 42, 0.3);
     }
 }
 
@@ -441,5 +472,75 @@ a.btn-download {
     .btn-subscribe:focus .bell-icon,
     .btn-subscribe:active .bell-icon {
         animation: none !important;
+    }
+}
+
+// Social/external buttons
+.btn-zenodo,
+.btn-github {
+    border-radius: 8px;
+    background: #20A683;
+    color: #fff;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+
+    .btn-icon {
+        width: 22px;
+        height: 22px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(1);
+    }
+
+    .btn-text {
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    &:hover {
+        background: #1a8f6f;
+        transform: translateY(-3px) scale(1.02);
+
+        .btn-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .btn-text {
+            transform: translateX(2px);
+        }
+    }
+
+    &:active {
+        transform: translateY(-1px) scale(0.98);
+        transition: all 0.1s ease;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(32, 166, 131, 0.3);
+    }
+}
+
+.btn-zenodo {
+    .btn-icon {
+        background-image: url("../../assets/images/zenodo-white.svg");
+    }
+}
+
+.btn-github {
+    .btn-icon {
+        background-image: url("../../assets/images/github-white.svg");
     }
 }

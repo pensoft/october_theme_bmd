@@ -18,6 +18,21 @@ milestones_filter = 1
                 {% partial 'components/library-filters' %}
             </div>
             <div class="col-md-9 col-xs-12">
+                <div class="external-links">
+                    <div class="text">
+                        You can also explore BMD's results in our <strong>Zenodo Community</strong> and on <strong>GitHub</strong>.
+                    </div>
+                    <div class="actions">
+                        <a href="https://zenodo.org/communities/bmd/records?q=&l=list&p=1&s=10&sort=newest" class="btn btn-zenodo" target="_blank" rel="noopener">
+                            <span class="btn-icon"></span>
+                            <span class="btn-text">Zenodo Community</span>
+                        </a>
+                        <a href="https://github.com/Biodiversity-Meets-Data" class="btn btn-github" target="_blank" rel="noopener">
+                            <span class="btn-icon"></span>
+                            <span class="btn-text">GitHub</span>
+                        </a>
+                    </div>
+                </div>
                 {% partial 'components/library-search' %}
                 <div id="recordsContainer" class="library-items">
                     {% partial 'components/library-list' records=records %}

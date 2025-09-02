@@ -313,7 +313,7 @@
 
     .news-image {
         width: 100%;
-        min-height: 400px;
+        min-height: 320px;
         height: auto;
         object-fit: contain;
         display: block;
@@ -339,7 +339,7 @@
         letter-spacing: -0.76px;
     }
 
-    .news-content p{
+    .news-content p, .caption p{
         color: #737373;
         font-size: 18px;
     }
@@ -398,5 +398,9 @@
             }
         }
     }
-
+.breakpoint-large-down({
+    .col-md-5{
+        order: 2;
+    }
+});
 }

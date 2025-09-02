@@ -41,11 +41,7 @@
         </div>
         <div class="dropdown-menu">
              {% for fileData in availableFiles %}
-                 {% if itemType == 'logo' %}
-                     {% set filename = item.name ~ '.' ~ fileData.format|lower %}
-                 {% else %}
-                     {% set filename = item.title ~ '_' ~ fileData.format %}
-                 {% endif %}
+                 {% set filename = fileData.file.file_name %}
                  <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item">
                      {{ fileData.format }}
                  </a>

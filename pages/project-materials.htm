@@ -42,14 +42,14 @@ function onStart(){
                     </div>
                     <div class="categories-content">
                         <label class="category-checkbox">
-                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="brand-kit" checked>
-                            <span class="checkbox-custom"></span>
-                            <span class="category-label">Brand kit</span>
-                        </label>
-                        <label class="category-checkbox">
-                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="promotional-materials">
+                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="promotional-materials" checked>
                             <span class="checkbox-custom"></span>
                             <span class="category-label">Promotional materials</span>
+                        </label>
+                        <label class="category-checkbox">
+                            <input type="radio" name="project-materials-category" class="project-category-input" data-category="brand-kit">
+                            <span class="checkbox-custom"></span>
+                            <span class="category-label">Brand kit</span>
                         </label>
                         <label class="category-checkbox">
                             <input type="radio" name="project-materials-category" class="project-category-input" data-category="technical-materials">
@@ -60,35 +60,22 @@ function onStart(){
                 </div>
             </div>
             <div class="col-md-9 col-xs-12">
-                <div id="brand-kit" class="tab-content active">
-                    {% if brand_kit.count() %}
-                    <div class="row">
-                        {% for logo in brand_kit %}
-                        <div class="material-item-wrapper mb-4">
-                            <div class="logo-container" data-item-name="{{ logo.name | default('Logo') }}">
-                                {% partial 'components/download-dropdown' item=logo imageField='logo_image' itemType='logo' %}
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                    {% else %}
-                    <p>No brand kit materials available at the moment.</p>
-                    {% endif %}
-                </div>
-
-                <div id="promotional-materials" class="tab-content">
+                <div id="promotional-materials" class="tab-content active">
                     {% if promotional_materials.count() %}
                     <div class="row">
                         {% for flyer in promotional_materials %}
                         <div class="material-item-wrapper mb-4">
                             <div class="image-wrapper">
                                 <img src="{{ flyer.flyer_image|media }}" alt="{{ flyer.name }}" class="img-responsive">
+                                {% if flyer.file %}
                                 <div class="download-section">
-                                    <a href="{{ flyer.file.getPath() }}" download="{{ flyer.name|default('Promo Material') }}" target="_blank" class="btn btn-download">
-                                        Download 
+                                    <a href="{{ flyer.file.getPath() }}" download="{{ flyer.file.file_name }}" class="btn btn-download">
+                                        Download
                                     </a>
                                 </div>
+                                {% endif %}
                             </div>
+                            <div class="material-title">{{ flyer.name | default('Promotional Material') }}</div>
                         </div>
                         {% endfor %}
                     </div>
@@ -97,9 +84,25 @@ function onStart(){
                     {% endif %}
                 </div>
 
+                <div id="brand-kit" class="tab-content">
+                    {% if brand_kit.count() %}
+                    <div class="row">
+                        {% for logo in brand_kit %}
+                        <div class="material-item-wrapper mb-4">
+                            <div class="logo-container" data-item-name="{{ logo.name | default('Logo') }}">
+                            {% partial 'components/download-dropdown' item=logo imageField='logo_image' itemType='logo' %}
+                            </div>
+                        <div class="material-title">{{ logo.name | default('Logo') }}</div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p>No brand kit materials available at the moment.</p>
+                    {% endif %}
+                </div>
+
                 <!-- Technical Materials Tab Content -->
                 <div id="technical-materials" class="tab-content">
-                    <h3>Technical Materials</h3>
                     {% if technical_materials.count() %}
                     <div class="row">
                         {% for presentation in technical_materials %}
@@ -107,11 +110,12 @@ function onStart(){
                             <div class="image-wrapper">
                                 <img src="{{ presentation.presentation_image|media }}" alt="{{ presentation.name }}" class="img-responsive">
                                 <div class="download-section">
-                                    <a href="{{ presentation.file.getPath() }}" target="_blank" class="btn btn-download">
-                                        Download 
+                                    <a href="{{ presentation.file.getPath() }}" download="{{ presentation.file.file_name }}" class="btn btn-download">
+                                        Download
                                     </a>
                                 </div>
                             </div>
+                            <div class="material-title">{{ presentation.name | default('Technical Material') }}</div>
                         </div>
                         {% endfor %}
                     </div>

@@ -1816,8 +1816,8 @@ function initProjectMaterialsFiltering() {
         filterProjectMaterials();
     });
     
-    // Set default selection to first category (Brand kit)
-    $('.project-category-input[data-category="brand-kit"]').prop('checked', true);
+    // Set default selection to promotional materials
+    $('.project-category-input[data-category="promotional-materials"]').prop('checked', true);
     filterProjectMaterials();
 }
 

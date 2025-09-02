@@ -246,19 +246,21 @@
     left: 0;
     width: 100%;
     height: 100%;
+    background-image: url('../images/gradient-partners.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    
 }
 
-.partners-popup-overlay-gradient {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(180deg, rgba(20, 47, 43, 0) 0%, rgba(20, 47, 43, 0.81) 100%);
-}
+// .partners-popup-overlay-gradient {
+//     position: absolute;
+//     top: 0;
+//     left: 0;
+//     width: 100%;
+//     height: 100%;
+//     background: linear-gradient(180deg, rgba(20, 47, 43, 0) 0%, rgba(20, 47, 43, 0.81) 100%);
+// }
 
 .partners-popup-partner-info {
     position: absolute;
@@ -277,11 +279,11 @@
         width: 90%;
         font-family: 'Author', sans-serif;
         font-weight: 500;
-        font-size: 22px;
+        font-size: 30px;
         line-height: 1.2;
         margin: 0 0 20px 0;
         letter-spacing: -0.44px;
-        color: #fff;
+        color: #10745A;
     }
     
     .breakpoint-medium-down({
@@ -294,7 +296,7 @@
 }
 
 // Improve readability on small screens by darkening the image and adding a soft panel behind text
-.breakpoint-medium-down({
+.breakpoint-large-down({
     .partners-popup-overlay-gradient {
         background: linear-gradient(180deg, rgba(20, 47, 43, 0.2) 0%, rgba(20, 47, 43, 0.85) 100%);
     }
@@ -305,15 +307,18 @@
         width: 100%;
         padding: 10px 12px;
         border-radius: 0;
-        background: rgba(15, 47, 42, 0.7);
-        -webkit-backdrop-filter: blur(2px);
-        backdrop-filter: blur(2px);
-        h2 { text-shadow: 0 1px 2px rgba(0,0,0,0.45); }
+        // background: rgba(15, 47, 42, 0.7);
+        // -webkit-backdrop-filter: blur(2px);
+        // backdrop-filter: blur(2px);
+        h2 { 
+            text-shadow: 0 1px 2px rgba(0,0,0,0.45); 
+            font-size: 22px;
+        }
     }
 
-    .partners-popup-website-btn {
-        box-shadow: 0 6px 16px rgba(32,166,131,0.5);
-    }
+    // .partners-popup-website-btn {
+    //     box-shadow: 0 6px 16px rgba(32,166,131,0.5);
+    // }
 
     // Let overlay scroll instead of inner right column
     .partners-popup-right {

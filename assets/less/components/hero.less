@@ -93,6 +93,7 @@
             height: 40vh;
             min-height: 250px;
             padding-top: 120px;
+            margin-bottom: 40px;
         });
     }
     
@@ -134,10 +135,27 @@
             });
         }
 
+        // Hero buttons container
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 20px;
+            
+            .breakpoint-large-down({
+                flex-direction: column;
+                gap: 15px;
+                width: 100%;
+            });
+        }
+
         // Initial hidden states for staged reveal
         p,
         a.btn,
-        .btn-intro {
+        .btn-intro,
+        .btn-involved {
             opacity: 0;
             transform: translateY(10px);
         }
@@ -150,11 +168,21 @@
             }
         }
 
-        // After paragraph reveal, bounce the button and make it visible
+        // After paragraph reveal, bounce the buttons and make them visible
         &.is-button-bounce {
             a.btn,
-            .btn-intro {
+            .btn-intro,
+            .btn-involved {
                 animation: heroBounceIntro 900ms ease-out forwards;
+            }
+            
+            // Stagger the button animations
+            .btn-intro {
+                animation-delay: 200ms;
+            }
+            
+            .btn-involved {
+                animation-delay: 400ms;
             }
         }
     }
@@ -167,7 +195,7 @@
         z-index: 1;
         
         .breakpoint-large-down({
-            height: 60vh;
+            height: 45vh;
         });
     }
 

@@ -17,13 +17,13 @@
         font-size: 18px;
     }
 
-    @sap-box-min-height: 310px;
+    @sap-box-min-height: 230px;
 
     .sap-box-base() {
         border-radius: 15px;
         background: #F0F2F3;
         margin-bottom: 20px;
-        padding: 20px;
+        padding: 30px;
         min-height: @sap-box-min-height;
     }
 
@@ -46,22 +46,11 @@
     .sap-box {
         .sap-box-base();
         .sap-typography();
-
-        img {
-            margin-bottom: 60px;
-        }
-    }
-
-    .sap-box-big {
-        .sap-box-base();
-        .sap-typography();
-        
-        height: (@sap-box-min-height * 2 + 20px + 40px);
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        align-items: flex-start;
         position: relative;
+        // padding-top: 80px;
 
         img {
             position: absolute;
@@ -69,16 +58,5 @@
             left: 31px;
             margin-bottom: 0;
         }
-
-        .breakpoint-large-down({
-            height: auto;
-            justify-content: flex-start;
-            align-items: flex-start;
-            
-            img {
-                position: static;
-                margin-bottom: 30px;
-            }
-        });
     }
 }
