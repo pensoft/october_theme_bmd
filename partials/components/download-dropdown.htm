@@ -42,9 +42,16 @@
         <div class="dropdown-menu">
              {% for fileData in availableFiles %}
                  {% set filename = fileData.file.file_name %}
-                 <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item">
-                     {{ fileData.format }}
-                 </a>
+                 {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
+                 {% if isPdf %}
+                     <a href="{{ fileData.file.getPath() }}" target="_blank" class="dropdown-item">
+                         {{ fileData.format }}
+                     </a>
+                 {% else %}
+                     <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item">
+                         {{ fileData.format }}
+                     </a>
+                 {% endif %}
              {% endfor %}
          </div>
     </div>

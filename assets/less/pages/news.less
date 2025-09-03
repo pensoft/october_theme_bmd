@@ -364,13 +364,21 @@
                 grid-template-columns: repeat(3, minmax(0, 1fr));
                 gap: 24px;
             }
+
             @media (max-width: 1200px) {
                 .row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
             }
+            
             @media (max-width: 768px) {
                 .row { grid-template-columns: 1fr; }
             }
-            .news-highlight-item { width: 100%; max-width: 100%; margin-bottom: 0; }
+
+            .news-highlight-item { 
+                width: 100%;
+                max-width: 100%; 
+                margin-bottom: 0; 
+            }
+
             .news-highlight-item {
                 .news-item {
                     width: 100%;
@@ -398,9 +406,11 @@
             }
         }
     }
+
 .breakpoint-large-down({
     .col-md-5{
         order: 2;
     }
 });
+
 }

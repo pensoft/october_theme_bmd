@@ -69,9 +69,17 @@ function onStart(){
                                 <img src="{{ flyer.flyer_image|media }}" alt="{{ flyer.name }}" class="img-responsive">
                                 {% if flyer.file %}
                                 <div class="download-section">
-                                    <a href="{{ flyer.file.getPath() }}" download="{{ flyer.file.file_name }}" class="btn btn-download">
-                                        Download
-                                    </a>
+                                    {% set filename = flyer.file.file_name %}
+                                    {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
+                                    {% if isPdf %}
+                                        <a href="{{ flyer.file.getPath() }}" target="_blank" class="btn btn-download">
+                                            Download
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ flyer.file.getPath() }}" download="{{ filename }}" class="btn btn-download">
+                                            Download
+                                        </a>
+                                    {% endif %}
                                 </div>
                                 {% endif %}
                             </div>
@@ -110,9 +118,17 @@ function onStart(){
                             <div class="image-wrapper">
                                 <img src="{{ presentation.presentation_image|media }}" alt="{{ presentation.name }}" class="img-responsive">
                                 <div class="download-section">
-                                    <a href="{{ presentation.file.getPath() }}" download="{{ presentation.file.file_name }}" class="btn btn-download">
-                                        Download
-                                    </a>
+                                    {% set filename = presentation.file.file_name %}
+                                    {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
+                                    {% if isPdf %}
+                                        <a href="{{ presentation.file.getPath() }}" target="_blank" class="btn btn-download">
+                                            Download
+                                        </a>
+                                    {% else %}
+                                        <a href="{{ presentation.file.getPath() }}" download="{{ filename }}" class="btn btn-download">
+                                            Download
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="material-title">{{ presentation.name | default('Technical Material') }}</div>
