@@ -26,6 +26,9 @@
             
             .col-md-11, .col-md-1 {
                 padding: 0;
+                .breakpoint-large-down({
+                    padding: 0 4px;
+                });
             }
             
             .arrow-down {
@@ -270,6 +273,31 @@
 .videos-page, .library-page, .project-materials-page {
     .resources-tabs{
         margin-bottom: 40px;
+    }
+}
+
+// Video container styling for consistent aspect ratio
+.videos-page {
+    .video-container {
+        .card_title{
+            margin-top: 8px;
+        }
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9; // Standard video aspect ratio
+        overflow: hidden;
+        border-radius: 10px;
+
+        
+        iframe, video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 10px;
+        }
     }
 }
 
