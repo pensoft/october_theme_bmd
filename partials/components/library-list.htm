@@ -7,8 +7,11 @@
                 {% if record.type_attr %}
                 <span class="doc_type">{{ record.type_attr|_ }}</span>
                 {% endif %}
-                {% if record.deliverable_number %}
+                {% if record.type == 5 and record.deliverable_number %}
                 <span class="doc_year">{{ record.deliverable_number }}</span>
+                {% endif %}
+                {% if record.type == 11 and record.milestone_number %}
+                <span class="doc_year">{{ record.milestone_number }}</span>
                 {% endif %}
             </div>
             

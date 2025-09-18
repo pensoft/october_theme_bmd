@@ -484,7 +484,7 @@ a.btn-download {
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
-    gap: 8px;
+    gap: 0px;
     position: relative;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     display: inline-flex;
@@ -533,13 +533,102 @@ a.btn-download {
 }
 
 .btn-zenodo {
-    .btn-icon {
+    &::before {
+        content: '';
+        width: 22px;
+        height: 22px;
         background-image: url("../../assets/images/zenodo-white.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-right: 2px;
+        display: inline-block;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(1);
+    }
+
+    &:hover::before {
+        transform: scale(1.1) rotate(5deg);
     }
 }
 
 .btn-github {
-    .btn-icon {
+    &::before {
+        content: '';
+        width: 22px;
+        height: 22px;
         background-image: url("../../assets/images/github-white.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-right: 2px;
+        display: inline-block;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(1);
+    }
+
+    &:hover::before {
+        transform: scale(1.1) rotate(5deg);
+    }
+}
+
+.btn-rio {
+    border-radius: 8px;
+    background: #20A683;
+    color: #fff;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 0px;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex
+;
+    text-decoration: none;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    min-width: 140px;
+    height: 48.5px;
+
+    &::before {
+        content: '';
+        width: 65%;
+        height: 65%;
+        background-image: url("../../assets/images/rio-btn.svg");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        display: inline-block;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        transform: scale(1);
+    }
+
+    .btn-text {
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    &:hover {
+        background: #1a8f6f;
+        transform: translateY(-3px) scale(1.02);
+
+        &::before {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .btn-text {
+            transform: translateX(2px);
+        }
+    }
+
+    &:active {
+        transform: translateY(-1px) scale(0.98);
+        transition: all 0.1s ease;
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(32, 166, 131, 0.3);
     }
 }

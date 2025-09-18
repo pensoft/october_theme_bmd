@@ -160,6 +160,25 @@ section.tab-content {
         filter: none;
         transform: translate(0, -50%) scale(1);
         }
+        .breakpoint-tablet({
+            // Make images visible on small devices, smaller, and slow down animations
+            display: grid;
+            grid-template-rows: 220px 220px;
+            grid-auto-rows: 220px;
+            height: 450px;
+            column-gap: 20px;
+            row-gap: 16px;
+            .what-we-do-image-1,
+            .what-we-do-image-2,
+            .what-we-do-image-3 {
+                width: 220px;
+                height: 220px;
+                transition: transform 2.2s cubic-bezier(.2, .6, .2, 1), opacity 2s ease, filter 2s ease;
+            }
+            .what-we-do-image-3 {
+                left: 220px;
+            }
+        });
         .breakpoint-large-down({
             // Make images visible on small devices, smaller, and slow down animations
             display: grid;

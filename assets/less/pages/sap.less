@@ -46,17 +46,18 @@
     .sap-box {
         .sap-box-base();
         .sap-typography();
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+        display: block;
         position: relative;
-        // padding-top: 80px;
 
         img {
-            position: absolute;
-            top: 30px;
-            left: 31px;
-            margin-bottom: 0;
+            width: 45.803px;
+            height: 46px;
+            margin-bottom: 27px;
+            object-fit: contain;
+            display: block;
         }
+        .breakpoint-tablet({
+            min-height: 320px;
+        });
     }
 }

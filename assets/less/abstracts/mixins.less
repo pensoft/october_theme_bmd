@@ -97,6 +97,9 @@
 .breakpoint-huge(@rules) {
   @media screen and (min-width: @breakpoint-huge-min-width) { @rules(); }
 }
+.breakpoint-tablet(@rules) {
+  @media screen and (min-width: @breakpoint-tablet-min-width) { @rules(); }
+}
 
 .breakpoint-small-down(@rules) {
   @media screen and (max-width: @breakpoint-small-max-width) { @rules(); }
@@ -115,4 +118,7 @@
 }
 .breakpoint-screen-down(@rules) {
   @media screen and (max-width: @breakpoint-screen-max-width) { @rules(); }
+}
+.breakpoint-tablet-down(@rules) {
+  @media screen and (max-width: @breakpoint-tablet-max-width) { @rules(); }
 }
