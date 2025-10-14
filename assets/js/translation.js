@@ -34,6 +34,13 @@ const SUPPORTED_LANGUAGES = [
     { code: 'de', name: 'German', flag: 'de' }
 ];
 
+const TOOLTIP_TRANSLATIONS = {
+    'en': 'Automatic translation. May contain errors.',
+    'fr': 'Traduction automatique. Peut contenir des erreurs.',
+    'es': 'Traducción automática. Puede contener errores.',
+    'de': 'Automatische Übersetzung. Kann Fehler enthalten.'
+};
+
 /**
  * Main Translation Manager Class
  * Handles all translation functionality and Google Translate integration
@@ -231,8 +238,11 @@ class TranslationManager {
                     </div>`;
         }).join('');
 
+        // Get tooltip text in the current language
+        const tooltipText = TOOLTIP_TRANSLATIONS[currentLanguage.code] || TOOLTIP_TRANSLATIONS['en'];
+
         return `<div id="language-switcher" class="language-dropdown">
-                    <div class="selected-language">
+                    <div class="selected-language" data-tooltip="${tooltipText}">
                         <span class="language-text">${currentLanguage.code.toUpperCase()}</span>
                     </div>
                     <div class="language-options">${optionsHTML}</div>
@@ -317,9 +327,15 @@ class TranslationManager {
         const selector = `${SELECTORS.GOOGLE_TRANSLATE_ELEMENT} ${SELECTORS.LANGUAGE_SWITCHER}, ${SELECTORS.GOOGLE_TRANSLATE_ELEMENT_MOBILE} ${SELECTORS.LANGUAGE_SWITCHER}`;
         const allDropdowns = $(selector);
 
+        // Get tooltip text in the new language
+        const tooltipText = TOOLTIP_TRANSLATIONS[languageInfo.code] || TOOLTIP_TRANSLATIONS['en'];
+
         allDropdowns.each(function() {
             const $dropdown = $(this);
             $dropdown.find('.language-text').text(languageInfo.code.toUpperCase());
+
+            // Update tooltip text
+            $dropdown.find('.selected-language').attr('data-tooltip', tooltipText);
 
             // Update selected option styling
             $dropdown.find('.language-option').removeClass('selected');

@@ -43,10 +43,55 @@
           height: 40px;
           width: 40px;
           min-width: 40px;
+          position: relative;
 
           &:hover {
               background-color: rgba(248, 250, 255, 0.40);
               border-color: rgba(225, 228, 237, 0.35);
+          }
+
+          // Tooltip styles
+          &[data-tooltip] {
+              &::before,
+              &::after {
+                  position: absolute;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  opacity: 0;
+                  pointer-events: none;
+                  transition: opacity 0.3s ease, transform 0.3s ease;
+              }
+
+              // Tooltip content
+              &::before {
+                  content: attr(data-tooltip);
+                  top: calc(100% + 10px);
+                  background-color: rgba(15, 47, 42, 0.95);
+                  color: #fff;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  white-space: nowrap;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                  z-index: 10000;
+                  font-family: 'Inter', sans-serif;
+              }
+
+              // Tooltip arrow
+              &::after {
+                  content: '';
+                  top: calc(100% + 4px);
+                  border: 6px solid transparent;
+                  border-bottom-color: rgba(15, 47, 42, 0.95);
+                  z-index: 10001;
+              }
+
+              &:hover::before,
+              &:hover::after {
+                  opacity: 1;
+                  transform: translateX(-50%) translateY(2px);
+              }
           }
 
           .language-text {
@@ -517,7 +562,7 @@
 
 body.menu-open {
   overflow: hidden;
-  
+
   // Hide header tools (language, search) while the slide-in menu is open
   #headernavbar {
       .desktop-header-elements {
@@ -526,6 +571,14 @@ body.menu-open {
           pointer-events: none;
           transform: translateX(-10px);
           transition: all 0.2s ease;
+      }
+  }
+
+  // Hide tooltip when menu is open
+  .selected-language[data-tooltip] {
+      &::before,
+      &::after {
+          display: none !important;
       }
   }
 }
@@ -713,6 +766,14 @@ body.menu-open {
           display: flex;
       }
   }
+
+  // Hide tooltip on tablets
+  .selected-language[data-tooltip] {
+      &::before,
+      &::after {
+          display: none !important;
+      }
+  }
 }
 
 @media (max-width: 767px) {
@@ -807,6 +868,14 @@ body.menu-open {
           top: 15px;
           right: 15px;
           font-size: 24px;
+      }
+  }
+
+  // Hide tooltip on mobile
+  .selected-language[data-tooltip] {
+      &::before,
+      &::after {
+          display: none !important;
       }
   }
 }
