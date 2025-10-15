@@ -242,8 +242,12 @@ class TranslationManager {
         const tooltipText = TOOLTIP_TRANSLATIONS[currentLanguage.code] || TOOLTIP_TRANSLATIONS['en'];
 
         return `<div id="language-switcher" class="language-dropdown">
-                    <div class="selected-language" data-tooltip="${tooltipText}">
+                    <div class="selected-language">
                         <span class="language-text">${currentLanguage.code.toUpperCase()}</span>
+                        <div class="language-tooltip">
+                            <div class="language-tooltip-arrow"></div>
+                            <div class="language-tooltip-content">${tooltipText}</div>
+                        </div>
                     </div>
                     <div class="language-options">${optionsHTML}</div>
                 </div>`;
@@ -334,8 +338,8 @@ class TranslationManager {
             const $dropdown = $(this);
             $dropdown.find('.language-text').text(languageInfo.code.toUpperCase());
 
-            // Update tooltip text
-            $dropdown.find('.selected-language').attr('data-tooltip', tooltipText);
+            // Update tooltip HTML content
+            $dropdown.find('.language-tooltip-content').text(tooltipText);
 
             // Update selected option styling
             $dropdown.find('.language-option').removeClass('selected');

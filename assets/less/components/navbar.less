@@ -48,49 +48,12 @@
           &:hover {
               background-color: rgba(248, 250, 255, 0.40);
               border-color: rgba(225, 228, 237, 0.35);
-          }
 
-          // Tooltip styles
-          &[data-tooltip] {
-              &::before,
-              &::after {
-                  position: absolute;
-                  left: 50%;
-                  transform: translateX(-50%);
-                  opacity: 0;
-                  pointer-events: none;
-                  transition: opacity 0.3s ease, transform 0.3s ease;
-              }
-
-              // Tooltip content
-              &::before {
-                  content: attr(data-tooltip);
-                  top: calc(100% + 10px);
-                  background-color: rgba(15, 47, 42, 0.95);
-                  color: #fff;
-                  padding: 8px 12px;
-                  border-radius: 6px;
-                  font-size: 12px;
-                  font-weight: 400;
-                  white-space: nowrap;
-                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-                  z-index: 10000;
-                  font-family: 'Inter', sans-serif;
-              }
-
-              // Tooltip arrow
-              &::after {
-                  content: '';
-                  top: calc(100% + 4px);
-                  border: 6px solid transparent;
-                  border-bottom-color: rgba(15, 47, 42, 0.95);
-                  z-index: 10001;
-              }
-
-              &:hover::before,
-              &:hover::after {
+              // Show tooltip on hover
+              .language-tooltip {
                   opacity: 1;
-                  transform: translateX(-50%) translateY(2px);
+                  visibility: visible;
+                  transform: translate(-50%, 2px);
               }
           }
 
@@ -101,6 +64,43 @@
               text-align: center;
               font-family: 'Inter', sans-serif;
               font-weight: 500;
+          }
+
+          // HTML Tooltip styles
+          .language-tooltip {
+              position: absolute;
+              left: 50%;
+              top: calc(100% + 10px);
+              transform: translateX(-50%);
+              opacity: 0;
+              visibility: hidden;
+              pointer-events: none;
+              transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+              z-index: 10000;
+
+              .language-tooltip-content {
+                  background-color: rgba(15, 47, 42, 0.95);
+                  color: #fff;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  white-space: nowrap;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                  font-family: 'Inter', sans-serif;
+              }
+
+              .language-tooltip-arrow {
+                  position: absolute;
+                  left: 50%;
+                  top: -6px;
+                  transform: translateX(-50%);
+                  width: 0;
+                  height: 0;
+                  border-left: 6px solid transparent;
+                  border-right: 6px solid transparent;
+                  border-bottom: 6px solid rgba(15, 47, 42, 0.95);
+              }
           }
       }
       
@@ -575,11 +575,8 @@ body.menu-open {
   }
 
   // Hide tooltip when menu is open
-  .selected-language[data-tooltip] {
-      &::before,
-      &::after {
-          display: none !important;
-      }
+  .language-tooltip {
+      display: none !important;
   }
 }
 
@@ -768,11 +765,8 @@ body.menu-open {
   }
 
   // Hide tooltip on tablets
-  .selected-language[data-tooltip] {
-      &::before,
-      &::after {
-          display: none !important;
-      }
+  .language-tooltip {
+      display: none !important;
   }
 }
 
@@ -872,11 +866,8 @@ body.menu-open {
   }
 
   // Hide tooltip on mobile
-  .selected-language[data-tooltip] {
-      &::before,
-      &::after {
-          display: none !important;
-      }
+  .language-tooltip {
+      display: none !important;
   }
 }
 
