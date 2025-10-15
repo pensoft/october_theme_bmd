@@ -43,10 +43,18 @@
           height: 40px;
           width: 40px;
           min-width: 40px;
+          position: relative;
 
           &:hover {
               background-color: rgba(248, 250, 255, 0.40);
               border-color: rgba(225, 228, 237, 0.35);
+
+              // Show tooltip on hover
+              .language-tooltip {
+                  opacity: 1;
+                  visibility: visible;
+                  transform: translate(-50%, 2px);
+              }
           }
 
           .language-text {
@@ -56,6 +64,43 @@
               text-align: center;
               font-family: 'Inter', sans-serif;
               font-weight: 500;
+          }
+
+          // HTML Tooltip styles
+          .language-tooltip {
+              position: absolute;
+              left: 50%;
+              top: calc(100% + 10px);
+              transform: translateX(-50%);
+              opacity: 0;
+              visibility: hidden;
+              pointer-events: none;
+              transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+              z-index: 10000;
+
+              .language-tooltip-content {
+                  background-color: rgba(15, 47, 42, 0.95);
+                  color: #fff;
+                  padding: 8px 12px;
+                  border-radius: 6px;
+                  font-size: 12px;
+                  font-weight: 400;
+                  white-space: nowrap;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+                  font-family: 'Inter', sans-serif;
+              }
+
+              .language-tooltip-arrow {
+                  position: absolute;
+                  left: 50%;
+                  top: -6px;
+                  transform: translateX(-50%);
+                  width: 0;
+                  height: 0;
+                  border-left: 6px solid transparent;
+                  border-right: 6px solid transparent;
+                  border-bottom: 6px solid rgba(15, 47, 42, 0.95);
+              }
           }
       }
       
@@ -517,7 +562,7 @@
 
 body.menu-open {
   overflow: hidden;
-  
+
   // Hide header tools (language, search) while the slide-in menu is open
   #headernavbar {
       .desktop-header-elements {
@@ -527,6 +572,11 @@ body.menu-open {
           transform: translateX(-10px);
           transition: all 0.2s ease;
       }
+  }
+
+  // Hide tooltip when menu is open
+  .language-tooltip {
+      display: none !important;
   }
 }
 
@@ -713,6 +763,11 @@ body.menu-open {
           display: flex;
       }
   }
+
+  // Hide tooltip on tablets
+  .language-tooltip {
+      display: none !important;
+  }
 }
 
 @media (max-width: 767px) {
@@ -808,6 +863,11 @@ body.menu-open {
           right: 15px;
           font-size: 24px;
       }
+  }
+
+  // Hide tooltip on mobile
+  .language-tooltip {
+      display: none !important;
   }
 }
 
