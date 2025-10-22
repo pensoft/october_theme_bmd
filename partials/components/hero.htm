@@ -21,7 +21,7 @@ description_limit = 0
                 {% for image in carousel_images %}
                 <div class="slide">
                     <div class="hero-carousel-image {{ loop.index0 % 2 == 0 ? 'small-height' : 'large-height' }}">
-                        <img alt="" title="" src="{{image.path}}">
+                        <img alt="" aria-hidden="true" src="{{image.path}}">
                     </div>
                 </div>
                 {% endfor %}

@@ -40,7 +40,8 @@
                 <input name="email" type="text" class="" id="second_language" value="" placeholder="Second language">
             </div>
 
-            <div class="row box" id="interest">
+            <fieldset class="row box" id="interest">
+                <legend class="sr-only">Interest in BMD</legend>
                 <div class="col-md-12 col-xs-12 field" id="payment_options_field">
                     <label for="interest">Interest in BMD <span class="red">*</span></label>
                     <label><input name="interest[]" type="radio" value="pay_now">Ecotoxicological data gaps</label>
@@ -48,7 +49,7 @@
                     <label><input name="interest[]" type="radio" value="group_invoice">Models for predicting pesticide toxicological effects on pollinators</label>
                     <label><input name="interest[]" type="radio" value="group_invoice">Population-level systems-based approach to risk and policy assessment</label>
                 </div>
-            </div>
+            </fieldset>
 
             <div class="col-md-12 col-xs-12 field">
                 <div class="g-recaptcha" id="recaptcha" data-sitekey="{{__SELF__.property('recaptcha_key')}}"></div>

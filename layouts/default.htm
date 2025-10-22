@@ -40,7 +40,7 @@ escape = 1
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
 
      <!-- Hidden element for Google Translate API access -->
-    <div id="google_translate_element_hidden" style="display: none;"></div>
+    <div id="google_translate_element_hidden" style="display: none;" aria-hidden="true"></div>
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -102,9 +102,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </header>
 
     <!-- Content -->
-    <section id="layout-content" class="{{this.page.id}}">
+    <main id="layout-content" class="{{this.page.id}}">
         {% page %}
-    </section>
+    </main>
 </div>
 {% if this.theme.enable_footer %}
 <!-- Footer -->

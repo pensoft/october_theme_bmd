@@ -46,14 +46,14 @@
                     {% if record.pages %}<div><span class="text-bold">{{ 'Pages:'|_ }}</span> <span class="text-ligth">{{ record.pages }}</span></div>{% endif %}
                     
                     {% if record.doi %}
-                    <div><span class="text-bold">{{ 'URL/DOI:'|_ }}</span> <span class="text-ligth"><a class="break-word" target="_blank" href="{{ record.doi }}">{{ record.doi }}</a></span></div>
+                    <div><span class="text-bold">{{ 'URL/DOI:'|_ }}</span> <span class="text-ligth"><a class="break-word" target="_blank" href="{{ record.doi }}" aria-label="Visit DOI link for {{ record.title }} (opens in new tab)">{{ record.doi }}</a></span></div>
                     {% endif %}
                 </div>
-                
+
                 {% if record.file %}
                 <div class="download-section">
-                    <a target="_blank" href="{{ record.file.path }}#file_name={{ record.file.file_name }}" class="btn btn-download">
-                        <i class="pr normal p-download"></i>{{ 'Download'|_ }} ({{ (record.file.file_size / 1024 / 1024)|round(2) }} MB)
+                    <a target="_blank" href="{{ record.file.path }}#file_name={{ record.file.file_name }}" class="btn btn-download" aria-label="Download {{ record.title }} ({{ (record.file.file_size / 1024 / 1024)|round(2) }} MB, opens in new tab)">
+                        <i class="pr normal p-download" aria-hidden="true"></i>{{ 'Download'|_ }} ({{ (record.file.file_size / 1024 / 1024)|round(2) }} MB)
                     </a>
                 </div>
                 {% endif %}

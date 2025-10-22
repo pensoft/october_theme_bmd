@@ -28,7 +28,7 @@ function onStart(){
                 <div class="row">
                     {% for record in relevant_initiatives %}
                     <div class="col-md-4 col-xs-12">
-                        <a href="{{ record.instituion_url }}" class="relevant-initiative-item" target="_blank">
+                        <a href="{{ record.instituion_url }}" class="relevant-initiative-item" target="_blank" aria-label="{{ record.name }} (opens in new tab)">
                             <div class="relevant-initiative-item-image">
                                 <img src="{{ record.cover.path }}" alt="{{ record.name }}">
                             </div>

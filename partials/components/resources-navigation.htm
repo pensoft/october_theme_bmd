@@ -1,10 +1,10 @@
 {% set currentPage = this.page.url %}
 {% set isActive = currentPage == href %}
 
-<div class="resources-tabs">
-    <a href="/resources/library" class="tab-link {{ currentPage == '/resources/library' ? 'active' : '' }}">Library</a>
-    <a href="/resources/newsletters" class="tab-link {{ currentPage == '/resources/newsletters' ? 'active' : '' }}">Newsletters</a>
-    <a href="/resources/videos" class="tab-link {{ currentPage == '/resources/videos' ? 'active' : '' }}">Videos</a>
-    <a href="/resources/project-materials" class="tab-link {{ currentPage == '/resources/project-materials' ? 'active' : '' }}">Project materials</a>
-    <a href="/resources/relevant-initiatives" class="tab-link {{ currentPage == '/resources/relevant-initiatives' ? 'active' : '' }}">Relevant initiatives</a>
-</div>
+<nav class="resources-tabs" aria-label="Resources navigation">
+    <a href="/resources/library" class="tab-link {{ currentPage == '/resources/library' ? 'active' : '' }}"{{ currentPage == '/resources/library' ? ' aria-current="page"' : '' }}>Library</a>
+    <a href="/resources/newsletters" class="tab-link {{ currentPage == '/resources/newsletters' ? 'active' : '' }}"{{ currentPage == '/resources/newsletters' ? ' aria-current="page"' : '' }}>Newsletters</a>
+    <a href="/resources/videos" class="tab-link {{ currentPage == '/resources/videos' ? 'active' : '' }}"{{ currentPage == '/resources/videos' ? ' aria-current="page"' : '' }}>Videos</a>
+    <a href="/resources/project-materials" class="tab-link {{ currentPage == '/resources/project-materials' ? 'active' : '' }}"{{ currentPage == '/resources/project-materials' ? ' aria-current="page"' : '' }}>Project materials</a>
+    <a href="/resources/relevant-initiatives" class="tab-link {{ currentPage == '/resources/relevant-initiatives' ? 'active' : '' }}"{{ currentPage == '/resources/relevant-initiatives' ? ' aria-current="page"' : '' }}>Relevant initiatives</a>
+</nav>

@@ -35,8 +35,8 @@
     <!-- Always show dropdown -->
     <div class="download-dropdown">
         <div class="download-section">
-            <a href="#" class="btn btn-download" aria-haspopup="true" aria-expanded="false">
-                Download 
+            <a href="#" class="btn btn-download" aria-haspopup="true" aria-expanded="false" aria-label="Download {{ item.title ?? item.name }}">
+                Download
             </a>
         </div>
         <div class="dropdown-menu">
@@ -44,11 +44,11 @@
                  {% set filename = fileData.file.file_name %}
                  {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
                  {% if isPdf %}
-                     <a href="{{ fileData.file.getPath() }}" target="_blank" class="dropdown-item">
+                     <a href="{{ fileData.file.getPath() }}" target="_blank" class="dropdown-item" aria-label="Download {{ item.title ?? item.name }} as {{ fileData.format }} (opens in new tab)">
                          {{ fileData.format }}
                      </a>
                  {% else %}
-                     <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item">
+                     <a href="{{ fileData.file.getPath() }}" download="{{ filename }}" class="dropdown-item" aria-label="Download {{ item.title ?? item.name }} as {{ fileData.format }}">
                          {{ fileData.format }}
                      </a>
                  {% endif %}

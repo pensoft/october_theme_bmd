@@ -36,24 +36,24 @@ function onStart(){
                                 <h4>Categories</h4>
                             </div>
                             <div class="col-md-1">
-                                <i class="arrow-down"></i>
+                                <i class="arrow-down" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
                     <div class="categories-content">
                         <label class="category-checkbox">
                             <input type="radio" name="project-materials-category" class="project-category-input" data-category="promotional-materials" checked>
-                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-custom" aria-hidden="true"></span>
                             <span class="category-label">Promotional materials</span>
                         </label>
                         <label class="category-checkbox">
                             <input type="radio" name="project-materials-category" class="project-category-input" data-category="brand-kit">
-                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-custom" aria-hidden="true"></span>
                             <span class="category-label">Brand kit</span>
                         </label>
                         <label class="category-checkbox">
                             <input type="radio" name="project-materials-category" class="project-category-input" data-category="technical-materials">
-                            <span class="checkbox-custom"></span>
+                            <span class="checkbox-custom" aria-hidden="true"></span>
                             <span class="category-label">Technical materials</span>
                         </label>
                     </div>
@@ -72,11 +72,11 @@ function onStart(){
                                     {% set filename = flyer.file.file_name %}
                                     {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
                                     {% if isPdf %}
-                                        <a href="{{ flyer.file.getPath() }}" target="_blank" class="btn btn-download">
+                                        <a href="{{ flyer.file.getPath() }}" target="_blank" class="btn btn-download" aria-label="Download {{ flyer.name }} (opens in new tab)">
                                             Download
                                         </a>
                                     {% else %}
-                                        <a href="{{ flyer.file.getPath() }}" download="{{ filename }}" class="btn btn-download">
+                                        <a href="{{ flyer.file.getPath() }}" download="{{ filename }}" class="btn btn-download" aria-label="Download {{ flyer.name }}">
                                             Download
                                         </a>
                                     {% endif %}
@@ -121,11 +121,11 @@ function onStart(){
                                     {% set filename = presentation.file.file_name %}
                                     {% set isPdf = filename|lower|slice(-4) == '.pdf' %}
                                     {% if isPdf %}
-                                        <a href="{{ presentation.file.getPath() }}" target="_blank" class="btn btn-download">
+                                        <a href="{{ presentation.file.getPath() }}" target="_blank" class="btn btn-download" aria-label="Download {{ presentation.name }} (opens in new tab)">
                                             Download
                                         </a>
                                     {% else %}
-                                        <a href="{{ presentation.file.getPath() }}" download="{{ filename }}" class="btn btn-download">
+                                        <a href="{{ presentation.file.getPath() }}" download="{{ filename }}" class="btn btn-download" aria-label="Download {{ presentation.name }}">
                                             Download
                                         </a>
                                     {% endif %}

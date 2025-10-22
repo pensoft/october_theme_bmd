@@ -12,14 +12,14 @@ function onStart()
 }
 ==
 <div class="news-item">
-    
+
 
     <div class="news-container">
         <div class="news-title">
-            <h3 class="card-title"><a href="{{url}}">{{title}}</a></h3>
+            <h3 class="card-title"><a href="{{url}}" aria-label="Read publication: {{title}}">{{title}}</a></h3>
             {% if allow_share == 'yes' %}
                 <div class="share-btn" aria-describedby="social-tooltip">
-                    <span id="share-{{slug}}" class="pr big p-share1"></span>
+                    <span id="share-{{slug}}" class="pr big p-share1" role="button" tabindex="0" aria-label="Share {{title}}"></span>
                 </div>
             {% endif %}
         </div>
@@ -27,6 +27,6 @@ function onStart()
         <div class="body">{{str_limit(content, 150, readmore)|raw}}</div>
     </div>
     <script>
-        createTippy('#share-{{slug}}', { content: '<div class="icons">{% if this.theme.facebook %}<a class="fb-xfbml-parse-ignore pr p-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{url}}&amp;src=sdkpreparse" target="_blank" ></a>{% endif %}{% if this.theme.twitter %}<a class="pr p-twitter" href="https://twitter.com/intent/tweet?text={{encoded_title}}{{url}}" target="_blank"></a>{% endif %}{% if this.theme.linkedin %}<a class="fb-xfbml-parse-ignore pr p-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url={{url}}" target="_blank" ></a>{% endif %}</div>'})
+        createTippy('#share-{{slug}}', { content: '<div class="icons">{% if this.theme.facebook %}<a class="fb-xfbml-parse-ignore pr p-facebook" href="https://www.facebook.com/sharer/sharer.php?u={{url}}&amp;src=sdkpreparse" target="_blank" aria-label="Share on Facebook (opens in new tab)"></a>{% endif %}{% if this.theme.twitter %}<a class="pr p-twitter" href="https://twitter.com/intent/tweet?text={{encoded_title}}{{url}}" target="_blank" aria-label="Share on Twitter (opens in new tab)"></a>{% endif %}{% if this.theme.linkedin %}<a class="fb-xfbml-parse-ignore pr p-linkedin" href="https://www.linkedin.com/sharing/share-offsite/?url={{url}}" target="_blank" aria-label="Share on LinkedIn (opens in new tab)"></a>{% endif %}</div>'})
     </script>
 </div>

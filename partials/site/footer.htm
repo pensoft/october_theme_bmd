@@ -60,8 +60,8 @@ description_limit = 0
                 <div class="newsletter-section">
                     <h3 class="newsletter-title">Subscribe to our newsletter</h3>
                     <div class="subscribe-button">
-                        <a href="{{this.theme.subscribe}}" class="btn btn-subscribe" target="_blank">
-                            <span class="bell-icon"></span>
+                        <a href="{{this.theme.subscribe}}" class="btn btn-subscribe" target="_blank" aria-label="Subscribe to newsletter (opens in new tab)">
+                            <span class="bell-icon" aria-hidden="true"></span>
                             Subscribe
                         </a>
                     </div>
@@ -108,7 +108,7 @@ description_limit = 0
                     <a href="{{ 'privacy-policy'|page }}">Privacy Policy</a>
                 </div>
                 <div class="powered-by">
-                    <span>Designed and powered by <a href="https://pensoft.net/" target="_blank">
+                    <span>Designed and powered by <a href="https://pensoft.net/" target="_blank" aria-label="Pensoft website (opens in new tab)">
                         <img class="pensoft_logo" src="{{ 'assets/images/pensoft-logo.svg'|theme }}" alt="Pensoft" /></a>
                     </span>
                 </div>
