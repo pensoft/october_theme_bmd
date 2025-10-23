@@ -640,22 +640,38 @@ function initTypedHeaders() {
     const $targets = $(selectors.join(','));
     if (!$targets.length) return;
 
-    const speedMs = 35; // faster than hero
+    const speedMs = 35;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
 
     function prepare($el) {
         if ($el.data('typedReady')) return;
         const text = $el.text();
-        $el.attr('aria-label', text);
-        $el.text('');
+        
+        // Wrap each character in a span for animation
+        const $chars = text.split('').map(char => 
+            $('<span>').text(char).css('opacity', '0')
+        );
+        
+        $el.empty().append($chars);
         $el.data('typedReady', true);
+        $el.data('chars', $chars);
     }
 
     function runTyping(el) {
         const $el = $(el);
         if ($el.data('typedDone')) return;
         $el.data('typedDone', true);
-        const text = $el.attr('aria-label') || '';
-        typeText($el, text, speedMs);
+        
+        const $chars = $el.data('chars');
+        
+        // Animate opacity of each character
+        $chars.forEach(($char, i) => {
+            setTimeout(() => {
+                $char.css('opacity', '1');
+            }, i * speedMs);
+        });
     }
 
     // Prepare all targets initially
@@ -673,7 +689,6 @@ function initTypedHeaders() {
 
         $targets.each(function() { observer.observe(this); });
     } else {
-        // Fallback: type immediately
         $targets.each(function() { runTyping(this); });
     }
 }
