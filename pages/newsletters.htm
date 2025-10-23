@@ -99,10 +99,10 @@ return Response::download($pathToFile, $fileName, $headers);
                         {% endif %}
         
                         {% if actionHref %}
-                        <a class="newsletter-action" href="{{ actionHref }}" target="{{ actionTarget }}" aria-label="{{ overlayLabel }} {{ record.name }}">
+                        <a class="newsletter-action" href="{{ actionHref }}" target="{{ actionTarget }}" aria-label="{{ overlayLabel }} {{ record.name }}{% if actionTarget == '_blank' %} (opens in new tab){% endif %}">
                             <div class="newsletter-container {{record.name}}">
                                 <img src="{{record.newsletter_image.path}}" alt="{{record.name}}" title="{{record.name}}">
-                                <span class="overlay-text">{{ overlayLabel }}</span>
+                                <span class="overlay-text" aria-hidden="true">{{ overlayLabel }}</span>
                             </div>
                         </a>
                         {% else %}

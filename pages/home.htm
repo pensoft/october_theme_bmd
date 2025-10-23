@@ -53,7 +53,7 @@ function onStart(){
         <div class="row">
             {% for c in consortium_partners %}
             <div class="partner-logo">
-                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
+                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}" aria-label="View {{ c.instituion }} profile">
                     <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.path}}">
                 </a>
             </div>

@@ -2,8 +2,8 @@
 <div id="partnersPopup" class="partners-popup-overlay" style="display: none;">
     <div class="partners-popup-container">
         <!-- Close Button -->
-        <button class="partners-popup-close" id="partnersPopupClose">
-            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <button class="partners-popup-close" id="partnersPopupClose" type="button" aria-label="Close partner popup">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                 <path d="M24 8L8 24M8 8L24 24" stroke="#20A683" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
         </button>
@@ -18,9 +18,9 @@
                     <div class="partners-popup-overlay-gradient"></div>
                     <div class="partners-popup-partner-info">
                         <h2>{{ partner.instituion }}</h2>
-                        <a href="{{ partner.instituion_url }}" target="_blank" class="partners-popup-website-btn">
+                        <a href="{{ partner.instituion_url }}" target="_blank" class="partners-popup-website-btn" aria-label="Visit {{ partner.instituion }} website (opens in new tab)">
                             <span>Visit website</span>
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M2.5 9.5L9.5 2.5M9.5 2.5H3.5M9.5 2.5V8.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </a>
@@ -38,9 +38,9 @@
                                 {{ partner.content|raw }}
                             </div>
                         </div>
-                        <div class="partners-popup-read-more" role="button" tabindex="0">
+                        <div class="partners-popup-read-more" role="button" tabindex="0" aria-expanded="false" aria-label="Toggle about section for {{ partner.instituion }}">
                             <span>Read more</span>
-                            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                 <path d="M1 1L5 5L9 1" stroke="#20A683" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
@@ -54,14 +54,14 @@
                             {% if partnersWithMembers[partner.id] and partnersWithMembers[partner.id].count() > 0 %}
                                 {% for member in partnersWithMembers[partner.id] %}
                                 <div class="col-xs-12">
-                                    <div class="partners-popup-member-item" role="button" tabindex="0" aria-expanded="false">
+                                    <div class="partners-popup-member-item" role="button" tabindex="0" aria-expanded="false" aria-label="Toggle biography for {{ member.names }}">
                                         <div class="member-row">
                                             <div class="member-avatar">
                                             {% if member.avatar %}
                                                 <img src="{{ member.avatar.path }}" alt="{{ member.names }}" />
                                             {% else %}
-                                                <div class="member-placeholder">
-                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <div class="member-placeholder" aria-hidden="true">
+                                                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                         <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" fill="currentColor"/>
                                                         <path d="M12 14C8.13401 14 5 17.134 5 21H19C19 17.134 15.866 14 12 14Z" fill="currentColor"/>
                                                     </svg>
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="member-biography">
                                                 <span>Biography</span>
-                                                <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
                                                     <path d="M1 1L5 5L9 1" stroke="#20A683" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                                 </svg>
                                             </div>

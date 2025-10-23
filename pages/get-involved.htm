@@ -51,12 +51,12 @@ function onStart()
                 {% if eventsArticles|length > 0 %}
                 <h2>Events</h2>
                     {% for article in eventsArticles %}
-                        <a href="/news/{{ article.slug }}" class="event-link">
+                        <a href="/news/{{ article.slug }}" class="event-link" aria-label="View event: {{ article.title }}">
                             <div class="event-item row">
                                 <div class="col-xs-12 event-date">{{ article.published_at|date('d.m.Y') }}</div>
                                 <div class="col-xs-11 event-description">{{ article.title }}</div>
                                 <div class="col-xs-1 event-arrow">
-                                    <img src="{{ 'assets/images/go-to-event-arrow.svg'|theme }}" alt="Go to event" class="arrow-icon">
+                                    <img src="{{ 'assets/images/go-to-event-arrow.svg'|theme }}" alt="" aria-hidden="true" class="arrow-icon">
                                 </div>
                             </div>
                         </a>

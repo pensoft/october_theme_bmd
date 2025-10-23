@@ -11,13 +11,13 @@ function onStart()
 
 <div class="card {%if not border%}no-border{%endif%} {% if class %}{{class}}{% endif %}" {% if style %} style="{{style}}" {% endif %}>
     {% if href %}
-    <a href="{{href}}">
+    <a href="{{href}}" aria-label="{% if title %}{{title}}{% else %}View card{% endif %}">
     {% endif %}
     {% if header %}
         <div class="card-header">{{header}}</div>
     {% endif %}
     {% if image %}
-        <img class="{% if image_position %}card-img-{{image_position}}{% endif %}" src="{{image}}">
+        <img class="{% if image_position %}card-img-{{image_position}}{% endif %}" src="{{image}}" alt="{% if title %}{{title}}{% else %}Card image{% endif %}">
     {% endif %}
     {% if body or title %}
     <div class="card-body">

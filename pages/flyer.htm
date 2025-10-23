@@ -65,7 +65,7 @@ return Response::download($pathToFile, $fileName, $headers);
 ==
 <div class="container">
     <div class="col-xs-12 go-back">
-        <a href="{{'media-center'|page}}" class="col-xs-12">Back to Media</a>
+        <a href="{{'media-center'|page}}" class="col-xs-12" aria-label="Back to Media">Back to Media</a>
     </div>
         {% set records = mediaFlyersList %}
         {% set displayColumn = mediaFlyersList.displayColumn %}
@@ -79,7 +79,7 @@ return Response::download($pathToFile, $fileName, $headers);
                 {% for record in records %}
                     <div class="col-md-4 col-xs-12 mb-4">
                         <div class="flyer-container {{record.name}}">
-                            <img src="{{record.flyer_image.path}}" title="{{record.name}}">
+                            <img src="{{record.flyer_image.path}}" alt="{{record.name}}" title="{{record.name}}">
                         </div>
                         <p align="center">{{record.name}}</p>
 
@@ -88,8 +88,8 @@ return Response::download($pathToFile, $fileName, $headers);
                             <div class="button_su  download">
                                 {{form_open({ request: 'onDownloadFile' }) }}
                                 <input type="hidden" value="{{record.file.id}}" name="id">
-                                <span class="su_button_circle desplode-circle"></span>
-                                <button type="submit" data-attach-loading class="btn button_su_inner"><span class="button_text_container">Download</span></button>
+                                <span class="su_button_circle desplode-circle" aria-hidden="true"></span>
+                                <button type="submit" data-attach-loading class="btn button_su_inner" aria-label="Download {{record.name}}"><span class="button_text_container">Download</span></button>
                                 {{ form_close() }}
                             </div>
                             {% endif %}

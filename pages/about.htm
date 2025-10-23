@@ -91,11 +91,11 @@ function onStart(){
 <section class="container-fluid about-tabs">
     <div class="container pb-0">
         <div class="row tabs-row">
-            <div class="tabs">
-                <a href="#what-we-do" class="tab-link active" data-tab="what-we-do">What we do</a>
-                <a href="#why-we-do" class="tab-link" data-tab="why-we-do">Why we do it</a>
-                <a href="#how-we-do" class="tab-link" data-tab="how-we-do">How we do it</a>
-                <a href="#who-we-are" class="tab-link" data-tab="who-we-are">Who we are</a>
+            <div class="tabs" role="tablist">
+                <a href="#what-we-do" class="tab-link active" data-tab="what-we-do" role="tab" aria-selected="true" aria-controls="what-we-do">What we do</a>
+                <a href="#why-we-do" class="tab-link" data-tab="why-we-do" role="tab" aria-selected="false" aria-controls="why-we-do">Why we do it</a>
+                <a href="#how-we-do" class="tab-link" data-tab="how-we-do" role="tab" aria-selected="false" aria-controls="how-we-do">How we do it</a>
+                <a href="#who-we-are" class="tab-link" data-tab="who-we-are" role="tab" aria-selected="false" aria-controls="who-we-are">Who we are</a>
             </div>
         </div>
     </div>
@@ -111,7 +111,7 @@ function onStart(){
             <div class="col-xs-12">
                 {% for objective in mission_records %}
                     <div class="objective-item">
-                        <div class="objective-head row" role="button" aria-expanded="false">
+                        <div class="objective-head row" role="button" aria-expanded="false" aria-label="Toggle objective: {{ objective.title }}">
                             <div class="col-md-11 col-xs-10 objective-text">
                                 {{ objective.title }}
                             </div>
@@ -148,7 +148,7 @@ function onStart(){
     <div class="container work-packages pt-0" id="work-packages">
         {% for work_package in work_packages_records %}
             <div class="work-package key_{{ loop.index0 }}">
-                <div class="work-package-header row" role="button" aria-expanded="false">
+                <div class="work-package-header row" role="button" aria-expanded="false" aria-label="Toggle work package: {{ work_package.title }}">
                     <div class="col-md-1 prefix col-xs-3">
                         <div class="prefix-number">{{ work_package.prefix }}</div>
                     </div>
@@ -176,7 +176,7 @@ function onStart(){
         <div class="row">
             {% for c in partners %}
             <div class="col-md-2 col-sm-3 col-xs-6 partner-logo">
-                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}">
+                <a href="#" class="partner-trigger" data-partner-id="{{ c.id }}" data-partner-name="{{ c.instituion }}" aria-label="View {{ c.instituion }} profile">
                     <img alt="{{ c.instituion }}" title="{{ c.instituion }}" src="{{c.cover.path}}">
                 </a>
             </div>
@@ -192,7 +192,7 @@ function onStart(){
             <div class="col-md-3 col-xs-12 eab-profile">
                 <div class="eab-card">
                     {% if p.partner and p.partner.cover %}
-                    <a href="#" class="eab-partner-logo partner-trigger" data-partner-id="{{ p.partner.id }}" data-partner-name="{{ p.partner.instituion }}">
+                    <a href="#" class="eab-partner-logo partner-trigger" data-partner-id="{{ p.partner.id }}" data-partner-name="{{ p.partner.instituion }}" aria-label="View {{ p.partner.instituion }} profile">
                         <img alt="{{ p.partner.instituion }}" title="{{ p.partner.instituion }}" src="{{ p.partner.cover.path }}">
                     </a>
                     {% endif %}

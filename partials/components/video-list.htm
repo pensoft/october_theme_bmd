@@ -4,19 +4,19 @@
     <div class="col-md-6 col-xs-12">
         <div class="video-container">
             {% if record.youtube_url %}
-            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}"></iframe>
+            <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen="" frameborder="0" src="{{record.youtube_url}}" title="{{ record.name }}"></iframe>
             {% endif %}
 
             {% if record.vimeo_url %}
             <iframe allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                    src="{{record.vimeo_url}}">
+                    src="{{record.vimeo_url}}" title="{{ record.name }}">
             </iframe>
             {% endif %}
-            
+
             {% if record.file and not record.youtube_url and not record.vimeo_url %}
                 {% set fileExtension = record.file.getExtension|lower %}
                 {% if fileExtension in ['mp4', 'webm', 'ogg', 'avi', 'mov'] %}
-                <video controls>
+                <video controls aria-label="{{ record.name }}">
                     <source src="{{ record.file.path }}" type="video/{{ fileExtension == 'mov' ? 'quicktime' : fileExtension }}">
                     Your browser does not support the video tag.
                 </video>

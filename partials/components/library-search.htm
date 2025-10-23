@@ -1,22 +1,23 @@
 <div class="row library-search">
     <div class="col-lg-9 col-md-7 col-xs-12">
-        <div class="search-box">
+        <form role="search" class="search-box">
             <div class="input-group">
-                <input class="form-control search" id="libSearch" type="text" autocomplete="on" placeholder="Search...">
-                <button id="libClearSearch" class="btn btn-reset btn-link" type="button" title="clear search">&#x2715</button>
+                <label for="libSearch" class="sr-only">Search library</label>
+                <input class="form-control search" id="libSearch" type="text" autocomplete="on" placeholder="Search..." aria-label="Search library">
+                <button id="libClearSearch" class="btn btn-reset btn-link" type="button" aria-label="Clear search">&#x2715</button>
                 <div class="search-icon default-icon">
-                    <img src="{{ 'assets/images/library-search.svg'|theme }}" alt="Search" class="search-icon-img">
+                    <img src="{{ 'assets/images/library-search.svg'|theme }}" alt="" aria-hidden="true" class="search-icon-img">
                 </div>
                 <div class="search-icon focused-icon">
-                    <img src="{{ 'assets/images/library-search-green.svg'|theme }}" alt="Search" class="search-icon-img">
+                    <img src="{{ 'assets/images/library-search-green.svg'|theme }}" alt="" aria-hidden="true" class="search-icon-img">
                 </div>
             </div>
-        </div>
+        </form>
     </div>
-    
+
     <div class="col-lg-3 col-md-5 col-xs-12">
         <div class="download-section">
-            <a href="/resources/library/download" class="btn btn-download btn-large" id="libDownloadAll">
+            <a href="/resources/library/download" class="btn btn-download btn-large" id="libDownloadAll" aria-label="Download all library items">
                 Download all
             </a>
             <div class="text-muted small" id="libTotalSize"></div>

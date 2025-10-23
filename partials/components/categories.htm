@@ -9,22 +9,22 @@
                 <h4>{{ categoriesTitle }}</h4>
             </div>
             <div class="col-md-1">
-                <i class="arrow-down"></i>
+                <i class="arrow-down" aria-hidden="true"></i>
             </div>
         </div>
     </div>
     <div class="categories-content">
         <label class="category-checkbox">
             <input type="checkbox" class="category-input" data-category="all" checked>
-            <span class="checkbox-custom"></span>
+            <span class="checkbox-custom" aria-hidden="true"></span>
             <span class="category-label">{{ defaultOption }}</span>
         </label>
         {% for category in categoriesList %}
         <label class="category-checkbox">
             <input type="checkbox" class="category-input" data-category="{{ category.id }}">
-            <span class="checkbox-custom"></span>
+            <span class="checkbox-custom" aria-hidden="true"></span>
             <span class="category-label">{{ category.name }}</span>
         </label>
         {% endfor %}
-    </div>                    
+    </div>
 </div>

@@ -9,14 +9,14 @@ function onStart()
 }
 ==
 <div class="news-highlight-item">
-    <a href="/news/{{slug}}" class="news-item">
+    <a href="/news/{{slug}}" class="news-item" aria-label="Read news: {{ title }}">
         {% if cover %}
         <img src="{{ cover.path }}" alt="{{ title }}" class="news-image">
         {% endif %}
         <div class="hover-overlay">
-            <div class="read-more-text">Read more</div>
+            <div class="read-more-text" aria-hidden="true">Read more</div>
         </div>
-        <div class="arrow_link">&nbsp;</div>
+        <div class="arrow_link" aria-hidden="true">&nbsp;</div>
     </a>
     <div class="news-content">
         <div class="news-date">{{ published_at|date('d.m.Y') }}</div>

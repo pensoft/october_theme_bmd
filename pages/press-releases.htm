@@ -41,7 +41,7 @@ function onStart(){
 
 <div class="container">
     <div class="col-xs-12 go-back">
-        <a href="{{'media-center'|page}}" class="col-xs-12">Back to Media</a>
+        <a href="{{'media-center'|page}}" class="col-xs-12" aria-label="Back to Media">Back to Media</a>
     </div>
 
     <div class="row press-relieses-container">
@@ -59,8 +59,8 @@ function onStart(){
                 <div class="row link">
                     {% for link in record.link %}
                     <div class="button_su">
-                        <span class="su_button_circle desplode-circle"></span>
-                        <a class="button_su_inner" href="{{link.url}}" target="_blank"><span class="button_text_container">{{link.text}}</span></a>
+                        <span class="su_button_circle desplode-circle" aria-hidden="true"></span>
+                        <a class="button_su_inner" href="{{link.url}}" target="_blank" aria-label="{{link.text}} (opens in new tab)"><span class="button_text_container">{{link.text}}</span></a>
                     </div>
 
                     {% endfor %}

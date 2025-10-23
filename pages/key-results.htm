@@ -43,12 +43,12 @@ description_limit = 0
 
 <section class="container key-results">
     <div class="row">
-        <div class="col-md-3 tab-navigation static-sidebar">
-            <a href="#data-access" class="tab-link active" data-tab="data-access">Data access, mobilisation & capture</a>
+        <nav class="col-md-3 tab-navigation static-sidebar" aria-label="Key results navigation">
+            <a href="#data-access" class="tab-link active" data-tab="data-access" aria-current="page">Data access, mobilisation & capture</a>
             <a href="#data-harmonisation" class="tab-link" data-tab="data-harmonisation">Data harmonisation</a>
             <a href="#data-storage" class="tab-link" data-tab="data-storage">Data storage, visualisation & computing</a>
             <a href="#virtual-research" class="tab-link" data-tab="virtual-research">Virtual Research Environments</a>
-        </div>
+        </nav>
         <div class="col-md-9 content">
             <section class="data-access tab-content active" id="data-access">
                 {% component 'key-results-data-access-mobilisation-capture' %}

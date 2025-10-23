@@ -130,8 +130,8 @@ $this['related'] = $related;
 <section class="container-fluid news-detailed">
     <div class="container">
         <div class="back-to-news mb-4">
-            <a href="/news" class="back-to-link">
-                <i class="fa fa-arrow-left"></i>
+            <a href="/news" class="back-to-link" aria-label="Back to news">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
                 Back to news
             </a>
         </div>
@@ -177,12 +177,12 @@ $this['related'] = $related;
 <section class="container-fluid news-list-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-3 tab-navigation static-sidebar">
-                <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all">All news</a>
+            <nav class="col-md-3 tab-navigation static-sidebar" aria-label="News categories">
+                <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all"{% if categoryId == 'all' %} aria-current="page"{% endif %}>All news</a>
                 {% for category in categories %}
-                    <a href="/news?categoryId={{category.id}}" class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}">{{category.name}}</a>
+                    <a href="/news?categoryId={{category.id}}" class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}"{% if categoryId == category.id %} aria-current="page"{% endif %}>{{category.name}}</a>
                 {% endfor %}
-            </div>
+            </nav>
             <div class="col-md-9 news-list">
                 {% if records|length > 0 %}
                 <div class="row">
