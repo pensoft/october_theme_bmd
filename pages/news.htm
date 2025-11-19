@@ -148,7 +148,7 @@ $this['related'] = $related;
                 </div>
             </div>
         </div>
-        <!-- <div class="related-news">
+        <div class="related-news">
             <h2 class="about-section">Related news</h2>
             {% if related %}
             <div class="news-list">
@@ -168,7 +168,7 @@ $this['related'] = $related;
             {% else %}
             <p>No related news found.</p>
             {% endif %}
-        </div> -->
+        </div>
     </div>
 </section>
 
@@ -178,9 +178,12 @@ $this['related'] = $related;
     <div class="container">
         <div class="row">
             <nav class="col-md-3 tab-navigation static-sidebar" aria-label="News categories">
-                <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all"{% if categoryId == 'all' %} aria-current="page"{% endif %}>All news</a>
+                <a href="/news" class="tab-link{% if categoryId == 'all' %} active{% endif %}" data-category="all" {% if
+                    categoryId=='all' %} aria-current="page" {% endif %}>All news</a>
                 {% for category in categories %}
-                    <a href="/news?categoryId={{category.id}}" class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}"{% if categoryId == category.id %} aria-current="page"{% endif %}>{{category.name}}</a>
+                <a href="/news?categoryId={{category.id}}"
+                    class="tab-link{% if categoryId == category.id %} active{% endif %}" data-category="{{category.id}}"
+                    {% if categoryId==category.id %} aria-current="page" {% endif %}>{{category.name}}</a>
                 {% endfor %}
             </nav>
             <div class="col-md-9 news-list">
@@ -188,15 +191,20 @@ $this['related'] = $related;
                 <div class="row">
                     {% for record in records %}
                     {% spaceless %}
-                        {% partial 'components/news-highlight-card' 
-                            title=record.title
-                            slug=record.slug
-                            cover=record.cover
-                            published_at=record.published_at
-                        %}
+                    {% partial 'components/news-highlight-card'
+                    title=record.title
+                    slug=record.slug
+                    cover=record.cover
+                    published_at=record.published_at
+                    %}
                     {% endspaceless %}
                     {% endfor %}
                 </div>
+                {% if records.lastPage > 1 %}
+                <div class="pagination-wrapper">
+                    {{ records.render()|raw }}
+                </div>
+                {% endif %}
                 {% else %}
                 <div class="no-news-message">
                     <p>No news in this category yet but stay tuned!</p>

@@ -11,7 +11,7 @@
             <div class="body">
                 {% partial "components/libraries-content" label="Authors:" value=record.authors %}<br>
 
-                {% if record.type == 5 %}
+                {% if record.type == 5 or record.type == 11 %}
                 {% if record.status == 1 %}
                 {% set status = 'Approved' %}
                 {% else %}

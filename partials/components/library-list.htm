@@ -23,7 +23,7 @@
                     <div><span class="text-bold">{{ 'Authors:'|_ }}</span> <span class="text-ligth">{{ record.authors|replace({',': ', '}) }}</span></div>
                     {% endif %}
 
-                    {% if record.type == 5 %}
+                    {% if record.type == 5 or record.type == 11 %}
                         {% set status = record.status == 1 ? 'Approved' : 'Subject to change' %}
                         {% set status_class = record.status == 1 ? 'status-approved' : 'status-pending' %}
                     {% else %}
