@@ -28,7 +28,12 @@
                         {% set status_class = record.status == 1 ? 'status-approved' : 'status-pending' %}
                     {% else %}
                         {% set status = record.status_attr %}
-                        {% set status_class = record.status == 1 ? 'status-approved' : 'status-other' %}
+                        {% if status == 'Other' %}
+                            {% set status = 'Subject to change' %}
+                            {% set status_class = 'status-pending' %}
+                        {% else %}
+                            {% set status_class = record.status == 1 ? 'status-approved' : 'status-other' %}
+                        {% endif %}
                     {% endif %}
                     {% if status %}
                     <div><span class="text-bold">{{ 'Status:'|_ }}</span> <span class="status-label text-ligth {{ status_class }}">{{ status }}</span></div>

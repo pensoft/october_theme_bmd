@@ -19,6 +19,9 @@
                 {% endif %}
                 {% else %}
                 {% set status = record.status_attr %}
+                {% if status == 'Other' %}
+                    {% set status = 'Subject to change' %}
+                {% endif %}
                 {% endif %}
                 {% partial __SELF__ ~ "::libraries-content" label="Status:" value=status %}
                 {% partial "components/libraries-content" label="Year:" value=record.year_attr %}
