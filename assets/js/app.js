@@ -470,7 +470,7 @@ function initLibraryFilters() {
         toggleClearVisibility();
         toggleSearchIconVisibility();
     });
-    
+
     function toggleClearVisibility(){
         if ($search.val()) {
             $clear.addClass('visible');
@@ -478,11 +478,11 @@ function initLibraryFilters() {
             $clear.removeClass('visible');
         }
     }
-    
+
     function toggleSearchIconVisibility(){
         const $defaultIcon = $search.siblings('.search-icon.default-icon');
         const $focusedIcon = $search.siblings('.search-icon.focused-icon');
-        
+
         if ($search.val()) {
             // Hide both icons when typing - regardless of focus state
             $defaultIcon.addClass('hidden');
@@ -500,13 +500,13 @@ function initLibraryFilters() {
             }
         }
     }
-    
+
     // Enhanced search focus effects
     $search.on('focus', function() {
         $(this).addClass('focused');
         toggleSearchIconVisibility();
     });
-    
+
     $search.on('blur', function() {
         $(this).removeClass('focused');
         toggleSearchIconVisibility();
@@ -515,7 +515,7 @@ function initLibraryFilters() {
             $clear.removeClass('visible');
         }
     });
-    
+
     $clear.on('click', function(e){
         e.preventDefault();
         $search.val('').focus();
@@ -543,19 +543,19 @@ function initLibraryFiltersToggle() {
     if ($libraryCategoriesHeader.length && $libraryCategoriesContent.length) {
         $libraryCategoriesHeader.on('click', function(e) {
             e.preventDefault();
-            
+
             const $header = $(this);
             const $content = $header.siblings('.categories-content');
-            
+
             // Toggle collapsed state
             $header.toggleClass('collapsed');
             $content.toggleClass('collapsed');
-            
+
             // Store state in localStorage for persistence
             const isCollapsed = $header.hasClass('collapsed');
             localStorage.setItem('libraryCategoriesCollapsed', isCollapsed);
         });
-        
+
         // Restore state from localStorage on page load
         const wasCollapsed = localStorage.getItem('libraryCategoriesCollapsed') === 'true';
         if (wasCollapsed) {
@@ -571,19 +571,19 @@ function initLibraryFiltersToggle() {
     if ($librarySortHeader.length && $librarySortContent.length) {
         $librarySortHeader.on('click', function(e) {
             e.preventDefault();
-            
+
             const $header = $(this);
             const $content = $header.siblings('.categories-content');
-            
+
             // Toggle collapsed state
             $header.toggleClass('collapsed');
             $content.toggleClass('collapsed');
-            
+
             // Store state in localStorage for persistence
             const isCollapsed = $header.hasClass('collapsed');
             localStorage.setItem('librarySortCollapsed', isCollapsed);
         });
-        
+
         // Restore state from localStorage on page load
         const wasCollapsed = localStorage.getItem('librarySortCollapsed') === 'true';
         if (wasCollapsed) {
@@ -648,12 +648,12 @@ function initTypedHeaders() {
     function prepare($el) {
         if ($el.data('typedReady')) return;
         const text = $el.text();
-        
+
         // Wrap each character in a span for animation
-        const $chars = text.split('').map(char => 
+        const $chars = text.split('').map(char =>
             $('<span>').text(char).css('opacity', '0')
         );
-        
+
         $el.empty().append($chars);
         $el.data('typedReady', true);
         $el.data('chars', $chars);
@@ -663,9 +663,9 @@ function initTypedHeaders() {
         const $el = $(el);
         if ($el.data('typedDone')) return;
         $el.data('typedDone', true);
-        
+
         const $chars = $el.data('chars');
-        
+
         // Animate opacity of each character
         $chars.forEach(($char, i) => {
             setTimeout(() => {
@@ -797,21 +797,21 @@ function initNavbarScrollState() {
     const windowHeight = $(window).height();
     const documentHeight = $(document).height();
     const scrollPercent = currentScrollTop / (documentHeight - windowHeight);
-    
+
     // Apply navbar styling based on initial scroll position
     if (currentScrollTop > 80) {
         $headerNavbar.addClass('navbar-scrolled');
     } else {
         $headerNavbar.removeClass('navbar-scrolled');
     }
-    
+
     // Show back-to-top button if already scrolled
     if (currentScrollTop > 300) {
         $backToTop.addClass('show');
     } else {
         $backToTop.removeClass('show');
     }
-    
+
     // Update progress ring based on initial scroll position
     updateScrollProgress(scrollPercent);
 }
@@ -823,10 +823,10 @@ function updateScrollProgress(scrollPercent) {
         // Use consistent circumference that matches CSS (2 * π * 26 = 163.36)
         const circumference = 163.36;
         let offset = circumference - (scrollPercent * circumference);
-        
+
         // Clamp between 0 and circumference
         offset = Math.max(0, Math.min(circumference, offset));
-        
+
         // Update stroke-dashoffset and ensure stroke-dasharray is set
         $progressCircle.css({
             'stroke-dasharray': circumference,
@@ -838,17 +838,17 @@ function updateScrollProgress(scrollPercent) {
 // Smooth scroll to top functionality
 function initBackToTop() {
     const $backToTop = $('.back-to-top');
-    
+
     if ($backToTop.length) {
         $backToTop.on('click', function(e) {
             e.preventDefault();
-            
+
             // Add click effect
             $(this).addClass('clicked');
             setTimeout(function() {
                 $backToTop.removeClass('clicked');
             }, 200);
-            
+
             // Smooth scroll to top
             $('html, body').animate({
                 scrollTop: 0
@@ -872,12 +872,12 @@ function onHashChange(){
 
         if(caseStudiesHashTitle){
 		const caseStudiesTitle = caseStudiesHashTitle.substring(1, caseStudiesHashTitle.length);
-		
+
 		// Check if the hash corresponds to a tab
 		if(['about', 'work-packages', 'partners'].includes(caseStudiesTitle)) {
 		    // Trigger tab click
 		    $('.tab-link[data-tab="' + caseStudiesTitle + '"]').trigger('click');
-		    
+
 		    // If it's the work-packages tab, initialize the toggle functionality
             if(caseStudiesTitle === 'work-packages' || caseStudiesTitle === 'how-we-do') {
                 initWorkPackagesAccordion();
@@ -976,10 +976,10 @@ function initTabs() {
     if (!$tabsContainer.length) {
         return;
     }
-    
+
     // Look for tab content sections globally (not just within tabs container)
     const $allTabContent = $('.tab-content');
-    
+
     // Check if there's already an active tab content
     if ($allTabContent.filter('.active').length === 0) {
         // No active tab found, activate the first tab
@@ -989,44 +989,44 @@ function initTabs() {
             $('#' + firstTabId).addClass('active');
         }
     }
-    
+
     // Hide all tab content except the active one on page load
     const $nonActiveTabs = $allTabContent.not('.active');
     $nonActiveTabs.css({
         'display': 'none',
         'opacity': '0'
     });
-    
+
     // Make sure active tab is visible
     const $activeTab = $allTabContent.filter('.active');
     $activeTab.css({
         'display': 'block',
         'opacity': '1'
     });
-    
+
     // Handle tab click events
     $tabsContainer.on('click', '.tab-link', function(e) {
         e.preventDefault();
-        
+
         // Get the tab id from data attribute
         const tabId = $(this).data('tab');
-        
+
         // Remove active class from all tabs and add to clicked tab
         $tabsContainer.find('.tab-link').removeClass('active');
         $(this).addClass('active');
-        
+
         // Hide all tab content immediately
         $allTabContent.removeClass('active').css({
             'display': 'none',
             'opacity': '1'
         });
-        
+
         // Show the active tab immediately
         const $targetTab = $('#' + tabId);
         if ($targetTab.length) {
             $targetTab.css('display', 'block').addClass('active');
         }
-        
+
         // Scroll to top after switching tabs
         $('html, body').animate({
             scrollTop: 0
@@ -1053,20 +1053,20 @@ function initTabs() {
             $sections.find('.what-we-do-image-1, .what-we-do-image-2, .what-we-do-image-3').removeClass('is-visible');
             setTimeout(function(){ initWhatWeDoImagesEntrance(true, $sections); }, 60);
         }
-        
+
         // If switching to partners tab, initialize content truncation
         if (tabId === 'partners') {
             initPartnerContentTruncation();
         }
-    
-        
+
+
         if (history.pushState) {
             history.pushState(null, null, '#' + tabId);
         } else {
             location.hash = '#' + tabId;
         }
     });
-    
+
     if (window.location.hash) {
         const tabId = window.location.hash.substring(1);
         // support both plain id (e.g. #what-we-do) and custom anchors that include page slug
@@ -1124,36 +1124,36 @@ function initKeyResultsTabs() {
     if (!$('.key-results').length) {
         return;
     }
-    
+
     // Ensure the first tab is active by default
     const $firstTab = $('.key-results .tab-link').first();
     const $firstContent = $('.key-results .tab-content').first();
-    
+
     if ($firstTab.length && $firstContent.length) {
         $firstTab.addClass('active');
         $firstContent.addClass('active').show();
-        
+
         // Hide other tab content
         $('.key-results .tab-content').not($firstContent).hide().removeClass('active');
     }
-    
+
     // Handle tab click events
     $('.key-results .tab-link').on('click', function(e) {
         e.preventDefault();
-        
+
         // Get the tab id from data attribute
         const tabId = $(this).data('tab');
-        
+
         // Remove active class from all tabs and add to clicked tab
         $('.key-results .tab-link').removeClass('active');
         $(this).addClass('active');
-        
+
         // Hide all tab content
         $('.key-results .tab-content').removeClass('active').hide();
-        
+
         // Show the active tab content
         $('#' + tabId).addClass('active').show();
-        
+
         // Scroll to top after switching sections
         $('html, body').animate({
             scrollTop: 0
@@ -1166,7 +1166,7 @@ function initKeyResultsTabs() {
             location.hash = '#' + tabId;
         }
     });
-    
+
     // Handle URL hash on page load
     if (window.location.hash) {
         const tabId = window.location.hash.substring(1);
@@ -1183,7 +1183,7 @@ function initKeyResultsTabs() {
  */
 function initAccordion() {
     $('.work_packages .accordion-toggle, .mission .accordion-toggle').off('click');
-    
+
     $('.work_packages .accordion-toggle, .mission .accordion-toggle').on('click', function () {
         if ($(this).next(".accordion-content").is(':visible')) {
             $(this).next(".accordion-content").hide();
@@ -1209,25 +1209,25 @@ function initPartnerContentTruncation() {
         const $fullContent = $partnerContent.find('.partner-description-full');
         const $truncatedContent = $partnerContent.find('.partner-description-truncated');
         const $button = $partnerContent.find('.read-more-partner');
-        
+
         const fullText = $fullContent.data('full-content');
         const maxLength = 255;
-        
+
         if (fullText && fullText.length > maxLength) {
             // Find the last space before the 255 character limit to avoid breaking words
             let truncatedText = fullText.substring(0, maxLength);
             const lastSpaceIndex = truncatedText.lastIndexOf(' ');
-            
+
             if (lastSpaceIndex > 0) {
                 truncatedText = truncatedText.substring(0, lastSpaceIndex);
             }
-            
+
             // Add ellipsis to indicate there's more content
             truncatedText += '...';
-            
+
             // Set the truncated content
             $truncatedContent.html(truncatedText);
-            
+
             // Show truncated content initially and show button
             $truncatedContent.show();
             $fullContent.hide();
@@ -1240,16 +1240,16 @@ function initPartnerContentTruncation() {
             $button.hide();
         }
     });
-    
+
     // Handle read more/less toggle with smooth animation
     $('.read-more-partner').off('click').on('click', function(e) {
         e.preventDefault();
-        
+
         const $button = $(this);
         const $partnerContent = $button.closest('.partner-content');
         const $truncatedContent = $partnerContent.find('.partner-description-truncated');
         const $fullContent = $partnerContent.find('.partner-description-full');
-        
+
         if ($fullContent.is(':visible')) {
             // Currently showing full content, switch to truncated
             $fullContent.hide();
@@ -1276,34 +1276,34 @@ function initNewsCategoryTabs() {
     if (!$newsSection.length) {
         return;
     }
-    
+
     // Handle tab click events
     $newsSection.find('.tab-navigation .tab-link').on('click', function(e) {
         e.preventDefault();
-        
+
         // Remove active class from all tabs
         $newsSection.find('.tab-navigation .tab-link').removeClass('active');
-        
+
         // Add active class to clicked tab
         $(this).addClass('active');
-        
+
         // Get the category ID from data attribute
         const categoryId = $(this).data('category');
-        
+
         // Build the URL
         let url = '/news';
         if (categoryId !== 'all') {
             url += '?categoryId=' + categoryId;
         }
-        
+
         // Navigate to the URL (this will reload the page with filtered content)
         window.location.href = url;
     });
-    
+
     // Update active state based on current URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const currentCategoryId = urlParams.get('categoryId') || 'all';
-    
+
     // Set the correct active tab based on URL
     $newsSection.find('.tab-navigation .tab-link').removeClass('active');
     $newsSection.find('.tab-navigation .tab-link[data-category="' + currentCategoryId + '"]').addClass('active');
@@ -1318,12 +1318,12 @@ function initFooterDropdowns() {
     $('.footer-navigation .nav-item').each(function() {
         const $item = $(this);
         const $submenu = $item.find('.dropdown-menu');
-        
+
         if ($submenu.length > 0) {
             $item.addClass('dropdown');
         }
     });
-    
+
     // Convert footer "Resources" to a direct link (no dropdown) to /resources/library
     (function() {
         const $resourceLinks = $('.footer-navigation .nav-item > a').filter(function() {
@@ -1348,36 +1348,36 @@ function initFooterDropdowns() {
             $link.off('click');
         });
     })();
-    
+
     // Handle dropdown clicks
     $('.footer-navigation .nav-item.dropdown > a').on('click', function(e) {
         e.preventDefault();
         e.stopPropagation();
-        
+
         const $parentItem = $(this).parent();
         const $dropdownMenu = $parentItem.find('.dropdown-menu');
-        
+
         if ($dropdownMenu.length) {
             $('.footer-navigation .nav-item.dropdown').not($parentItem).removeClass('active');
             $('.footer-navigation .dropdown-menu').not($dropdownMenu).removeClass('show');
-            
+
             $parentItem.toggleClass('active');
             $dropdownMenu.toggleClass('show');
         }
     });
-    
+
     $(document).on('click.footerDropdown', function(e) {
         if (!$(e.target).closest('.footer-navigation').length) {
             $('.footer-navigation .nav-item.dropdown').removeClass('active');
             $('.footer-navigation .dropdown-menu').removeClass('show');
         }
     });
-    
+
     // Prevent dropdown menu clicks from closing the dropdown
     $('.footer-navigation .dropdown-menu').on('click', function(e) {
         e.stopPropagation();
     });
-    
+
     // Allow dropdown menu links to work normally
     $('.footer-navigation .dropdown-menu a').on('click', function(e) {
         // Don't prevent default - let the link work normally
@@ -1397,13 +1397,13 @@ function initHamburgerMenuDropdowns() {
     // Auto-expand dropdowns that contain the current active page
     function autoExpandActiveDropdowns() {
         const activeSubItems = $('#headerNavbarNav .dropdown-menu .nav-item.active');
-        
+
         activeSubItems.each(function() {
             // Find the parent dropdown
             const parentDropdown = $(this).closest('.nav-item.dropdown');
             if (parentDropdown.length) {
                 const dropdownMenu = parentDropdown.find('.dropdown-menu');
-                
+
                 // Expand the parent dropdown
                 parentDropdown.addClass('active');
                 if (dropdownMenu.length) {
@@ -1412,27 +1412,27 @@ function initHamburgerMenuDropdowns() {
             }
         });
     }
-    
+
     // Run auto-expand on page load
     autoExpandActiveDropdowns();
-    
+
     // Handle dropdown menu toggles
     const dropdownItems = $('#headerNavbarNav .nav-item.dropdown > a');
-    
+
     dropdownItems.each(function() {
         $(this).off('click.dropdown').on('click.dropdown', function(e) {
             e.preventDefault();
-            
+
             const parentItem = $(this).parent();
             const dropdownMenu = parentItem.find('.dropdown-menu');
-            
+
             if (dropdownMenu.length) {
                 // Toggle active state on parent item
                 parentItem.toggleClass('active');
-                
+
                 // Toggle show state on dropdown menu
                 dropdownMenu.toggleClass('show');
-                
+
                 // Optional: Close other open dropdowns (accordion behavior)
                 const otherDropdowns = $('#headerNavbarNav .nav-item.dropdown');
                 otherDropdowns.each(function() {
@@ -1447,7 +1447,7 @@ function initHamburgerMenuDropdowns() {
             }
         });
     });
-    
+
     // Close all dropdowns when menu is closed (but preserve auto-expanded state)
     function closeAllDropdowns() {
         const activeDropdowns = $('#headerNavbarNav .nav-item.dropdown.active');
@@ -1459,31 +1459,31 @@ function initHamburgerMenuDropdowns() {
             }
         });
     }
-    
+
     function handleMenuToggle() {
         // When menu is opened, auto-expand dropdowns with active items
         setTimeout(function() {
             autoExpandActiveDropdowns();
         }, 100); // Small delay to ensure menu animation completes
     }
-    
+
     const closeMenuBtn = $('#closeMenuBtn');
     if (closeMenuBtn.length) {
         closeMenuBtn.off('click.dropdown').on('click.dropdown', closeAllDropdowns);
     }
-    
+
     // Re-expand dropdowns when menu is opened
     const menuToggleBtn = $('#desktopMenuToggle');
     if (menuToggleBtn.length) {
         menuToggleBtn.off('click.dropdown').on('click.dropdown', handleMenuToggle);
     }
-    
+
     // Close dropdowns when clicking outside
     $(document).off('click.dropdownOutside').on('click.dropdownOutside', function(e) {
         const navbar = $('#headerNavbarNav');
         const menuToggle = $('#desktopMenuToggle');
-        
-        if (navbar.length && !navbar.is(e.target) && navbar.has(e.target).length === 0 && 
+
+        if (navbar.length && !navbar.is(e.target) && navbar.has(e.target).length === 0 &&
             !menuToggle.is(e.target) && menuToggle.has(e.target).length === 0) {
             closeAllDropdowns();
         }
@@ -1498,30 +1498,30 @@ function initPartnersPopup() {
     // Handle partner logo clicks
     $(document).on('click', '.partner-trigger', function(e) {
         e.preventDefault();
-        
+
         const partnerId = $(this).data('partner-id');
-        
+
         if (!partnerId) {
             console.error('Partner ID not found');
             return;
         }
-        
+
         openPartnersPopup(partnerId);
     });
-    
+
     // Handle popup close button
     $('#partnersPopupClose').on('click', function(e) {
         e.preventDefault();
         closePartnersPopup();
     });
-    
+
     // Handle clicking outside popup to close
     $('#partnersPopup').on('click', function(e) {
         if (e.target === this) {
             closePartnersPopup();
         }
     });
-    
+
     // Handle escape key to close popup
     $(document).on('keydown.partnersPopup', function(e) {
         if (e.key === 'Escape' && $('#partnersPopup').is(':visible')) {
@@ -1589,19 +1589,19 @@ function initCategoriesToggle() {
     if ($categoriesHeader.length && $categoriesContent.length) {
         $categoriesHeader.on('click', function(e) {
             e.preventDefault();
-            
+
             const $header = $(this);
             const $content = $categoriesContent;
-            
+
             // Toggle collapsed state
             $header.toggleClass('collapsed');
             $content.toggleClass('collapsed');
-            
+
             // Store state in localStorage for persistence
             const isCollapsed = $header.hasClass('collapsed');
             localStorage.setItem('categoriesCollapsed', isCollapsed);
         });
-        
+
         // Restore state from localStorage on page load
         const wasCollapsed = localStorage.getItem('categoriesCollapsed') === 'true';
         if (wasCollapsed) {
@@ -1635,37 +1635,37 @@ function showSearchForm() {
     // Simple fade in with a pop effect
     $('#search').fadeIn(200);
     $('#search form').addClass('pop-in');
-    
+
     // Clear any previous search text and focus the input
     $('#search input.search_input').val('').focus();
-    
+
     $('body').addClass('search-open');
-    
+
     // Prevent scrolling when search is open
     $('body').css('overflow', 'hidden');
-    
+
     // Add event listener to close search when clicking outside
     $(document).on('click.searchClose', function(event) {
         const $search = $('#search form');
         const $searchToggle = $('#searchToggle');
-        
+
         // If click is outside search container and not on search button
-        if (!$search.is(event.target) && 
-            $search.has(event.target).length === 0 && 
-            !$searchToggle.is(event.target) && 
+        if (!$search.is(event.target) &&
+            $search.has(event.target).length === 0 &&
+            !$searchToggle.is(event.target) &&
             $searchToggle.has(event.target).length === 0 &&
             !$(event.target).closest('.close-search').length) {
             hideSearchForm();
         }
     });
-    
+
     // Add escape key handler
     $(document).on('keydown.searchEscape', function(e) {
         if (e.key === 'Escape') {
             hideSearchForm();
         }
     });
-    
+
     // Add enter key handler to submit the form
     $('#search input.search_input').on('keydown.searchSubmit', function(e) {
         if (e.key === 'Enter') {
@@ -1679,12 +1679,12 @@ function hideSearchForm() {
     // Simple fade out
     $('#search form').removeClass('pop-in');
     $('#search').fadeOut(200);
-    
+
     $('body').removeClass('search-open');
-    
+
     // Restore scrolling
     $('body').css('overflow', '');
-    
+
     // Remove the document event listeners
     $(document).off('click.searchClose');
     $(document).off('keydown.searchEscape');
@@ -1699,10 +1699,10 @@ function hideSearchForm() {
 function openPartnersPopup(partnerId) {
     const $popup = $('#partnersPopup');
     const $popupData = $(`#partnersPopupData_${partnerId}`);
-    
+
     // Hide all popup data sections first
     $('.partners-popup-data').hide();
-    
+
     // Show popup and specific partner data
     $popup.fadeIn(300);
     $popupData.show();
@@ -1718,11 +1718,11 @@ function openPartnersPopup(partnerId) {
  */
 function closePartnersPopup() {
     const $popup = $('#partnersPopup');
-    
+
     $popup.fadeOut(300);
     $('body').removeClass('popup-open');
     $('body').css('overflow', '');
-    
+
     // Hide all popup data sections after animation
     setTimeout(function() {
         $('.partners-popup-data').hide();
@@ -1778,12 +1778,12 @@ function initVideoFiltering() {
     if (!$('.videos-page').length) {
         return;
     }
-    
+
     // Handle category checkbox changes
     $('.category-input').on('change', function() {
         const $checkbox = $(this);
         const categoryId = $checkbox.data('category');
-        
+
         // Handle "All" checkbox behavior
         if (categoryId === 'all') {
             if ($checkbox.is(':checked')) {
@@ -1794,13 +1794,13 @@ function initVideoFiltering() {
                 $('.category-input[data-category="all"]').prop('checked', false);
             }
         }
-        
+
         // If no checkboxes are selected, check "All"
         const checkedBoxes = $('.category-input:checked').length;
         if (checkedBoxes === 0) {
             $('.category-input[data-category="all"]').prop('checked', true);
         }
-        
+
         // Perform Ajax request
         filterVideos();
     });
@@ -1815,22 +1815,22 @@ function initProjectMaterialsFiltering() {
     if (!$('.project-materials-page').length || window.location.pathname.indexOf('/project-materials') === -1) {
         return;
     }
-    
+
     // Initialize categories toggle functionality
     initProjectMaterialsCategoriesToggle();
-    
+
     // Handle category radio button changes
     $('.project-category-input').on('change', function() {
         const $radio = $(this);
         const categoryId = $radio.data('category');
-        
+
         // Ensure only one category is selected at a time
         $('.project-category-input').not($radio).prop('checked', false);
-        
+
         // Filter project materials
         filterProjectMaterials();
     });
-    
+
     // Set default selection to promotional materials
     $('.project-category-input[data-category="promotional-materials"]').prop('checked', true);
     filterProjectMaterials();
@@ -1842,26 +1842,26 @@ function initProjectMaterialsFiltering() {
 function initProjectMaterialsCategoriesToggle() {
     const $categoriesHeader = $('.project-materials-page .categories .categories-header');
     const $categoriesContent = $categoriesHeader.siblings('.categories-content');
-    
+
     if ($categoriesHeader.length && $categoriesContent.length) {
         $categoriesHeader.off('click.projectMaterials');
-        
+
         $categoriesHeader.on('click.projectMaterials', function(e) {
             e.preventDefault();
             e.stopPropagation();
-            
+
             const $header = $(this);
             const $content = $categoriesContent;
-            
+
             // Toggle collapsed state
             $header.toggleClass('collapsed');
             $content.toggleClass('collapsed');
-            
+
             // Store state in localStorage for persistence
             const isCollapsed = $header.hasClass('collapsed');
             localStorage.setItem('projectMaterialsCategoriesCollapsed', isCollapsed);
         });
-        
+
         // Restore state from localStorage on page load
         const wasCollapsed = localStorage.getItem('projectMaterialsCategoriesCollapsed') === 'true';
         if (wasCollapsed) {
@@ -1876,14 +1876,14 @@ function initProjectMaterialsCategoriesToggle() {
  */
 function filterProjectMaterials() {
     const selectedCategory = $('.project-category-input:checked').data('category');
-    
+
     if (!selectedCategory) return;
-    
+
     // Show/hide tab content based on selection
     $('.tab-content').each(function() {
         const $tab = $(this);
         const tabId = $tab.attr('id');
-        
+
         if (tabId === selectedCategory) {
             $tab.show().addClass('active');
             // Force visibility and ensure content is displayed
@@ -1901,7 +1901,7 @@ function filterProjectMaterials() {
             });
         }
     });
-    
+
 }
 
 /**
@@ -1909,14 +1909,14 @@ function filterProjectMaterials() {
  */
 function filterVideos() {
     const selectedCategories = [];
-    
+
     $('.category-input:checked').each(function() {
         selectedCategories.push($(this).data('category'));
     });
-    
+
     // Show loading state
     $('#video-container').html('<div class="text-center"><p>Loading videos...</p></div>');
-    
+
     // Make Ajax request
     $.request('onFilterVideos', {
         data: {
@@ -1955,7 +1955,7 @@ function initDownloadDropdowns() {
         const $btn = $(this);
         const $wrapper = $btn.closest('.download-dropdown');
         const isOpen = $wrapper.hasClass('open');
-        
+
         closeAll($wrapper);
         $wrapper.toggleClass('open', !isOpen);
         $btn.attr('aria-expanded', String(!isOpen));
