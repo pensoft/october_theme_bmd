@@ -24,12 +24,12 @@
                     {% endif %}
 
                     {% if record.type == 5 or record.type == 11 %}
-                        {% set status = record.status == 1 ? 'Approved' : 'Subject to change' %}
+                        {% set status = record.status == 1 ? 'Approved' : 'Not approved by REA yet' %}
                         {% set status_class = record.status == 1 ? 'status-approved' : 'status-pending' %}
                     {% else %}
                         {% set status = record.status_attr %}
                         {% if status == 'Other' %}
-                            {% set status = 'Subject to change' %}
+                            {% set status = 'Not approved by REA yet' %}
                             {% set status_class = 'status-pending' %}
                         {% else %}
                             {% set status_class = record.status == 1 ? 'status-approved' : 'status-other' %}
