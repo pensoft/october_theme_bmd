@@ -344,8 +344,8 @@ section.tab-content {
 
         }
         .prefix{
-            flex-basis: 5.66666666%;
-            max-width: 5.66666666%;
+            flex-basis: 80px;
+            max-width: 80px;
             .breakpoint-large-down({
                 flex-basis: unset;
                 max-width: unset;
@@ -374,6 +374,12 @@ section.tab-content {
         
         .title{
             margin-bottom: 0 !important;
+            padding-left: 16px;
+            flex: 1;
+            min-width: 0;
+            .breakpoint-large-down({
+                padding-left: 12px;
+            });
         }
 
         .title h3 {
