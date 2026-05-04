@@ -303,19 +303,51 @@
 
 .library-page {
     .library.filters {
+        // Pin width so the inner scrolling wrapper has a known
+        // size in the flex column context of .static-sidebar.
+        width: 100%;
+
+        .form-wrapper {
+            // Independent scrolling for the filters block when its
+            // content is taller than the remaining viewport.
+            // 120px sticky offset + ~120px for the resources nav above + 20px buffer.
+            // Note: ~"calc(...)" escapes LESS math so the unit subtraction
+            // is preserved for the browser instead of being evaluated to nonsense.
+            width: 100%;
+            max-height: ~"calc(100vh - 260px)";
+            overflow-y: auto;
+            scrollbar-gutter: stable;
+            padding-right: 4px;
+
+            .breakpoint-large-down({
+                max-height: none;
+                overflow-y: visible;
+                padding-right: 0;
+            });
+        }
+
         .categories {
             // // Override width for library filters to match the design
             // .categories-header {
             //     width: 100%;
             // }
-            
+
             // .categories-content {
             //     width: 100%;
             // }
-            
+
             // Ensure proper spacing between filter sections
             & + .categories {
                 margin-top: 1rem;
+            }
+
+            // Sidebar handles overflow now — let open sections grow naturally.
+            .categories-content {
+                max-height: none;
+
+                &.collapsed {
+                    max-height: 0;
+                }
             }
         }
     }
