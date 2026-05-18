@@ -1,10 +1,12 @@
 [jumbotron hero-text]
 jumbotron = "hero-text"
-templates = "template2" 
+templates = "template2"
 description_limit = 0
 ==
+{# Edit this URL to change the "Learn more" video. Set to empty string to disable the popup and let the button follow its href. #}
+{% set hero_video_url = 'https://www.youtube.com/watch?v=wqaOv-IZe_8' %}
 
-<section class="hero-section">
+<section class="hero-section"{% if hero_video_url %} data-hero-video="{{ hero_video_url }}"{% endif %}>
     <div class="container-fluid shadows">
         <div class="row">
             <div class="col-md-6 left-shadow"></div>
@@ -28,6 +30,26 @@ description_limit = 0
             </div>
         </div>
     </div>
+
 </section>
+
+<div class="hero-video-popup" id="hero-video-popup" role="dialog" aria-modal="true" aria-label="Biodiversity Meets Data video" hidden>
+    <div class="hero-video-popup__backdrop" data-hero-video-close></div>
+    <div class="hero-video-popup__dialog" role="document">
+        <button type="button" class="hero-video-popup__close" data-hero-video-close aria-label="Close video">
+            <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/>
+            </svg>
+        </button>
+        <div class="hero-video-popup__frame">
+            <iframe class="hero-video-popup__iframe"
+                    src=""
+                    title="Biodiversity Meets Data video"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
 
 <script src="{{ 'assets/js/hero.js'|theme }}"></script>

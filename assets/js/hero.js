@@ -373,6 +373,121 @@ class HeroCarousel {
 }
 
 /**
+ * Hero Video Popup Module
+ * Self-contained lightweight popup (no Bootstrap dependency).
+ * Intercepts clicks on hero links carrying a data-video attribute,
+ * mounts the popup at <body> end, and embeds the YouTube video.
+ */
+class HeroVideoPopup {
+    constructor() {
+        this.popupSelector = '#hero-video-popup';
+        this.iframeSelector = '.hero-video-popup__iframe';
+        this.sectionSelector = '.hero-section[data-hero-video]';
+        this.triggerSelector = '.hero-section[data-hero-video] .hero-text a.btn-intro';
+        this.openClass = 'is-open';
+        this.bodyLockClass = 'hero-video-popup-open';
+    }
+
+    init() {
+        const $ = window.jQuery;
+        if (!$) {
+            console.error('HeroVideoPopup: jQuery not available');
+            return;
+        }
+
+        const $popup = $(this.popupSelector);
+        if (!$popup.length) {
+            return;
+        }
+
+        const $section = $(this.sectionSelector).first();
+        if (!$section.length) {
+            // No video URL configured — nothing to wire up.
+            return;
+        }
+
+        // Re-parent the popup to <body> so it escapes any stacking/overflow context
+        if ($popup.parent()[0] !== document.body) {
+            $popup.appendTo(document.body);
+        }
+
+        const $iframe = $popup.find(this.iframeSelector);
+        const $body = $('body');
+
+        const close = () => {
+            $popup.removeClass(this.openClass);
+            $body.removeClass(this.bodyLockClass);
+            $iframe.attr('src', '');
+            setTimeout(() => {
+                if (!$popup.hasClass(this.openClass)) {
+                    $popup.attr('hidden', 'hidden');
+                }
+            }, 250);
+        };
+
+        const open = (embedUrl) => {
+            $iframe.attr('src', embedUrl);
+            $popup.removeAttr('hidden');
+            // Force a reflow so the transition runs
+            void $popup[0].offsetWidth;
+            $popup.addClass(this.openClass);
+            $body.addClass(this.bodyLockClass);
+        };
+
+        $(document)
+            .off('click.heroVideo', this.triggerSelector)
+            .on('click.heroVideo', this.triggerSelector, (event) => {
+                const url = $(event.currentTarget).closest('.hero-section').attr('data-hero-video');
+                const embed = this.buildEmbedUrl(url);
+                if (!embed) {
+                    console.warn('HeroVideoPopup: unsupported video URL', url);
+                    return;
+                }
+                event.preventDefault();
+                open(embed);
+            });
+
+        $popup.off('click.heroVideoClose').on('click.heroVideoClose', '[data-hero-video-close]', (event) => {
+            event.preventDefault();
+            close();
+        });
+
+        $(document).off('keydown.heroVideo').on('keydown.heroVideo', (event) => {
+            if (event.key === 'Escape' && $popup.hasClass(this.openClass)) {
+                close();
+            }
+        });
+    }
+
+    /**
+     * Convert a YouTube URL into an embeddable form with autoplay params.
+     * Includes mute=1 so browsers that block unmuted autoplay still start playback;
+     * the user can unmute via the YouTube controls.
+     * Supports watch?v=, youtu.be/, embed/, and shorts/ patterns.
+     * @param {string} url
+     * @returns {string|null}
+     */
+    buildEmbedUrl(url) {
+        if (!url || typeof url !== 'string') return null;
+
+        let id = null;
+        const watchMatch = url.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+        const shortMatch = url.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+        const embedMatch = url.match(/youtube\.com\/embed\/([A-Za-z0-9_-]{11})/);
+        const shortsMatch = url.match(/youtube\.com\/shorts\/([A-Za-z0-9_-]{11})/);
+
+        if (watchMatch) id = watchMatch[1];
+        else if (shortMatch) id = shortMatch[1];
+        else if (embedMatch) id = embedMatch[1];
+        else if (shortsMatch) id = shortsMatch[1];
+
+        if (!id) return null;
+        const params = 'autoplay=1&rel=0&modestbranding=1&playsinline=1';
+        return `https://www.youtube.com/embed/${id}?${params}`;
+    }
+}
+
+/**
  * Main Hero Module
  * Orchestrates hero section functionality
  */
@@ -380,6 +495,7 @@ class HeroModule {
     constructor() {
         this.textAnimator = new HeroTextAnimator();
         this.carousel = new HeroCarousel();
+        this.videoPopup = new HeroVideoPopup();
     }
 
     /**
@@ -390,6 +506,7 @@ class HeroModule {
             // Initialize both text animation and carousel simultaneously
             this.textAnimator.init();
             this.carousel.init();
+            this.videoPopup.init();
         } catch (error) {
             console.error('HeroModule: Initialization failed:', error);
         }
