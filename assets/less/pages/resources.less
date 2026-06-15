@@ -302,28 +302,63 @@
 }
 
 .library-page {
+    // Sticky sidebar becomes a viewport-capped flex column so the
+    // filters scroll independently however tall the nav above is.
+    .static-sidebar {
+        display: flex;
+        flex-direction: column;
+        // 120px sticky offset (master.less) + 20px bottom buffer.
+        max-height: ~"calc(100vh - 140px)";
+
+        .breakpoint-large-down({
+            display: block;
+            max-height: none;
+        });
+    }
+
+    .resources-tabs {
+        flex-shrink: 0; // only the filters area shrinks/scrolls
+    }
+
     .library.filters {
-        // Pin width so the inner scrolling wrapper has a known
-        // size in the flex column context of .static-sidebar.
         width: 100%;
+        // Fill the space left under the nav and scroll internally.
+        flex: 1 1 auto;
+        min-height: 0;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+        padding-right: 4px;
+
+        // Slim, always-visible scrollbar (when overflowing) so users
+        // can tell there is more content below the fold.
+        scrollbar-width: thin; // Firefox
+        scrollbar-color: #BABABA transparent;
+
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #BABABA; // matches the unchecked checkbox border
+            border-radius: 3px;
+
+            &:hover {
+                background: #20A683;
+            }
+        }
+
+        .breakpoint-large-down({
+            overflow-y: visible;
+            padding-right: 0;
+        });
 
         .form-wrapper {
-            // Independent scrolling for the filters block when its
-            // content is taller than the remaining viewport.
-            // 120px sticky offset + ~120px for the resources nav above + 20px buffer.
-            // Note: ~"calc(...)" escapes LESS math so the unit subtraction
-            // is preserved for the browser instead of being evaluated to nonsense.
             width: 100%;
-            max-height: ~"calc(100vh - 260px)";
-            overflow-y: auto;
-            scrollbar-gutter: stable;
-            padding-right: 4px;
-
-            .breakpoint-large-down({
-                max-height: none;
-                overflow-y: visible;
-                padding-right: 0;
-            });
         }
 
         .categories {
