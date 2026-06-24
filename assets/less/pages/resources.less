@@ -1,12 +1,83 @@
+// Shared scroll treatment for any resources sidebar filters region: fill the
+// space left under the (fixed) tab nav and scroll internally with a slim,
+// always-visible scrollbar so users can tell there is more content below.
+.resources-filters-scroll() {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+    padding-right: 4px;
+
+    scrollbar-width: thin; // Firefox
+    scrollbar-color: #BABABA transparent;
+
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #BABABA; // matches the unchecked checkbox border
+        border-radius: 3px;
+
+        &:hover {
+            background: #20A683;
+        }
+    }
+
+    .breakpoint-large-down({
+        overflow-y: visible;
+        padding-right: 0;
+    });
+}
+
 .resources-page {
     .resources-tabs {
         padding-right: 0;
-        
+        flex-shrink: 0; // only the filters area shrinks/scrolls
+
         .tab-link {
             .apply-tab-link-styles();
         }
 
         .apply-tabs-container-spacing();
+    }
+
+    // Sticky sidebar becomes a viewport-capped flex column so the filters
+    // scroll independently however tall the nav above is. Shared by every
+    // resources tab that has a sidebar submenu (library, videos, project
+    // materials).
+    .static-sidebar {
+        display: flex;
+        flex-direction: column;
+        // 120px sticky offset (master.less) + 20px bottom buffer.
+        max-height: ~"calc(100vh - 140px)";
+
+        .breakpoint-large-down({
+            display: block;
+            max-height: none;
+        });
+    }
+
+    // Videos and Project materials render a bare .categories block as a direct
+    // child of the sidebar (no .library.filters wrapper), so it is the element
+    // that fills the remaining height and scrolls.
+    .static-sidebar > .categories {
+        .resources-filters-scroll();
+
+        // Sidebar owns the overflow now — let open sections grow naturally.
+        .categories-content {
+            max-height: none;
+
+            &.collapsed {
+                max-height: 0;
+            }
+        }
     }
 
     .categories {
@@ -302,60 +373,11 @@
 }
 
 .library-page {
-    // Sticky sidebar becomes a viewport-capped flex column so the
-    // filters scroll independently however tall the nav above is.
-    .static-sidebar {
-        display: flex;
-        flex-direction: column;
-        // 120px sticky offset (master.less) + 20px bottom buffer.
-        max-height: ~"calc(100vh - 140px)";
-
-        .breakpoint-large-down({
-            display: block;
-            max-height: none;
-        });
-    }
-
-    .resources-tabs {
-        flex-shrink: 0; // only the filters area shrinks/scrolls
-    }
-
+    // Library wraps its filters in <div class="library filters">; that wrapper
+    // is the flex child that fills the remaining height and scrolls. The shared
+    // .static-sidebar / .resources-tabs container rules come from .resources-page.
     .library.filters {
-        width: 100%;
-        // Fill the space left under the nav and scroll internally.
-        flex: 1 1 auto;
-        min-height: 0;
-        overflow-y: auto;
-        overscroll-behavior: contain;
-        scrollbar-gutter: stable;
-        padding-right: 4px;
-
-        // Slim, always-visible scrollbar (when overflowing) so users
-        // can tell there is more content below the fold.
-        scrollbar-width: thin; // Firefox
-        scrollbar-color: #BABABA transparent;
-
-        &::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #BABABA; // matches the unchecked checkbox border
-            border-radius: 3px;
-
-            &:hover {
-                background: #20A683;
-            }
-        }
-
-        .breakpoint-large-down({
-            overflow-y: visible;
-            padding-right: 0;
-        });
+        .resources-filters-scroll();
 
         .form-wrapper {
             width: 100%;
