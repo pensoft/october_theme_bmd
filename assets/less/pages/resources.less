@@ -1,32 +1,43 @@
-// Shared scroll treatment for any resources sidebar filters region: fill the
-// space left under the (fixed) tab nav and scroll internally with a slim,
-// always-visible scrollbar so users can tell there is more content below.
+// Shared scroll treatment for any resources sidebar filters region.
+//
+// Internal scrolling is only correct while .static-sidebar is actually capped
+// to the viewport, which it only is on tall screens (see the matching
+// @sidebar-sticky-min-height gate there). On short screens the cap starved
+// this region — the tab nav above is flex-shrink: 0 and eats ~330px, so on a
+// 1366x768 laptop the filters got ~190px and Library's "Sort by" block was
+// pushed permanently out of sight. Default to no internal scroll and let the
+// whole sidebar flow with the page instead.
 .resources-filters-scroll() {
     width: 100%;
     flex: 1 1 auto;
     min-height: 0;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    scrollbar-gutter: stable;
-    padding-right: 4px;
+    overflow-y: visible;
+    padding-right: 0;
 
-    scrollbar-width: thin; // Firefox
-    scrollbar-color: #BABABA transparent;
+    @media screen and (min-height: @sidebar-sticky-min-height) {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        scrollbar-gutter: stable;
+        padding-right: 4px;
 
-    &::-webkit-scrollbar {
-        width: 6px;
-    }
+        scrollbar-width: thin; // Firefox
+        scrollbar-color: #BABABA transparent;
 
-    &::-webkit-scrollbar-track {
-        background: transparent;
-    }
+        &::-webkit-scrollbar {
+            width: 6px;
+        }
 
-    &::-webkit-scrollbar-thumb {
-        background: #BABABA; // matches the unchecked checkbox border
-        border-radius: 3px;
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
 
-        &:hover {
-            background: #20A683;
+        &::-webkit-scrollbar-thumb {
+            background: #BABABA; // matches the unchecked checkbox border
+            border-radius: 3px;
+
+            &:hover {
+                background: #20A683;
+            }
         }
     }
 
@@ -52,11 +63,22 @@
     // scroll independently however tall the nav above is. Shared by every
     // resources tab that has a sidebar submenu (library, videos, project
     // materials).
+    //
+    // Only do this when the viewport is tall enough to hold the tab nav
+    // (~330px, non-shrinking) plus the tallest filter set (~425px on Library)
+    // plus the 140px offset. Below that the cap does more harm than good, so
+    // fall back to a plain block that flows with the page and keeps every
+    // filter reachable by normal scrolling.
     .static-sidebar {
-        display: flex;
-        flex-direction: column;
-        // 120px sticky offset (master.less) + 20px bottom buffer.
-        max-height: ~"calc(100vh - 140px)";
+        display: block;
+        max-height: none;
+
+        @media screen and (min-height: @sidebar-sticky-min-height) {
+            display: flex;
+            flex-direction: column;
+            // 120px sticky offset (master.less) + 20px bottom buffer.
+            max-height: ~"calc(100vh - 140px)";
+        }
 
         .breakpoint-large-down({
             display: block;
@@ -344,6 +366,11 @@
 .videos-page, .library-page, .project-materials-page {
     .resources-tabs{
         margin-bottom: 40px;
+
+        // Short viewports: buy vertical space back for the filters below.
+        @media screen and (max-height: (@sidebar-sticky-min-height - 1)) {
+            margin-bottom: 20px;
+        }
     }
 }
 

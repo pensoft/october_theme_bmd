@@ -36,8 +36,14 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
         line-height: 30px;
         letter-spacing: -0.9px;
         text-transform: uppercase;
+        // The bar centres the h1 as a flex item, but a title that wraps fills
+        // the width and its lines fall back to left-aligned without this.
+        text-align: center;
         .breakpoint-large-down({
             font-size: 45px;
+            // 30px would overlap wrapped lines at this size.
+            line-height: 1.05;
+            padding: 0 16px;
         });
     }
 }
@@ -279,6 +285,15 @@ h1, .h1, h2, .h2, h3, .h3, h4, .h4, h5, .h5, h6, .h6, .title, .head, .page_headi
     position: sticky;
     top: 120px; // keep below fixed header
     align-self: flex-start;
+
+    // A sticky column taller than the viewport pins its own overflow off-screen
+    // permanently — the bottom never scrolls into view. On short viewports the
+    // sidebar no longer fits (see @sidebar-sticky-min-height), so drop sticky
+    // there and let it scroll with the page.
+    @media screen and (max-height: (@sidebar-sticky-min-height - 1)) {
+        position: static;
+        top: auto;
+    }
 
     // Disable sticky behaviour on large-down (tablets/phones)
     .breakpoint-large-down({

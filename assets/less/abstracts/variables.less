@@ -36,6 +36,13 @@
 @breakpoint-screen-max-width:1590.98px;
 @breakpoint-tablet-max-width:1024px;
 
+// Viewport HEIGHT below which the sticky, viewport-capped resources sidebar is
+// dropped in favour of a plain block that flows with the page. Needs to cover
+// the 140px sticky offset + the ~330px non-shrinking tab nav + the tallest
+// filter set (~425px on Library); a 1366x768 laptop lands around 660px and was
+// losing the whole "Sort by" block.
+@sidebar-sticky-min-height: 900px;
+
 @primary-color:#ffffff!important;
 @secondary-color: #F2FBFA!important;
 @secondary-btn-color: #8CB2AC!important;
