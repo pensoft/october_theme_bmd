@@ -50,7 +50,7 @@ function onStart(){
 <section class="news-highlights container-fluid mt-2">
     <div class="container">
         <h2 class="section-header">Latest news</h2>
-        <div class="row">
+        <div class="row{% if news_highlights|length %} has-secondary{% endif %}">
             {% partial 'components/news-highlight-card'
                 title=featured_news.title
                 slug=featured_news.slug
@@ -58,15 +58,25 @@ function onStart(){
                 published_at=featured_news.published_at
                 featured=true
                 badge=featured_news.label
+                thumb_width=1200
+                thumb_height=675
+                title_limit=200
             %}
-            {% for n in news_highlights %}
-            {% partial 'components/news-highlight-card'
-                title=n.title
-                slug=n.slug
-                cover=n.cover
-                published_at=n.published_at
-            %}
-            {% endfor %}
+            {% if news_highlights|length %}
+            <div class="news-secondary">
+                {% for n in news_highlights %}
+                {% partial 'components/news-highlight-card'
+                    title=n.title
+                    slug=n.slug
+                    cover=n.cover
+                    published_at=n.published_at
+                    thumb_width=480
+                    thumb_height=480
+                    title_limit=140
+                %}
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
         <div class="view-all-btn center-xs">
             <a href="/news" class="btn btn-primary mt-2">View all</a>

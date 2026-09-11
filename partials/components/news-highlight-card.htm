@@ -10,13 +10,25 @@ function onStart()
     // Optional: homepage "news of the day" treatment. Absent everywhere else.
     $this['featured'] = $this['featured'] ?? false;
     $this['badge'] = $this['badge'] ?? '';
+
+    // Optional: render a cropped thumbnail instead of the full-size original.
+    // Only the homepage passes these; /news keeps the original markup.
+    $this['thumb_width'] = $this['thumb_width'] ?? null;
+    $this['thumb_height'] = $this['thumb_height'] ?? null;
+
+    // Where CSS line-clamping is in play the caller raises this, so the text
+    // is not truncated twice (once here by characters, once by lines).
+    $this['title_limit'] = $this['title_limit'] ?? ($this['featured'] ? 160 : 100);
 }
 ==
-{% set title_limit = featured ? 160 : 100 %}
 <div class="news-highlight-item{% if featured %} is-featured{% endif %}">
     <a href="/news/{{slug}}" class="news-item" aria-label="Read news: {{ title }}">
         {% if cover %}
+            {% if thumb_width and thumb_height %}
+        <img src="{{ cover.getThumb(thumb_width, thumb_height, {'mode':'crop'}) }}" alt="{{ title }}" class="news-image" width="{{ thumb_width }}" height="{{ thumb_height }}" loading="lazy" decoding="async">
+            {% else %}
         <img src="{{ cover.path }}" alt="{{ title }}" class="news-image">
+            {% endif %}
         {% endif %}
         {% if featured %}
         <div class="news-badge">{{ badge ?: 'News of the day' }}</div>
