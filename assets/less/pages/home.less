@@ -128,13 +128,16 @@
 
         // The 82x80 notch reads as a glitch at this scale.
         .news-item .arrow_link {
-            top: -10px;
-            right: -10px;
+            top: -9px;
+            right: -9px;
             width: 64px;
             height: 62px;
+            // The base 22px corner is sized for an 82px box; scale it down
+            // with the box or it swallows the notch.
+            border-radius: 0 0 0 17px;
 
             &::before {
-                width: 46px;
+                width: 45px;
                 height: 44px;
                 border-radius: 10px;
             }
@@ -156,19 +159,9 @@
         flex: 1 1 0;
         min-height: 0;
         display: grid;
-        grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+        grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
         align-items: center;
-        gap: 20px;
-        padding: 16px;
-        background: #FFFFFF;
-        border-radius: 12px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s ease;
-
-        &:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
+        gap: 22px;
 
         .news-item {
             width: 100%;
@@ -194,14 +187,15 @@
         }
 
         .news-item .arrow_link {
-            top: -6px;
-            right: -6px;
-            width: 44px;
-            height: 42px;
+            top: -7px;
+            right: -7px;
+            width: 45px;
+            height: 44px;
+            border-radius: 0 0 0 12px;
 
             &::before {
                 width: 32px;
-                height: 30px;
+                height: 31px;
                 border-radius: 8px;
             }
 
@@ -239,8 +233,8 @@
         }
 
         .news-secondary .news-highlight-item {
-            grid-template-columns: minmax(0, 170px) minmax(0, 1fr);
-            gap: 16px;
+            grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
+            gap: 18px;
         }
 
         .news-highlight-item.is-featured .news-content .news-title {
@@ -267,7 +261,7 @@
 
         .news-secondary .news-highlight-item {
             flex: 0 0 auto;
-            grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+            grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
 
             .news-item {
                 height: auto;
@@ -297,12 +291,25 @@
         margin-bottom: 48px;
 
         .news-secondary .news-highlight-item {
-            grid-template-columns: minmax(0, 110px) minmax(0, 1fr);
+            grid-template-columns: minmax(0, 116px) minmax(0, 1fr);
             gap: 14px;
-            padding: 12px;
 
             .news-item {
                 aspect-ratio: 1 / 1;
+            }
+
+            .news-item .arrow_link {
+                top: -5px;
+                right: -5px;
+                width: 36px;
+                height: 35px;
+                border-radius: 0 0 0 10px;
+
+                &::before {
+                    width: 26px;
+                    height: 25px;
+                    border-radius: 7px;
+                }
             }
 
             .news-content {
