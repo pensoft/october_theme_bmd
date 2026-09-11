@@ -1,0 +1,229 @@
+// =========================================================================
+// Home page - "Latest news" featured layout
+//
+// One "news of the day" card (large, spanning the left column) plus two
+// secondary cards stacked on the right. The shared card base styles live in
+// pages/news.less; everything here is scoped to .news-highlights, which only
+// the home page uses, so /news and the article detail page are unaffected.
+// =========================================================================
+.news-highlights {
+    margin-bottom: 80px;
+
+    > .container > .row {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+        gap: 24px;
+        align-items: stretch;
+    }
+
+    .news-highlight-item {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        margin-bottom: 0;
+    }
+
+    // ---------------------------------------------------------------------
+    // Featured card - "news of the day"
+    // ---------------------------------------------------------------------
+    .news-highlight-item.is-featured {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        display: flex;
+        flex-direction: column;
+
+        // Fill the full height of the two rows rather than the shared 4:3 box.
+        .news-item {
+            flex: 1 1 auto;
+            width: 100%;
+            height: auto;
+            min-height: 340px;
+            aspect-ratio: auto;
+        }
+
+        // Shares z-index 2 with .hover-overlay but sits earlier in the DOM, so
+        // the green overlay paints over the badge on hover. Stays under .arrow_link (3).
+        .news-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2;
+            max-width: ~"calc(100% - 110px)";
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: #20A683;
+            color: #fff;
+            font-family: Author;
+            font-size: 14px;
+            font-weight: 498;
+            line-height: 1.2;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+
+            .breakpoint-large-down({
+                top: 14px;
+                left: 14px;
+                padding: 6px 14px;
+                font-size: 12px;
+            });
+        }
+
+        .news-content {
+            flex: 0 0 auto;
+            padding-top: 14px;
+
+            .news-date {
+                font-size: 20px;
+            }
+
+            .news-title {
+                font-size: 32px;
+                line-height: 1.25;
+
+                .breakpoint-huge-down({
+                    font-size: 26px;
+                });
+
+                .breakpoint-large-down({
+                    font-size: 22px;
+                });
+            }
+        }
+
+        .news-item .arrow_link {
+            top: -12px;
+            right: -12px;
+            width: 82px;
+            height: 80px;
+
+            &::before {
+                width: 58px;
+                height: 56px;
+            }
+
+            &:after {
+                background-size: 60%;
+                width: 50%;
+                height: 50%;
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // Secondary cards - image left, text right
+    // ---------------------------------------------------------------------
+    .news-highlight-item:not(.is-featured) {
+        display: grid;
+        grid-template-columns: minmax(0, 4fr) minmax(0, 5fr);
+        align-items: center;
+        gap: 18px;
+
+        .news-item {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 4 / 3;
+        }
+
+        .news-content {
+            padding: 0;
+
+            .news-date {
+                font-size: 16px;
+            }
+
+            .news-title {
+                font-size: 18px;
+                line-height: 1.35;
+            }
+        }
+
+        // Scale the corner arrow down to suit the smaller image.
+        .news-item .arrow_link {
+            top: -8px;
+            right: -8px;
+            width: 52px;
+            height: 50px;
+
+            &::before {
+                width: 36px;
+                height: 34px;
+                border-radius: 10px;
+            }
+
+            &:after {
+                background-size: 60%;
+                width: 50%;
+                height: 50%;
+            }
+        }
+
+        .news-item .hover-overlay .read-more-text {
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // Tablet and below - single column, featured back to a 4:3 card
+    // ---------------------------------------------------------------------
+    .breakpoint-large-down({
+        margin-bottom: 60px;
+
+        > .container > .row {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto;
+            gap: 32px;
+        }
+
+        .news-highlight-item.is-featured {
+            grid-column: auto;
+            grid-row: auto;
+            display: block;
+
+            .news-item {
+                min-height: 0;
+                aspect-ratio: 4 / 3;
+            }
+
+            .news-item .arrow_link {
+                top: -8px;
+                right: -8px;
+                width: 60px;
+                height: 58px;
+
+                &::before {
+                    width: 42px;
+                    height: 40px;
+                }
+            }
+        }
+    });
+
+    // Phones - secondary cards revert to the stacked vertical shape.
+    .breakpoint-medium-down({
+        .news-highlight-item:not(.is-featured) {
+            display: block;
+
+            .news-content {
+                padding-top: 8px;
+
+                .news-title {
+                    font-size: 20px;
+                }
+            }
+
+            .news-item .arrow_link {
+                top: -8px;
+                right: -8px;
+                width: 60px;
+                height: 58px;
+
+                &::before {
+                    width: 42px;
+                    height: 40px;
+                }
+            }
+        }
+    });
+}

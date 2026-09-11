@@ -15,8 +15,28 @@ use Pensoft\CardProfiles\Models\Profiles as Profile;
 function onStart(){
     $this['consortium_partners'] = Partner::where('type', 1)->get();
     $this['parner_profiles'] = Profile::where('category_id', 1)->get();
-    $this['news_highlights'] = Article::where('published', 1)->orderBy('published_at', 'desc')->limit(3)->get();
-    
+    // Visible news, most recent first. Mirrors the filter used on pages/news.htm.
+    $visible = Article::news()
+        ->where('published', true)
+        ->where('published_at', '<=', now())
+        ->orderBy('published_at', 'desc');
+
+    // The article flagged "news of the day" takes the featured slot; otherwise the latest one does.
+    $featured = (clone $visible)->newsOfTheDay()->first();
+
+    // Take 4 so two secondary cards remain even when the featured article is not among the latest 3.
+    $latest = $visible->limit(4)->get();
+
+    if (!$featured) {
+        $featured = $latest->first();
+    }
+
+    $this['featured_news'] = $featured;
+    $this['news_highlights'] = $latest->filter(function ($item) use ($featured) {
+        return !$featured || $item->id !== $featured->id;
+    })->take(2)->values();
+
+
     $partnersWithMembers = [];
     foreach ($this['consortium_partners'] as $partner) {
         $members = Profile::where('partner_id', $partner->id)->get();
@@ -26,13 +46,21 @@ function onStart(){
 }
 ?>
 ==
-{% if news_highlights|length > 2 %}
+{% if featured_news %}
 <section class="news-highlights container-fluid mt-2">
     <div class="container">
         <h2 class="section-header">Latest news</h2>
         <div class="row">
+            {% partial 'components/news-highlight-card'
+                title=featured_news.title
+                slug=featured_news.slug
+                cover=featured_news.cover
+                published_at=featured_news.published_at
+                featured=true
+                badge=featured_news.label
+            %}
             {% for n in news_highlights %}
-            {% partial 'components/news-highlight-card' 
+            {% partial 'components/news-highlight-card'
                 title=n.title
                 slug=n.slug
                 cover=n.cover

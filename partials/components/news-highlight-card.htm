@@ -6,12 +6,20 @@ function onStart()
     $this['slug'] = $this['slug'] ?: '';
     $this['cover'] = $this['cover'] ?: null;
     $this['published_at'] = $this['published_at'] ?: '';
+
+    // Optional: homepage "news of the day" treatment. Absent everywhere else.
+    $this['featured'] = $this['featured'] ?? false;
+    $this['badge'] = $this['badge'] ?? '';
 }
 ==
-<div class="news-highlight-item">
+{% set title_limit = featured ? 160 : 100 %}
+<div class="news-highlight-item{% if featured %} is-featured{% endif %}">
     <a href="/news/{{slug}}" class="news-item" aria-label="Read news: {{ title }}">
         {% if cover %}
         <img src="{{ cover.path }}" alt="{{ title }}" class="news-image">
+        {% endif %}
+        {% if featured %}
+        <div class="news-badge">{{ badge ?: 'News of the day' }}</div>
         {% endif %}
         <div class="hover-overlay">
             <div class="read-more-text" aria-hidden="true">Read more</div>
@@ -20,6 +28,6 @@ function onStart()
     </a>
     <div class="news-content">
         <div class="news-date">{{ published_at|date('d.m.Y') }}</div>
-        <div class="news-title">{{ title|length > 100 ? title|slice(0, 100)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : title|replace({"&nbsp;": " ", ".": ". "})  }}</div>
+        <div class="news-title">{{ title|length > title_limit ? title|slice(0, title_limit)|replace({"&nbsp;": " ", ".": ". "}) ~ '...' : title|replace({"&nbsp;": " ", ".": ". "})  }}</div>
     </div>
 </div>
