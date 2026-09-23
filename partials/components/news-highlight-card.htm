@@ -7,9 +7,8 @@ function onStart()
     $this['cover'] = $this['cover'] ?: null;
     $this['published_at'] = $this['published_at'] ?: '';
 
-    // Optional: homepage "news of the day" treatment. Absent everywhere else.
+    // Optional: homepage "Featured" treatment. Absent everywhere else.
     $this['featured'] = $this['featured'] ?? false;
-    $this['badge'] = $this['badge'] ?? '';
 
     // Optional: render a cropped thumbnail instead of the full-size original.
     // Only the homepage passes these; /news keeps the original markup.
@@ -31,7 +30,7 @@ function onStart()
             {% endif %}
         {% endif %}
         {% if featured %}
-        <div class="news-badge">{{ badge ?: 'News of the day' }}</div>
+        <div class="news-badge">Featured</div>
         {% endif %}
         <div class="hover-overlay">
             <div class="read-more-text" aria-hidden="true">Read more</div>

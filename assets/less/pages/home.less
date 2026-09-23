@@ -1,15 +1,19 @@
 // =========================================================================
 // Home page - "Latest news"
 //
-// One "news of the day" card (large, left) plus two secondary cards stacked
-// on the right. The shared card base lives in pages/news.less; everything
-// here is scoped to .news-highlights, which only the home page uses, so
-// /news and the article detail page are unaffected.
+// One "Featured" card (large, left) plus two secondary cards stacked on the
+// right. The shared card base lives in pages/news.less; everything here is scoped
+// to .news-highlights, which only the home page uses, so /news and the
+// article detail page are unaffected.
 //
 // Geometry note: every height here derives from a fixed aspect-ratio, never
 // from the intrinsic ratio of whatever the editor uploaded. That is what
 // keeps the two columns ending flush.
 // =========================================================================
+@nh-ink: #0F2F2A;
+@nh-accent: #20A683;
+@nh-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
 .news-highlights {
     margin-bottom: 80px;
 
@@ -30,6 +34,10 @@
         max-width: 100%;
         min-width: 0;
         margin-bottom: 0;
+
+        &:hover .news-content .news-title {
+            color: #117A62;
+        }
     }
 
     .news-secondary {
@@ -45,7 +53,7 @@
     // ---------------------------------------------------------------------
     .news-item {
         .news-image {
-            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.5s @nh-ease;
         }
 
         .hover-overlay {
@@ -75,12 +83,16 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        transition: color 0.25s ease;
     }
 
     // ---------------------------------------------------------------------
-    // Featured card - "news of the day"
+    // Featured card
     // ---------------------------------------------------------------------
     .news-highlight-item.is-featured {
+        display: flex;
+        flex-direction: column;
+
         .news-item {
             width: 100%;
             height: auto;
@@ -95,26 +107,42 @@
             top: 20px;
             left: 20px;
             z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
             max-width: ~"calc(100% - 110px)";
-            padding: 8px 18px;
+            padding: 8px 18px 8px 14px;
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.94);
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
-            color: #0F2F2A;
+            box-shadow: 0 4px 14px rgba(15, 47, 42, 0.12);
+            color: @nh-ink;
             font-family: Author;
             font-size: 14px;
             font-weight: 498;
             line-height: 1.2;
             letter-spacing: 1px;
             text-transform: uppercase;
+
+            &::before {
+                content: '';
+                flex: 0 0 auto;
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: @nh-accent;
+                box-shadow: 0 0 0 3px rgba(32, 166, 131, 0.22);
+            }
         }
 
         .news-content {
+            flex: 1 1 auto;
             padding-top: 18px;
 
             .news-date {
-                font-size: 18px;
+                font-size: 17px;
+                margin-bottom: 8px;
             }
 
             .news-title {
@@ -151,16 +179,15 @@
     }
 
     // ---------------------------------------------------------------------
-    // Secondary cards - elevated, image left, text right.
-    // flex: 1 1 0 makes the pair split the featured column exactly, which is
-    // what removes the dead space between them.
+    // Secondary cards - image left, text right.
+    // flex: 1 1 0 makes the pair split the featured column exactly.
     // ---------------------------------------------------------------------
     .news-secondary .news-highlight-item {
         flex: 1 1 0;
         min-height: 0;
         display: grid;
-        grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
-        align-items: center;
+        grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
+        align-items: stretch;
         gap: 22px;
 
         .news-item {
@@ -171,16 +198,21 @@
         }
 
         .news-content {
+            display: flex;
+            flex-direction: column;
+            // Text starts level with the top of the image.
+            justify-content: flex-start;
             padding: 0;
 
             .news-date {
-                font-size: 16px;
+                font-size: 15px;
+                margin-bottom: 6px;
             }
 
             .news-title {
-                font-size: 18px;
+                font-size: 22px;
                 font-weight: 494;
-                line-height: 1.35;
+                line-height: 1.3;
                 letter-spacing: -0.36px;
                 -webkit-line-clamp: 3;
             }
@@ -216,6 +248,16 @@
         }
     }
 
+    @media (prefers-reduced-motion: reduce) {
+        .news-item .news-image {
+            transition: none !important;
+        }
+
+        .news-item:hover .news-image {
+            transform: none;
+        }
+    }
+
     // ---------------------------------------------------------------------
     // Laptop - tighten the columns, container drops to 960px
     // ---------------------------------------------------------------------
@@ -233,8 +275,12 @@
         }
 
         .news-secondary .news-highlight-item {
-            grid-template-columns: minmax(0, 210px) minmax(0, 1fr);
-            gap: 18px;
+            grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+            gap: 16px;
+
+            .news-content .news-title {
+                font-size: 20px;
+            }
         }
 
         .news-highlight-item.is-featured .news-content .news-title {
@@ -252,7 +298,7 @@
         > .container > .row,
         > .container > .row.has-secondary {
             grid-template-columns: minmax(0, 1fr);
-            gap: 28px;
+            gap: 24px;
         }
 
         .news-secondary {
@@ -261,7 +307,7 @@
 
         .news-secondary .news-highlight-item {
             flex: 0 0 auto;
-            grid-template-columns: minmax(0, 200px) minmax(0, 1fr);
+            grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
 
             .news-item {
                 height: auto;
@@ -277,7 +323,7 @@
             .news-badge {
                 top: 14px;
                 left: 14px;
-                padding: 6px 14px;
+                padding: 6px 14px 6px 11px;
                 font-size: 12px;
             }
         }
@@ -318,22 +364,31 @@
                 }
 
                 .news-title {
-                    font-size: 16px;
+                    font-size: 17px;
                     line-height: 1.3;
                 }
             }
         }
 
         .news-highlight-item.is-featured {
-            .news-content .news-title {
-                font-size: 20px;
-                letter-spacing: -0.4px;
+            .news-content {
+                padding-top: 14px;
+
+                .news-title {
+                    font-size: 20px;
+                    letter-spacing: -0.4px;
+                }
             }
 
             .news-badge {
                 font-size: 11px;
-                padding: 5px 12px;
+                padding: 5px 12px 5px 9px;
                 letter-spacing: 0.8px;
+
+                &::before {
+                    width: 6px;
+                    height: 6px;
+                }
             }
         }
     });
