@@ -6,9 +6,14 @@
 // to .news-highlights, which only the home page uses, so /news and the
 // article detail page are unaffected.
 //
-// Geometry note: every height here derives from a fixed aspect-ratio, never
-// from the intrinsic ratio of whatever the editor uploaded. That is what
-// keeps the two columns ending flush.
+// Geometry note: every image uses the same fixed 16:9 ratio, never the
+// intrinsic ratio of whatever the editor uploaded. The column split is
+// solved so the two stacked secondary images plus the gap between them are
+// exactly as tall as the featured image:
+//   featured = 2 * (secondary image width) + 16/9 * stack gap
+// With the secondary image at 50% of its card that gives
+//   featured column = 50% + (16/9 * stack gap - column gap) / 2
+// Change a gap below and the offset in the matching calc() must follow.
 // =========================================================================
 @nh-ink: #0F2F2A;
 @nh-accent: #20A683;
@@ -25,7 +30,8 @@
 
         // Only split into two columns when there are secondary cards to show.
         &.has-secondary {
-            grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+            // (16/9 * 24px - 28px) / 2 = 7.33px
+            grid-template-columns: minmax(0, ~"calc(50% + 7.33px)") minmax(0, 1fr);
         }
     }
 
@@ -179,21 +185,19 @@
     }
 
     // ---------------------------------------------------------------------
-    // Secondary cards - image left, text right.
-    // flex: 1 1 0 makes the pair split the featured column exactly.
+    // Secondary cards - image left, text right, same 16:9 as the featured.
     // ---------------------------------------------------------------------
     .news-secondary .news-highlight-item {
-        flex: 1 1 0;
-        min-height: 0;
+        flex: 0 0 auto;
         display: grid;
-        grid-template-columns: minmax(0, 46%) minmax(0, 1fr);
-        align-items: stretch;
+        grid-template-columns: minmax(0, 50%) minmax(0, 1fr);
+        align-items: start;
         gap: 22px;
 
         .news-item {
             width: 100%;
-            height: 100%;
-            aspect-ratio: auto;
+            height: auto;
+            aspect-ratio: 16 / 9;
             border-radius: 10px;
         }
 
@@ -242,9 +246,9 @@
             padding: 12px;
         }
 
+        // Too small for the label; the scrim and arrow carry the hover.
         .news-item .read-more-text {
-            font-size: 12px;
-            letter-spacing: 1px;
+            display: none;
         }
     }
 
@@ -266,7 +270,8 @@
             gap: 24px;
 
             &.has-secondary {
-                grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+                // (16/9 * 20px - 24px) / 2 = 5.78px
+                grid-template-columns: minmax(0, ~"calc(50% + 5.78px)") minmax(0, 1fr);
             }
         }
 
@@ -275,7 +280,7 @@
         }
 
         .news-secondary .news-highlight-item {
-            grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+            grid-template-columns: minmax(0, 50%) minmax(0, 1fr);
             gap: 16px;
 
             .news-content .news-title {
@@ -289,8 +294,7 @@
     });
 
     // ---------------------------------------------------------------------
-    // Tablet and below - single column. The secondary cards no longer have a
-    // featured column to match, so they take a fixed ratio instead.
+    // Tablet and below - single column.
     // ---------------------------------------------------------------------
     .breakpoint-large-down({
         margin-bottom: 60px;
@@ -306,13 +310,7 @@
         }
 
         .news-secondary .news-highlight-item {
-            flex: 0 0 auto;
-            grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
-
-            .news-item {
-                height: auto;
-                aspect-ratio: 4 / 3;
-            }
+            grid-template-columns: minmax(0, 260px) minmax(0, 1fr);
         }
 
         .news-highlight-item.is-featured {
@@ -337,12 +335,8 @@
         margin-bottom: 48px;
 
         .news-secondary .news-highlight-item {
-            grid-template-columns: minmax(0, 116px) minmax(0, 1fr);
+            grid-template-columns: minmax(0, 140px) minmax(0, 1fr);
             gap: 14px;
-
-            .news-item {
-                aspect-ratio: 1 / 1;
-            }
 
             .news-item .arrow_link {
                 top: -5px;
